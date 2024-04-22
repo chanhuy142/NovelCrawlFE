@@ -1,12 +1,14 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'package:flutter/material.dart';
+import 'dart:math';
 
-import 'package:novel_crawl/components/novel_card.dart';
+import 'package:flutter/material.dart';
 import 'package:novel_crawl/models/library.dart';
 import 'package:novel_crawl/models/novel_detail.dart';
 //import api service
 import 'package:novel_crawl/service/api_service.dart';
+
+import '../components/novel_card_grid_view.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -18,7 +20,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   //get library from api service
   final APIService apiService = APIService();
-  Library library = Library(truyenDetail: []);
+  static Library library = Library(truyenDetail: []);
+  static bool isLoading = false;
 
   List<TruyenDetail> resultnovels = [];
 //search function
@@ -41,15 +44,21 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     resultnovels = library.truyenDetail;
-    
-    //get api service
-    apiService.getNovelDetails().then((value) {
-      setState(() {
-        library = value;
-        resultnovels = library.truyenDetail;
+
+    if (library.truyenDetail.isEmpty && !isLoading) {
+      //get api service
+      isLoading = true;
+      apiService.getNovelDetails().then((value) {
+          library.copyFrom(value);
+          print(library.truyenDetail.length);
+          if(mounted){
+            setState(() {
+              resultnovels = library.truyenDetail;
+              isLoading = false;
+            });
+          }
       });
-      
-    });
+    }
     super.initState();
   }
 
@@ -132,23 +141,7 @@ class _HomePageState extends State<HomePage> {
               height: 12,
             ),
             //GridView
-            Expanded(
-              child: GridView.builder(
-                shrinkWrap: true,
-                itemCount: resultnovels.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                  childAspectRatio: 2 / 3,
-                ),
-                itemBuilder: (context, index) {
-                  return NovelCard(
-                    novelDetail: resultnovels[index],
-                  );
-                },
-              ),
-            )
+            NovelCardGridView(novelsList: resultnovels)
           ],
         ),
       ),

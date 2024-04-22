@@ -5,18 +5,37 @@ class SettingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       backgroundColor: Colors.black,
-      body: Center(
-        child: Text(
-          'Cài đặt',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 30,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
+      body: Padding(padding: //top padding
+            EdgeInsets.only(top: 35),
+        child: 
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Nguồn Truyện', 
+                style: TextStyle(
+                  color: Color(0xFF83899F),
+                  fontSize: 20,
+                  fontWeight: FontWeight.normal,
+                ),
+              ),
+              Row(
+                children: [
+                  Text('Màu sắc', 
+                    style: TextStyle(
+                      color: Color(0xFF83899F),
+                      fontSize: 20,
+                      fontWeight: FontWeight.normal
+                    ),
+                  ),
+                  
+                ],
+              )
+            ],
+
+          )
+          )
     );
   }
 }

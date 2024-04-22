@@ -14,4 +14,8 @@ class Library {
     Map<String, dynamic> toJson() => {
         "TruyenDetail": List<dynamic>.from(truyenDetail.map((x) => x.toJson())),
     };
+
+    void copyFrom(Library newLibrary) {
+      truyenDetail = newLibrary.truyenDetail;
+    }
 }

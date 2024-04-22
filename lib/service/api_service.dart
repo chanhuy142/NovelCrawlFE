@@ -10,7 +10,7 @@ class APIService {
   //port 3000
   Future<Library> getNovelDetails() async {
     final response =
-        await http.get(Uri.parse('http://192.168.0.104:3000/details'));
+        await http.get(Uri.parse('http://192.168.1.7:3000/details'));
     if (response.statusCode == 200) {
       return libraryFromJson(response.body);
     } else {
