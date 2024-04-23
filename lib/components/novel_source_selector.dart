@@ -1,16 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class NovelSourceSelector extends StatefulWidget {
-  const NovelSourceSelector({super.key});
+import '../service/state_service.dart';
 
+class NovelSourceSelector extends StatefulWidget {
+  NovelSourceSelector({super.key, required this.novelSources, required this.onUpdated});
+  List<String> novelSources;
+  final Function() onUpdated;
   @override
   State<NovelSourceSelector> createState() => _NovelSourceSelectorState();
 }
 
 class _NovelSourceSelectorState extends State<NovelSourceSelector> {
-  List<String> novelSoucre = ['Truyện Full', 'Truyện Mới', 'Truyện Hot'];
   int selectedSource = 0;
+  StateService stateService = StateService.instance;
+  
+  @override
+  void initState() {
+    // TODO: implement initState
+    stateService.getSelectedSource().then((value) {
+      setState(() {
+        if(value == '' || !widget.novelSources.contains(value)) {
+          selectedSource = 0;
+        } else {
+          selectedSource = widget.novelSources.indexOf(value);
+        }
+      });
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    widget.onUpdated();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Wrap(children: <Widget>[
@@ -20,12 +46,13 @@ class _NovelSourceSelectorState extends State<NovelSourceSelector> {
               const EdgeInsets.only(top: 15, bottom: 15, left: 20, right: 20),
           scrollDirection: Axis.vertical,
           physics: const NeverScrollableScrollPhysics(),
-          itemCount: novelSoucre.length,
+          itemCount: widget.novelSources.length,
           itemBuilder: (context, index) {
             return InkWell(
               onTap: () {
                 setState(() {
                   selectedSource = index;
+                  stateService.saveSelectedSource(widget.novelSources[index]);
                 });
               },
               child: Padding(
@@ -45,7 +72,7 @@ class _NovelSourceSelectorState extends State<NovelSourceSelector> {
                       padding: const EdgeInsets.only(left: 15.0, right: 15.0),
                       child: Row(
                         children: [
-                          Text(novelSoucre[index],
+                          Text(widget.novelSources[index],
                               style: TextStyle(
                                 color: index == selectedSource
                                     ? Color(0xFFDFD82C)

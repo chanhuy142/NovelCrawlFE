@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:novel_crawl/components/novel_source_selector.dart';
+import 'package:novel_crawl/screens/settingscreen.dart';
 
 class ReadingModalBottom extends StatefulWidget {
-  const ReadingModalBottom({super.key, required this.currentChapter, required this.totalChapter, required this.onChapterChanged});
+  const ReadingModalBottom({super.key, required this.currentChapter, required this.totalChapter, required this.onChapterChanged, required this.sources, required this.onUpdated});
   final int currentChapter;
   final int totalChapter;
   final ValueChanged<int> onChapterChanged;
-
+  final List<String> sources;
+  final Function() onUpdated;
   @override
   State<ReadingModalBottom> createState() => _ReadingModalBottomState();
 }
@@ -83,7 +86,12 @@ class _ReadingModalBottomState extends State<ReadingModalBottom> {
         ),
           GestureDetector(
             onTap: () {
-              //download novel
+              showModalBottomSheet(
+                context: context,
+                builder: (BuildContext context) {
+                return SettingPage(novelSourceSelector: NovelSourceSelector(novelSources: widget.sources, onUpdated: widget.onUpdated));
+                }
+              );
             },
             child: Container(
               color: Colors.transparent,

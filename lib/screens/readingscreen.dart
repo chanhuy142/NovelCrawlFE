@@ -26,22 +26,23 @@ class _ReadingScreenState extends State<ReadingScreen> {
   var _fontFamily = 'Arial';
   Color _color = Color(0xFFFFFFFF);
   var _spacing = 1;
-  String _source = '';
   int chapter = 1;
   List<String> sources = [];  
   StateService stateService = StateService.instance;
   AllSourceChapterContent allSourceChapterContent = AllSourceChapterContent(chapterContents: []);
 
   void updateAllState(){
-    changeContentWhenChangeChapter();
+    stateService.getSelectedSource().then((value) {
+      setState(() {
+        changeContent(allSourceChapterContent.chapterContents.where((element) => element.source == value).first.content);
+      });
+    });    
 
     stateService.getSources().then((value) {
       setState(() {
         sources = value;
-        changeSource(value[0]);
       });
     });
-
     
     stateService.getFontSize().then((value) {
       setState(() {
@@ -105,12 +106,6 @@ class _ReadingScreenState extends State<ReadingScreen> {
     });
   }
 
-  void changeSource(String source) {
-    setState(() {
-      _source = source;
-    });
-  }
-
 
   void changeContentWhenChangeChapter(){
     try {
@@ -125,6 +120,7 @@ class _ReadingScreenState extends State<ReadingScreen> {
           for(var source in sources) {
             if(allSourceChapterContent.chapterContents.where((element) => element.source == source).isNotEmpty) {
               changeContent(allSourceChapterContent.chapterContents.where((element) => element.source == source).first.content);
+              stateService.saveSelectedSource(source);
               break;
             }
           }
@@ -141,7 +137,7 @@ class _ReadingScreenState extends State<ReadingScreen> {
 
   @override
   void initState() {
-    
+    changeContentWhenChangeChapter();
     updateAllState();
     super.initState();
     
@@ -151,7 +147,8 @@ class _ReadingScreenState extends State<ReadingScreen> {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
-        return ReadingModalBottom(currentChapter: chapter, totalChapter: widget.novel.numberOfChapters, onChapterChanged: onChapterChanged);
+        return ReadingModalBottom(currentChapter: chapter, totalChapter: widget.novel.numberOfChapters, onChapterChanged: onChapterChanged, 
+        sources: allSourceChapterContent.chapterContents.map((e) => e.source).toList(), onUpdated: updateAllState);
           
       }
     );

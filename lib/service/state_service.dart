@@ -11,6 +11,7 @@ class StateService{
   final String fontFamily = 'fontFamily';
   final String color = 'fontColor';
   final String sources = 'sources';
+  final String selectedSource = 'selectedSource';
   StateService._privateConstructor(); 
   static final StateService _instance = StateService._privateConstructor();
   static StateService get instance => _instance;
@@ -66,6 +67,14 @@ class StateService{
     return await hiveService.get(sources) ?? [];
   }
 
+  Future<String> getSelectedSource() async {
+    return await hiveService.get(selectedSource) ?? '';
+  }
+
+  Future saveSelectedSource(String value) async {
+    await hiveService.put(selectedSource, value);
+  }
+
   Future saveSources(List<String> value) async {
     await hiveService.put(sources, value);
   }
@@ -85,8 +94,6 @@ class StateService{
   Future saveColorID(int value) async {
     await hiveService.put(color, value);
   }
-
-
 
   Future closeService() async {
     await hiveService.closeBox();

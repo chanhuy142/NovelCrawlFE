@@ -195,7 +195,7 @@ class _SettingPageState extends State<SettingPage> {
                       InkWell(
                         onTap: () {
                           setState(() {
-                            fontSize = min(20, fontSize + 1);
+                            fontSize = min(30, fontSize + 1);
                             stateService.saveFontSize(fontSize);
                           });
                         },
