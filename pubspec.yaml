@@ -65,7 +65,42 @@ flutter:
   #   - images/a_dot_ham.jpeg
   assets:
     - lib/images/
-
+  fonts:
+    - family: Roboto
+      fonts:
+        - asset: fonts/Roboto-Regular.ttf
+        - asset: fonts/Roboto-Bold.ttf
+          weight: 700
+        - asset: fonts/Roboto-Italic.ttf
+          style: italic
+    - family: Open Sans
+      fonts:
+        - asset: fonts/OpenSans-Regular.ttf
+        - asset: fonts/OpenSans-Bold.ttf
+          weight: 700
+        - asset: fonts/OpenSans-Italic.ttf
+          style: italic
+    - family: Merriweather
+      fonts:
+        - asset: fonts/Merriweather-Regular.ttf
+        - asset: fonts/Merriweather-Italic.ttf
+          style: italic
+        - asset: fonts/Merriweather-Bold.ttf
+          weight: 700
+    - family: Lora
+      fonts:
+        - asset: fonts/Lora-Regular.ttf
+        - asset: fonts/Lora-Bold.ttf
+          weight: 700
+        - asset: fonts/Lora-Italic.ttf
+          style: italic
+    - family: Dancing Script
+      fonts:
+        - asset: fonts/DancingScript-Regular.ttf
+        - asset: fonts/DancingScript-Bold.ttf
+          weight: 700
+        
+    
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 
