@@ -42,7 +42,7 @@ class _TaskBarState extends State<TaskBar> {
           ),
           GestureDetector(
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => ReadingScreen(novel: novel, chapter: 1, source: 'tangtruyen')));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => ReadingScreen(novel: novel, chapter: 1)));
                 
               },
               child: Container(

@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:novel_crawl/components/reading_view.dart';
+import 'package:novel_crawl/models/content_from_all_source.dart';
 import 'package:novel_crawl/models/novel_detail.dart';
+import 'package:novel_crawl/models/unique_chapter_content.dart';
 import 'package:novel_crawl/service/api_service.dart';
 import 'package:novel_crawl/service/state_service.dart';
 
 class ReadingScreen extends StatefulWidget {
-  const ReadingScreen({super.key, required this.novel, required this.chapter, required this.source});
+  const ReadingScreen({super.key, required this.novel, required this.chapter});
   final TruyenDetail novel;
   final int chapter;
-  final String source;
+
+
 
 
   @override
@@ -22,7 +25,12 @@ class _ReadingScreenState extends State<ReadingScreen> {
   var _fontFamily = 'Arial';
   Color _color = Color(0xFFFFFFFF);
   var _spacing = 1;
+  String _source = '';
+  List<String> sources = [];  
   StateService stateService = StateService.instance;
+  AllSourceChapterContent allSourceChapterContent = AllSourceChapterContent(chapterContents: []);
+
+
 
 
 
@@ -56,14 +64,47 @@ class _ReadingScreenState extends State<ReadingScreen> {
     });
   }
 
-  
+  void changeSource(String source) {
+    setState(() {
+      _source = source;
+    });
+  }
+
+
 
 
   @override
   void initState() {
 
+
+    stateService.getSources().then((value) {
+      setState(() {
+        sources = value;
+        changeSource(value[0]);
+      });
+    });
+
     try {
-      APIService().getChapterContent(widget.novel, widget.chapter, widget.source).then((value) => changeContent(value));
+      APIService().getChapterContent(widget.novel, widget.chapter).then((value) {
+        setState(() {
+          allSourceChapterContent = value;
+
+          if(value.chapterContents.isEmpty) {
+            throw Exception('Lỗi không thể tải nội dung chương truyện.');
+          }
+          
+          for(var source in sources) {
+            print(source);
+            if(allSourceChapterContent.chapterContents.where((element) => element.source == source).isNotEmpty) {
+              changeContent(allSourceChapterContent.chapterContents.where((element) => element.source == source).first.content);
+              break;
+            }
+          }
+
+
+        });
+      
+      });
     } catch (e) {
       print(e);
     }

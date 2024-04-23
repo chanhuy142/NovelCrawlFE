@@ -28,25 +28,24 @@ class APIService {
   //send to http://localhost:3000/?tentruyen=@tentruyen&chapter=@chapter
   //ex: http://localhost:3000/?tentruyen=ngao-the-dan-than&chapter=5
 
-  Future<String> getChapterContent(
-      TruyenDetail novel, int chapter, String source) async {
+  Future<AllSourceChapterContent> getChapterContent(
+      TruyenDetail novel, int chapter) async {
     String request = localhost + '/?tentruyen=' + SignedToUnsinged.standardizeName(novel.tenTruyen) + '&chapter=' + chapter.toString();
     final response = await http.get(Uri.parse(
         request));
 
     if (response.statusCode == 200) {
       var contentList = allSourceChapterContentFromJson(response.body);
-      var content = contentList.chapterContents
-          .firstWhere((element) => element.source == source); 
       
-      if(content.content == null) {
-        throw Exception('Lỗi không thể tải nội dung chương truyện từ nguồn này');
+      
+      if(contentList == null) {
+        throw Exception('Lỗi không thể tải nội dung chương truyện.');
       }
         
 
-      return ContentParser.parseContent(content.content);
+      return contentList;
     } else {
-      throw Exception('Lỗi không thể tải nội dung chương truyện từ nguồn này');
+      throw Exception('Lỗi không thể tải nội dung chương truyện.');
     }
   }
 
