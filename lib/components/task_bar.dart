@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:novel_crawl/models/novel_detail.dart';
+import 'package:novel_crawl/screens/readingscreen.dart';
 
 class TaskBar extends StatefulWidget {
   const TaskBar({super.key, required this.novel});
@@ -18,7 +19,7 @@ class _TaskBarState extends State<TaskBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 100,
+      height: 60,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -30,20 +31,22 @@ class _TaskBarState extends State<TaskBar> {
             },
             child: Container(
               color: Colors.transparent,
-              child: Column(children: [
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
                 Icon(Icons.book, color: Colors.white,),
-                Text('Xuất Ebook', style: TextStyle(color: Colors.white),)
+                Text('Ebook', style: TextStyle(color: Colors.white),)
               ],),
             )
           ),
           GestureDetector(
               onTap: () {
-                
+                Navigator.push(context, MaterialPageRoute(builder: (context) => ReadingScreen(novel: novel, chapter: 1, source: 'tangtruyen')));
                 
               },
               child: Container(
                 width: 150,
-                margin: EdgeInsets.all(10),
                 height: 40,
                 decoration: BoxDecoration(
                     //color: DFD82C
@@ -68,16 +71,21 @@ class _TaskBarState extends State<TaskBar> {
                 ),
               ),
             ),
-          ElevatedButton(
-            onPressed: () {
+          GestureDetector(
+            onTap: () {
               //download novel
-            }, 
-            child: 
-            Column(children: [
-              Icon(Icons.download),
-              Text('Tải về', style: TextStyle(color: Colors.white),)
-            ],)
-            ),
+            },
+            child: Container(
+              color: Colors.transparent,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                Icon(Icons.download, color: Colors.white,),
+                Text('Tải về', style: TextStyle(color: Colors.white),)
+              ],),
+            )
+          ),
         ],),
     );
 

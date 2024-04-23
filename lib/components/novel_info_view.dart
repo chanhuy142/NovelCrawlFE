@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:novel_crawl/models/novel_detail.dart';
@@ -23,17 +24,20 @@ class NovelInfoView extends StatelessWidget {
                   fit: BoxFit.fitWidth,
                 ),
               ),        ),
-          Container(
-            padding: EdgeInsets.all(8),
+          Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   novelDetail.tenTruyen,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
                   style: TextStyle(color: Colors.yellowAccent, fontWeight: FontWeight.bold, fontSize: 20.0),
                 ),
                 Text(
                   'bởi ' + novelDetail.author,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
                   style: TextStyle(color: Colors.white, fontStyle: FontStyle.italic),
                 ),
                 Text(
