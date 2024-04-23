@@ -114,7 +114,7 @@ class _ReadingScreenState extends State<ReadingScreen> {
 
   void changeContentWhenChangeChapter(){
     try {
-      APIService().getChapterContent(widget.novel, widget.chapter).then((value) {
+      APIService().getChapterContent(widget.novel, chapter).then((value) {
         setState(() {
           allSourceChapterContent = value;
 
@@ -123,7 +123,6 @@ class _ReadingScreenState extends State<ReadingScreen> {
           }
           
           for(var source in sources) {
-            print(source);
             if(allSourceChapterContent.chapterContents.where((element) => element.source == source).isNotEmpty) {
               changeContent(allSourceChapterContent.chapterContents.where((element) => element.source == source).first.content);
               break;
