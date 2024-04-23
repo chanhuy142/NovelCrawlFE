@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:novel_crawl/components/novel_info_view.dart';
 import 'package:novel_crawl/models/novel_detail.dart';
+import 'package:novel_crawl/screens/novelinfoscreen.dart';
 
 class NovelCard extends StatelessWidget {
   NovelCard({super.key, required this.novelDetail});
@@ -10,11 +12,11 @@ class NovelCard extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         //message scaffold
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Novel Card Clicked'),
-          ),
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => NovelInfo(novelDetail: novelDetail,))
         );
+
+        
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,

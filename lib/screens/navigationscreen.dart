@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:novel_crawl/screens/historyscreen.dart';
 import 'package:novel_crawl/screens/homescreen.dart';
+import 'package:novel_crawl/screens/novelinfoscreen.dart';
 import 'package:novel_crawl/screens/offlinescreen.dart';
 import 'package:novel_crawl/screens/settingscreen.dart';
 
