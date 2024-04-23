@@ -3,6 +3,7 @@ import 'package:novel_crawl/components/reading_view.dart';
 import 'package:novel_crawl/models/content_from_all_source.dart';
 import 'package:novel_crawl/models/novel_detail.dart';
 import 'package:novel_crawl/models/unique_chapter_content.dart';
+import 'package:novel_crawl/popup/reading_modal_bottom.dart';
 import 'package:novel_crawl/service/api_service.dart';
 import 'package:novel_crawl/service/state_service.dart';
 
@@ -26,13 +27,53 @@ class _ReadingScreenState extends State<ReadingScreen> {
   Color _color = Color(0xFFFFFFFF);
   var _spacing = 1;
   String _source = '';
+  int chapter = 1;
   List<String> sources = [];  
   StateService stateService = StateService.instance;
   AllSourceChapterContent allSourceChapterContent = AllSourceChapterContent(chapterContents: []);
 
+  void updateAllState(){
+    changeContentWhenChangeChapter();
 
+    stateService.getSources().then((value) {
+      setState(() {
+        sources = value;
+        changeSource(value[0]);
+      });
+    });
 
+    
+    stateService.getFontSize().then((value) {
+      setState(() {
+        _fontSize = value;
+      });
+    });
 
+    stateService.getLineSpacing().then((value) {
+      setState(() {
+        _spacing = value;
+      });
+    });
+
+    stateService.getFontFamily().then((value) {
+      setState(() {
+        _fontFamily = value;
+      });
+    });
+
+    stateService.getColor().then((value) {
+      setState(() {
+        _color = value;
+      });
+    });
+  }
+
+  void onChapterChanged(int chapter) {
+    setState(() {
+      this.chapter = chapter;
+      changeContentWhenChangeChapter();
+    });
+  }
 
   void changeContent(String content) {
     setState(() {
@@ -71,19 +112,7 @@ class _ReadingScreenState extends State<ReadingScreen> {
   }
 
 
-
-
-  @override
-  void initState() {
-
-
-    stateService.getSources().then((value) {
-      setState(() {
-        sources = value;
-        changeSource(value[0]);
-      });
-    });
-
+  void changeContentWhenChangeChapter(){
     try {
       APIService().getChapterContent(widget.novel, widget.chapter).then((value) {
         setState(() {
@@ -109,39 +138,41 @@ class _ReadingScreenState extends State<ReadingScreen> {
       print(e);
     }
 
-    stateService.getFontSize().then((value) {
-      setState(() {
-        _fontSize = value;
-      });
-    });
+  }
 
-    stateService.getLineSpacing().then((value) {
-      setState(() {
-        _spacing = value;
-      });
-    });
-
-    stateService.getFontFamily().then((value) {
-      setState(() {
-        _fontFamily = value;
-      });
-    });
-
-    stateService.getColor().then((value) {
-      setState(() {
-        _color = value;
-      });
-    });
+  @override
+  void initState() {
     
+    updateAllState();
     super.initState();
     
   }
+
+  void showModalBottom(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return ReadingModalBottom(currentChapter: chapter, totalChapter: widget.novel.numberOfChapters, onChapterChanged: onChapterChanged);
+          
+      }
+    );
+  }
+
+  
+
+
   @override
   Widget build(BuildContext context) {
 
     
     return Scaffold(
-      body: ReadingView(content: _content, fontSize: _fontSize, fontFamily: _fontFamily, color: _color, spacing: _spacing),
+      body: GestureDetector(
+        child: ReadingView(content: _content, fontSize: _fontSize, fontFamily: _fontFamily, color: _color, spacing: _spacing),
+        onTap:() {
+          showModalBottom(context);
+        }
+        ),
+
     );
   }
 }
