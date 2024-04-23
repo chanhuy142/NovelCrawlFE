@@ -3,43 +3,72 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:novel_crawl/components/novel_source_selector.dart';
 import 'package:novel_crawl/components/novel_source_priority_selector.dart';
+import 'package:novel_crawl/service/state_service.dart';
 
 class SettingPage extends StatefulWidget {
-  SettingPage({super.key});
-
+  final Widget novelSourceSelector;
+  SettingPage({Key? key, this.novelSourceSelector = const NovelSourcePrioritySelector()}) : super(key: key);
+  
   @override
   State<SettingPage> createState() => _SettingPageState();
 }
 
 class _SettingPageState extends State<SettingPage> {
-  final List<Color> colors = [
-    Colors.black,
-    Colors.white,
-    const Color(0xFF3A3E48),
-    const Color(0xFFFFF1C2),
-  ];
-
-  final List<String> fonts = [
-    'Roboto',
-    'Open Sans',
-    'Lora',
-    'Merriweather',
-    'Dancing Script',
-  ];
-
   List<String> novelSoucre = [
     'Truyện Full',
     'Tàng Thư Viện',
     'Truyện abcxyz',
   ];
-
+  StateService stateService = StateService.instance;
   int selectedFont = 0;
   int selectedColor = 0;
   int fontSize = 16;
   int lineSpacing = 16;
   int selectedSource = 0;
+
+  List<Color> colors = [];
+
+  List<String> fonts = [];
+
+  @override
+  void initState() {
+    colors = stateService.getColorList();
+    fonts = stateService.getFontFamilyList();
+    stateService.getFontSize().then((value) {
+      setState(() {
+        fontSize = value;
+      });
+    });
+
+    stateService.getLineSpacing().then((value) {
+      setState(() {
+        lineSpacing = value;
+      });
+    });
+
+    stateService.getFontFamilyID().then((value) {
+      setState(() {
+        selectedFont = value;
+      });
+    });
+
+    stateService.getColorID().then((value) {
+      setState(() {
+        selectedColor = value;
+      });
+    });
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    stateService.closeService();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,7 +100,7 @@ class _SettingPageState extends State<SettingPage> {
                     ),
                   ),
                 ),
-                NovelSourcePrioritySelector(),
+                widget.novelSourceSelector,
                 Padding(
                   padding: EdgeInsets.only(top: 15, bottom: 15),
                   child: Row(
@@ -96,6 +125,7 @@ class _SettingPageState extends State<SettingPage> {
                                   onTap: () {
                                     setState(() {
                                       selectedColor = index;
+                                      stateService.saveColorID(index);
                                     });
                                   },
                                   child: Container(
@@ -136,6 +166,7 @@ class _SettingPageState extends State<SettingPage> {
                         onTap: () {
                           setState(() {
                             fontSize = max(12, fontSize - 1);
+                            stateService.saveFontSize(fontSize);
                           });
                         },
                         child: Icon(
@@ -165,6 +196,7 @@ class _SettingPageState extends State<SettingPage> {
                         onTap: () {
                           setState(() {
                             fontSize = min(20, fontSize + 1);
+                            stateService.saveFontSize(fontSize);
                           });
                         },
                         child: const Icon(
@@ -192,6 +224,7 @@ class _SettingPageState extends State<SettingPage> {
                         onTap: () {
                           setState(() {
                             lineSpacing = max(12, lineSpacing - 1);
+                            stateService.saveLineSpacing(lineSpacing);
                           });
                         },
                         child: Icon(
@@ -221,6 +254,7 @@ class _SettingPageState extends State<SettingPage> {
                         onTap: () {
                           setState(() {
                             lineSpacing = min(20, lineSpacing + 1);
+                            stateService.saveLineSpacing(lineSpacing);
                           });
                         },
                         child: const Icon(
@@ -252,6 +286,7 @@ class _SettingPageState extends State<SettingPage> {
                             onTap: () {
                               setState(() {
                                 selectedFont = index;
+                                stateService.saveFontFamilyID(index);
                               });
                             },
                             child: Padding(

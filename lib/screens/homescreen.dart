@@ -50,6 +50,7 @@ class _HomePageState extends State<HomePage> {
       isLoading = true;
       apiService.getNovelDetails().then((value) {
           library.copyFrom(value);
+          print(library.truyenDetail.length);
           if(mounted){
             setState(() {
               resultnovels = library.truyenDetail;

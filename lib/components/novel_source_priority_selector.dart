@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class NovelSourcePrioritySelector extends StatefulWidget {
-  NovelSourcePrioritySelector({super.key});
+  const NovelSourcePrioritySelector({super.key});
 
   @override
   State<NovelSourcePrioritySelector> createState() =>
