@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 class ReadingView extends StatelessWidget {
   const ReadingView({super.key, required this.content, required this.fontSize, required this.fontFamily, required this.color, required this.spacing});
   final String content;
-  final double fontSize;
+  final int fontSize;
   final String fontFamily;
-  final int color;
+  final Color color;
   final int spacing;
 
 
@@ -20,8 +20,10 @@ class ReadingView extends StatelessWidget {
             content,
             style: TextStyle(
               fontSize: fontSize.toDouble(),
-              color: Colors.white,
-              height: spacing.toDouble()
+              color: color,
+              height: spacing.toDouble(),
+              fontFamily: fontFamily,
+              
             ),
         ),
         ),

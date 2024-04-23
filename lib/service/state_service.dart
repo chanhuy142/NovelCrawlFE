@@ -39,11 +39,11 @@ class StateService{
   }
 
   Future<int> getFontSize() async {
-    return await hiveService.get(fontSize) ?? 16.0;
+    return await hiveService.get(fontSize) ?? 16;
   }
 
   Future<int> getLineSpacing() async {
-    return await hiveService.get(lineSpacing) ?? 16.0;
+    return await hiveService.get(lineSpacing) ?? 1;
   }
 
   Future<int> getFontFamilyID() async {

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:novel_crawl/components/reading_view.dart';
 import 'package:novel_crawl/models/novel_detail.dart';
 import 'package:novel_crawl/service/api_service.dart';
+import 'package:novel_crawl/service/state_service.dart';
 
 class ReadingScreen extends StatefulWidget {
   const ReadingScreen({super.key, required this.novel, required this.chapter, required this.source});
@@ -17,10 +18,13 @@ class ReadingScreen extends StatefulWidget {
 class _ReadingScreenState extends State<ReadingScreen> {
 
   var _content = '';
-  var _fontSize = 16.0;
+  int _fontSize = 20;
   var _fontFamily = 'Arial';
-  var _color = 0xFFFFFFFF;
+  Color _color = Color(0xFFFFFFFF);
   var _spacing = 1;
+  StateService stateService = StateService.instance;
+
+
 
   void changeContent(String content) {
     setState(() {
@@ -28,7 +32,7 @@ class _ReadingScreenState extends State<ReadingScreen> {
     });
   }
 
-  void changeFontSize(double fontSize) {
+  void changeFontSize(int fontSize) {
     setState(() {
       _fontSize = fontSize;
     });
@@ -40,7 +44,7 @@ class _ReadingScreenState extends State<ReadingScreen> {
     });
   }
 
-  void changeColor(int color) {
+  void changeColor(Color color) {
     setState(() {
       _color = color;
     });
@@ -52,6 +56,8 @@ class _ReadingScreenState extends State<ReadingScreen> {
     });
   }
 
+  
+
 
   @override
   void initState() {
@@ -61,6 +67,30 @@ class _ReadingScreenState extends State<ReadingScreen> {
     } catch (e) {
       print(e);
     }
+
+    stateService.getFontSize().then((value) {
+      setState(() {
+        _fontSize = value;
+      });
+    });
+
+    stateService.getLineSpacing().then((value) {
+      setState(() {
+        _spacing = value;
+      });
+    });
+
+    stateService.getFontFamily().then((value) {
+      setState(() {
+        _fontFamily = value;
+      });
+    });
+
+    stateService.getColor().then((value) {
+      setState(() {
+        _color = value;
+      });
+    });
     
     super.initState();
     

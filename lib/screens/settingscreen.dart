@@ -223,7 +223,7 @@ class _SettingPageState extends State<SettingPage> {
                       InkWell(
                         onTap: () {
                           setState(() {
-                            lineSpacing = max(12, lineSpacing - 1);
+                            lineSpacing = max(1, lineSpacing - 1);
                             stateService.saveLineSpacing(lineSpacing);
                           });
                         },
@@ -253,7 +253,7 @@ class _SettingPageState extends State<SettingPage> {
                       InkWell(
                         onTap: () {
                           setState(() {
-                            lineSpacing = min(20, lineSpacing + 1);
+                            lineSpacing = min(3, lineSpacing + 1);
                             stateService.saveLineSpacing(lineSpacing);
                           });
                         },
