@@ -2,6 +2,8 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:novel_crawl/service/api_service.dart';
+import 'package:novel_crawl/service/state_service.dart';
 
 class NovelSourcePrioritySelector extends StatefulWidget {
   const NovelSourcePrioritySelector({super.key});
@@ -13,21 +15,63 @@ class NovelSourcePrioritySelector extends StatefulWidget {
 
 class _NovelSourcePrioritySelectorState
     extends State<NovelSourcePrioritySelector> {
-  List<String> novelSources = ['Truyện Full', 'Truyện Mới', 'Truyện Hot'];
+  List<String> novelSources = [];
   int selectedSource = 0;
+  StateService stateService = StateService.instance;
 
-    @override
+  @override
+  void initState() {
+    // TODO: implement initState
+    stateService.getSources().then((value) {
+      setState(() {
+        novelSources = value;
+      });
+      APIService().getAllSources().then((value) => {
+          setState(() {
+            bool isDifferent = false;
+            if (novelSources.length != value.length) {
+              isDifferent = true;
+            } else {
+              for (int i = 0; i < novelSources.length; i++) {
+                if (!novelSources.contains(value[i]) ||
+                    !value.contains(novelSources[i])) {
+                  isDifferent = true;
+                  print('Different');
+                  break;
+                }
+              }
+            }
+
+            if (isDifferent) {
+              novelSources = value;
+              stateService.saveSources(novelSources);
+            }
+          })
+        });
+    });
+    
+    super.initState();
+  }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    stateService.closeService();
+    super.dispose();
+  }
+  @override
   Widget build(BuildContext context) {
     return Expanded(
-      flex : 0,
+      flex: 0,
       child: ReorderableListView(
         shrinkWrap: true,
         children: <Widget>[
           for (int index = 0; index < novelSources.length; index += 1)
             ListTile(
-              contentPadding: EdgeInsets.only(left: 20, right: 20, top: 0, bottom: 0),
+              contentPadding:
+                  EdgeInsets.only(left: 20, right: 20, top: 0, bottom: 0),
               key: Key('$index'),
-              title: SourceItem(novelSource: novelSources[index], index: index + 1),
+              title: SourceItem(
+                  novelSource: novelSources[index], index: index + 1),
             ),
         ],
         onReorder: (int oldIndex, int newIndex) {
@@ -37,6 +81,7 @@ class _NovelSourcePrioritySelectorState
             }
             final String item = novelSources.removeAt(oldIndex);
             novelSources.insert(newIndex, item);
+            stateService.saveSources(novelSources);
           });
         },
       ),

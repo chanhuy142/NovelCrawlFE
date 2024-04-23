@@ -12,7 +12,7 @@ class APIService {
   AllSourceChapterContent allSourceChapterContentFromJson(String str) =>
       AllSourceChapterContent.fromJson(jsonDecode(str));
 
-  String localhost = 'http://192.168.1.46:3000';
+  String localhost = 'http://192.168.1.7:3000';
   //send to http://localhost/details
   //port 3000
   Future<Library> getNovelDetails() async {
@@ -50,4 +50,15 @@ class APIService {
     }
   }
 
+  Future<List<String>> getAllSources() async {
+    final response =
+        await http.get(Uri.parse(localhost + '/source'));
+    if (response.statusCode == 200) {
+      var json = jsonDecode(response.body);
+      var res = List<String>.from(json["TruyenSource"].map((x) => x));
+      return res;
+    } else {
+      throw Exception('Failed to load sources');
+    }
+  }
 }
