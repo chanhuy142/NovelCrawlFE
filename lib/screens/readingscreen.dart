@@ -55,17 +55,20 @@ class _ReadingScreenState extends State<ReadingScreen> {
 
   @override
   void initState() {
-    super.initState();
-    
-  }
-  @override
-  Widget build(BuildContext context) {
 
     try {
       APIService().getChapterContent(widget.novel, widget.chapter, widget.source).then((value) => changeContent(value));
     } catch (e) {
       print(e);
     }
+    
+    super.initState();
+    
+  }
+  @override
+  Widget build(BuildContext context) {
+
+    
     return Scaffold(
       body: ReadingView(content: _content, fontSize: _fontSize, fontFamily: _fontFamily, color: _color, spacing: _spacing),
     );

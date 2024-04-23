@@ -33,7 +33,7 @@ class APIService {
     String request = localhost + '/?tentruyen=' + SignedToUnsinged.standardizeName(novel.tenTruyen) + '&chapter=' + chapter.toString();
     final response = await http.get(Uri.parse(
         request));
-    print(response.body);
+
     if (response.statusCode == 200) {
       var contentList = allSourceChapterContentFromJson(response.body);
       var content = contentList.chapterContents
