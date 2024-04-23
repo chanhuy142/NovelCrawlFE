@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class NovelSourceSelector extends StatefulWidget {
-  NovelSourceSelector({super.key});
+  const NovelSourceSelector({super.key});
 
   @override
   State<NovelSourceSelector> createState() => _NovelSourceSelectorState();
