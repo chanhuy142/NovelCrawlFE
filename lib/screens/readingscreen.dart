@@ -4,13 +4,13 @@ import 'package:novel_crawl/models/content_from_all_source.dart';
 import 'package:novel_crawl/models/novel_detail.dart';
 import 'package:novel_crawl/popup/reading_modal_bottom.dart';
 import 'package:novel_crawl/service/api_service.dart';
+import 'package:novel_crawl/service/history_service.dart';
 import 'package:novel_crawl/service/state_service.dart';
 
 class ReadingScreen extends StatefulWidget {
   const ReadingScreen({super.key, required this.novel, required this.chapter});
   final TruyenDetail novel;
   final int chapter;
-
 
 
 
@@ -31,6 +31,13 @@ class _ReadingScreenState extends State<ReadingScreen> {
   
   StateService stateService = StateService.instance;
   AllSourceChapterContent allSourceChapterContent = AllSourceChapterContent(chapterContents: []);
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    HistoryService.instance.updateNovelHistory(widget.novel, chapter);
+    super.dispose();
+  }
 
   void updateAllState(){
     stateService.getSelectedSource().then((value) {
