@@ -18,6 +18,7 @@ class ReadingView extends StatelessWidget {
           padding: const EdgeInsets.all(16.0),
           child: Text(
             content,
+            softWrap: true,
             style: TextStyle(
               fontSize: fontSize.toDouble(),
               color: color,

@@ -88,9 +88,20 @@ class _ReadingModalBottomState extends State<ReadingModalBottom> {
             onTap: () {
               showModalBottomSheet(
                 context: context,
-                builder: (BuildContext context) {
-                return SettingPage(novelSourceSelector: NovelSourceSelector(novelSources: widget.sources, onUpdated: widget.onUpdated));
-                }
+                    builder: (BuildContext context) {
+                      return Container(
+                          height: 700,
+                          decoration: BoxDecoration(
+                            color: Colors.black,
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(20),
+                                topRight: Radius.circular(20)),
+                          ),
+                          child: SettingPage(
+                              novelSourceSelector: NovelSourceSelector(
+                                  novelSources: widget.sources,
+                                  onUpdated: widget.onUpdated)));
+                    }
               );
             },
             child: Container(

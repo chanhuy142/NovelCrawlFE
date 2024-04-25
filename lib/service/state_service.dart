@@ -29,6 +29,9 @@ class StateService{
     'Lora',
     'Merriweather',
     'Dancing Script',
+    'Montserrat',
+    'Exo2',
+    'Bitter'
   ];
 
   List<String> getFontFamilyList() {

@@ -101,7 +101,27 @@ flutter:
         - asset: fonts/DancingScript-Regular.ttf
         - asset: fonts/DancingScript-Bold.ttf
           weight: 700
-        
+    - family: Montserrat
+      fonts:
+        - asset: fonts/Montserrat-Regular.ttf
+        - asset: fonts/Montserrat-Bold.ttf
+          weight: 700
+        - asset: fonts/Montserrat-Italic.ttf
+          style: italic
+    - family: Exo2
+      fonts:
+        - asset: fonts/Exo2-Regular.ttf
+        - asset: fonts/Exo2-Bold.ttf
+          weight: 700
+        - asset: fonts/Exo2-Italic.ttf
+          style: italic
+    - family: Bitter
+      fonts:
+        - asset: fonts/Bitter-Regular.ttf
+        - asset: fonts/Bitter-Bold.ttf
+          weight: 700
+        - asset: fonts/Bitter-Italic.ttf
+          style: italic
     
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
