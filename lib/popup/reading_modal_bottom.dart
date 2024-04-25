@@ -42,7 +42,7 @@ class _ReadingModalBottomState extends State<ReadingModalBottom> {
             },
             child: Container(
               color: Colors.transparent,
-              child: Column(
+              child: const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -55,7 +55,7 @@ class _ReadingModalBottomState extends State<ReadingModalBottom> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             IconButton(
-              icon: Icon(Icons.arrow_back_ios),
+              icon: const Icon(Icons.arrow_back_ios),
               onPressed: () {
                 setState(() {
                   if (currentChapter > 1) {
@@ -67,12 +67,12 @@ class _ReadingModalBottomState extends State<ReadingModalBottom> {
             ),
             Text(
               '$currentChapter/$totalChapter', 
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 16.0,
                 color: Colors.white,
               )),
             IconButton(
-              icon: Icon(Icons.arrow_forward_ios),
+              icon: const Icon(Icons.arrow_forward_ios),
               onPressed: () {
                 setState(() {
                   if (currentChapter < totalChapter) {
@@ -91,7 +91,7 @@ class _ReadingModalBottomState extends State<ReadingModalBottom> {
                     builder: (BuildContext context) {
                       return Container(
                           height: 700,
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                             color: Colors.black,
                             borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(20),
@@ -106,7 +106,7 @@ class _ReadingModalBottomState extends State<ReadingModalBottom> {
             },
             child: Container(
               color: Colors.transparent,
-              child: Column(
+              child: const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [

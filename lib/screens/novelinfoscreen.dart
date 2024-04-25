@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:novel_crawl/components/chapter_list_view.dart';
 import 'package:novel_crawl/components/description_view.dart';
 import 'package:novel_crawl/components/novel_info_view.dart';
@@ -15,11 +13,11 @@ class NovelInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(novelDetail.tenTruyen, style: TextStyle(color: Color(0xFFFFFFFF))),
-        backgroundColor: Color(0xFF000000),
-        iconTheme: IconThemeData(color: Color(0xFFFFFFFF)),
+        title: Text(novelDetail.tenTruyen, style: const TextStyle(color: Color(0xFFFFFFFF))),
+        backgroundColor: const Color(0xFF000000),
+        iconTheme: const IconThemeData(color: Color(0xFFFFFFFF)),
       ),
-      backgroundColor: Color(0xFF000000),
+      backgroundColor: const Color(0xFF000000),
       body: Column(
         children: [
           Expanded(
@@ -28,7 +26,7 @@ class NovelInfo extends StatelessWidget {
                 children: [
                 NovelInfoView(novelDetail: novelDetail),
                 DescriptionView(description: novelDetail.description),
-                Container(
+                SizedBox(
                   height: 500,
                   child: ChapterListView(chapterNumber: novelDetail.numberOfChapters, novel: novelDetail)),
                 ],

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:novel_crawl/screens/historyscreen.dart';
 import 'package:novel_crawl/screens/homescreen.dart';
-import 'package:novel_crawl/screens/novelinfoscreen.dart';
 import 'package:novel_crawl/screens/offlinescreen.dart';
 import 'package:novel_crawl/screens/settingscreen.dart';
 
@@ -15,10 +14,10 @@ class NavigationScreen extends StatefulWidget {
 class _NavigationScreenState extends State<NavigationScreen> {
   int _selectedIndex = 0;
   final List<Widget> _widgetOptions = <Widget>[
-    HomePage(),
+    const HomePage(),
     HistoryPage(),
     OfflinePage(),
-    SettingPage(),
+    const SettingPage(),
   ];
   @override
   Widget build(BuildContext context) {

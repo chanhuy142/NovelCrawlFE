@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/onboarding': (context) => const OnBoarding(),
         '/navigation': (context) => const NavigationScreen(),
-        '/home': (context) => HomePage(),
+        '/home': (context) => const HomePage(),
       },
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),

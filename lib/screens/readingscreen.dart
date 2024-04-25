@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:novel_crawl/components/reading_view.dart';
 import 'package:novel_crawl/models/content_from_all_source.dart';
 import 'package:novel_crawl/models/novel_detail.dart';
-import 'package:novel_crawl/models/unique_chapter_content.dart';
 import 'package:novel_crawl/popup/reading_modal_bottom.dart';
 import 'package:novel_crawl/service/api_service.dart';
 import 'package:novel_crawl/service/state_service.dart';
@@ -24,7 +23,7 @@ class _ReadingScreenState extends State<ReadingScreen> {
   var _content = '';
   int _fontSize = 20;
   var _fontFamily = 'Arial';
-  Color _color = Color(0xFFFFFFFF);
+  Color _color = const Color(0xFFFFFFFF);
   var _spacing = 1;
   int chapter = 1;
   List<String> sources = [];  
@@ -170,7 +169,7 @@ class _ReadingScreenState extends State<ReadingScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,  
-        title: Text('Chương ' + chapter.toString() + ' - ' + widget.novel.tenTruyen, style: TextStyle(color: _color)),
+        title: Text('Chương $chapter - ${widget.novel.tenTruyen}', style: TextStyle(color: _color)),
         iconTheme: IconThemeData(color: _color),
         
       ),
@@ -178,7 +177,7 @@ class _ReadingScreenState extends State<ReadingScreen> {
         color: Colors.black,
         height: double.infinity,
         width: double.infinity,
-        child: SizedBox(
+        child: const SizedBox(
           width: 50,
           height: 50,
           child: Center(

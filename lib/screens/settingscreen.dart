@@ -1,14 +1,12 @@
 import 'dart:math';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:novel_crawl/components/novel_source_priority_selector.dart';
 import 'package:novel_crawl/service/state_service.dart';
 
 class SettingPage extends StatefulWidget {
   final Widget novelSourceSelector;
-  SettingPage({Key? key, this.novelSourceSelector = const NovelSourcePrioritySelector()}) : super(key: key);
+  const SettingPage({super.key, this.novelSourceSelector = const NovelSourcePrioritySelector()});
   
   @override
   State<SettingPage> createState() => _SettingPageState();
@@ -103,7 +101,7 @@ class _SettingPageState extends State<SettingPage> {
                   ),
                   widget.novelSourceSelector,
                   Padding(
-                    padding: EdgeInsets.only(top: 15, bottom: 15),
+                    padding: const EdgeInsets.only(top: 15, bottom: 15),
                     child: Row(
                       children: [
                         const Text(
@@ -115,7 +113,7 @@ class _SettingPageState extends State<SettingPage> {
                         ),
                         const Spacer(),
                         Expanded(
-                          child: Container(
+                          child: SizedBox(
                             height: 30,
                             child: ListView.builder(
                                 scrollDirection: Axis.horizontal,
@@ -131,15 +129,15 @@ class _SettingPageState extends State<SettingPage> {
                                     },
                                     child: Container(
                                       width: 30,
-                                      margin: EdgeInsets.only(left: 5),
+                                      margin: const EdgeInsets.only(left: 5),
                                       decoration: BoxDecoration(
                                         color: colors[index],
                                         shape: BoxShape.rectangle,
                                         borderRadius: BorderRadius.circular(5),
                                         border: Border.all(
                                           color: index == selectedColor
-                                              ? Color(0xFFDFD82C)
-                                              : Color(0xFF83899F),
+                                              ? const Color(0xFFDFD82C)
+                                              : const Color(0xFF83899F),
                                           width: 2,
                                         ),
                                       ),
@@ -152,17 +150,17 @@ class _SettingPageState extends State<SettingPage> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: 15, bottom: 15),
+                    padding: const EdgeInsets.only(top: 15, bottom: 15),
                     child: Row(
                       children: [
-                        Text(
+                        const Text(
                           'Kích thước chữ',
                           style: TextStyle(
                               color: Color(0xFFFFFFFF),
                               fontSize: 20,
                               fontWeight: FontWeight.normal),
                         ),
-                        Spacer(),
+                        const Spacer(),
                         InkWell(
                           onTap: () {
                             setState(() {
@@ -170,7 +168,7 @@ class _SettingPageState extends State<SettingPage> {
                               stateService.saveFontSize(fontSize);
                             });
                           },
-                          child: Icon(
+                          child: const Icon(
                             size: 30,
                             Icons.remove,
                             color: Color(0xFFFFFFFF),
@@ -178,9 +176,9 @@ class _SettingPageState extends State<SettingPage> {
                         ),
                         Container(
                           width: 30,
-                          margin: EdgeInsets.only(left: 5, right: 5),
+                          margin: const EdgeInsets.only(left: 5, right: 5),
                           decoration: BoxDecoration(
-                            color: Color(0xFF3A3E47),
+                            color: const Color(0xFF3A3E47),
                             shape: BoxShape.rectangle,
                             borderRadius: BorderRadius.circular(5),
                           ),
@@ -210,7 +208,7 @@ class _SettingPageState extends State<SettingPage> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: 15, bottom: 15),
+                    padding: const EdgeInsets.only(top: 15, bottom: 15),
                     child: Row(
                       children: [
                         const Text(
@@ -220,7 +218,7 @@ class _SettingPageState extends State<SettingPage> {
                               fontSize: 20,
                               fontWeight: FontWeight.normal),
                         ),
-                        Spacer(),
+                        const Spacer(),
                         InkWell(
                           onTap: () {
                             setState(() {
@@ -228,7 +226,7 @@ class _SettingPageState extends State<SettingPage> {
                               stateService.saveLineSpacing(lineSpacing);
                             });
                           },
-                          child: Icon(
+                          child: const Icon(
                             size: 30,
                             Icons.remove,
                             color: Color(0xFFFFFFFF),
@@ -236,15 +234,15 @@ class _SettingPageState extends State<SettingPage> {
                         ),
                         Container(
                           width: 30,
-                          margin: EdgeInsets.only(left: 5, right: 5),
+                          margin: const EdgeInsets.only(left: 5, right: 5),
                           decoration: BoxDecoration(
-                            color: Color(0xFF3A3E47),
+                            color: const Color(0xFF3A3E47),
                             shape: BoxShape.rectangle,
                             borderRadius: BorderRadius.circular(5),
                           ),
                           child: Text(
                             lineSpacing.toString(),
-                            style: TextStyle(
+                            style: const TextStyle(
                                 color: Color(0xFFFFFFFF),
                                 fontSize: 20,
                                 fontWeight: FontWeight.normal),
@@ -267,7 +265,7 @@ class _SettingPageState extends State<SettingPage> {
                       ],
                     ),
                   ),
-                  Container(
+                  SizedBox(
                     height: 400,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -304,7 +302,7 @@ class _SettingPageState extends State<SettingPage> {
                                             borderRadius: BorderRadius.circular(15),
                                             border: Border.all(
                                               color: index == selectedFont
-                                                  ? Color(0xFFDFD82C)
+                                                  ? const Color(0xFFDFD82C)
                                                   : Colors.transparent,
                                               width: 1,
                                             ),
@@ -318,13 +316,13 @@ class _SettingPageState extends State<SettingPage> {
                                                   fonts[index],
                                                   style: TextStyle(
                                                       color: index == selectedFont
-                                                          ? Color(0xFFDFD82C)
-                                                          : Color(0xFFFFFFFF),
+                                                          ? const Color(0xFFDFD82C)
+                                                          : const Color(0xFFFFFFFF),
                                                       fontSize: 20,
                                                       fontWeight: FontWeight.normal,
                                                       fontFamily: fonts[index]),
                                                 ),
-                                                Spacer(),
+                                                const Spacer(),
                                                 Visibility(
                                                   visible: index == selectedFont,
                                                   child: const Icon(
