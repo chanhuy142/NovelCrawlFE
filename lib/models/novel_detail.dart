@@ -29,7 +29,7 @@ class TruyenDetail {
         "cover": cover,
         "url": url,
         "author": author,
-        "numberOfChapters": numberOfChapters,
+        "numberOfChapters": numberOfChapters.toString(),
         "description": description,
     };
 

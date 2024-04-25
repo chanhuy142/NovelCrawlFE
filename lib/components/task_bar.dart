@@ -1,6 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:novel_crawl/models/novel_detail.dart';
 import 'package:novel_crawl/screens/readingscreen.dart';
+import 'package:novel_crawl/service/history_service.dart';
 
 class TaskBar extends StatefulWidget {
   const TaskBar({super.key, required this.novel});
@@ -13,9 +15,29 @@ class TaskBar extends StatefulWidget {
 class _TaskBarState extends State<TaskBar> {
 
   TruyenDetail get novel => widget.novel;
+  int currentChapter = 1;
   
   //3 button, 1 button icon 'Xuất Ebook', 1 textbutton màu vàng 'Đọc truyện', 1 button icon 'Tải về'
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
+  void updateCurrentChapter(int chapter){
+    setState(() {
+      currentChapter = chapter;
+    });
+  }
+
+  void readNovel(BuildContext context) {
+    HistoryService.instance.getCurrentChapter(novel.tenTruyen).then((value){
+      setState(() {
+        currentChapter = value;
+        Navigator.push(context, MaterialPageRoute(builder: (context) => ReadingScreen(novel: novel, chapter: currentChapter)));
+      });
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -42,8 +64,7 @@ class _TaskBarState extends State<TaskBar> {
           ),
           GestureDetector(
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => ReadingScreen(novel: novel, chapter: 1)));
-                
+                readNovel(context);
               },
               child: Container(
                 width: 150,
@@ -88,6 +109,7 @@ class _TaskBarState extends State<TaskBar> {
           ),
         ],),
     );
-
   }
+
+  
 }
