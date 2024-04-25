@@ -17,6 +17,8 @@ class SignedToUnsinged {
   str = str.replaceAll(RegExp(r'\u0300|\u0301|\u0303|\u0309|\u0323'), ""); 
   str = str.replaceAll(RegExp(r'\u02C6|\u0306|\u031B'), ""); 
   str = str.replaceAll(RegExp(r' + '), " ");
+  //erase all special characters
+  str = str.replaceAll(RegExp(r'[^a-zA-Z0-9 ]'), "");
   str = str.trim();
 
   return str;
