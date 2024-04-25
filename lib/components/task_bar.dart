@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:novel_crawl/models/novel_detail.dart';
+import 'package:novel_crawl/popup/download_popup.dart';
 import 'package:novel_crawl/screens/readingscreen.dart';
 import 'package:novel_crawl/service/history_service.dart';
 
@@ -38,6 +39,17 @@ class _TaskBarState extends State<TaskBar> {
       });
     });
   }
+
+
+  void showDownloadDialog(){
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return DownloadPopup(novel: novel,);
+      }
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -95,6 +107,7 @@ class _TaskBarState extends State<TaskBar> {
           GestureDetector(
             onTap: () {
               //download novel
+              showDownloadDialog();
             },
             child: Container(
               color: Colors.transparent,

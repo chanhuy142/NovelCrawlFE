@@ -159,7 +159,7 @@ class _ReadingScreenState extends State<ReadingScreen> {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
-        return ReadingModalBottom(currentChapter: chapter, totalChapter: widget.novel.numberOfChapters, onChapterChanged: onChapterChanged, 
+        return ReadingModalBottom(currentChapter: chapter, novel: widget.novel, onChapterChanged: onChapterChanged, 
         sources: allSourceChapterContent.chapterContents.map((e) => e.source).toList(), onUpdated: updateAllState);
           
       }

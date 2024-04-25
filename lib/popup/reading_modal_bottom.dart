@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:novel_crawl/components/novel_source_selector.dart';
+import 'package:novel_crawl/models/novel_detail.dart';
+import 'package:novel_crawl/popup/download_popup.dart';
 import 'package:novel_crawl/screens/settingscreen.dart';
 
 class ReadingModalBottom extends StatefulWidget {
-  const ReadingModalBottom({super.key, required this.currentChapter, required this.totalChapter, required this.onChapterChanged, required this.sources, required this.onUpdated});
+  const ReadingModalBottom({super.key, required this.currentChapter, required this.novel, required this.onChapterChanged, required this.sources, required this.onUpdated});
   final int currentChapter;
-  final int totalChapter;
+  final TruyenDetail novel;
   final ValueChanged<int> onChapterChanged;
   final List<String> sources;
   final Function() onUpdated;
@@ -21,10 +23,17 @@ class _ReadingModalBottomState extends State<ReadingModalBottom> {
   void initState() {
     super.initState();
     currentChapter = widget.currentChapter;
-    totalChapter = widget.totalChapter;
+    totalChapter = widget.novel.numberOfChapters;
   }
 
-
+  void showDownloadDialog(){
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return DownloadPopup(novel: widget.novel,);
+      }
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +48,7 @@ class _ReadingModalBottomState extends State<ReadingModalBottom> {
           GestureDetector(
             onTap: () {
               //download novel
+              showDownloadDialog();
             },
             child: Container(
               color: Colors.transparent,
