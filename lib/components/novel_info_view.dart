@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:novel_crawl/models/novel_detail.dart';
 
 class NovelInfoView extends StatelessWidget {
@@ -10,13 +8,13 @@ class NovelInfoView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Color(0xFF444444),
-      margin: EdgeInsets.only(top: 10),
+      color: const Color(0xFF444444),
+      margin: const EdgeInsets.only(top: 10),
       child: Row(
         children: [
           Container(
             width: 150,
-            padding: EdgeInsets.all(20),
+            padding: const EdgeInsets.all(20),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(10),
                 child: Image.network(
@@ -32,17 +30,17 @@ class NovelInfoView extends StatelessWidget {
                   novelDetail.tenTruyen,
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
-                  style: TextStyle(color: Colors.yellowAccent, fontWeight: FontWeight.bold, fontSize: 20.0),
+                  style: const TextStyle(color: Colors.yellowAccent, fontWeight: FontWeight.bold, fontSize: 20.0),
                 ),
                 Text(
-                  'bởi ' + novelDetail.author,
+                  'bởi ${novelDetail.author}',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
-                  style: TextStyle(color: Colors.white, fontStyle: FontStyle.italic),
+                  style: const TextStyle(color: Colors.white, fontStyle: FontStyle.italic),
                 ),
                 Text(
-                  novelDetail.numberOfChapters.toString() + ' chương',
-                  style: TextStyle(color: Colors.white)
+                  '${novelDetail.numberOfChapters} chương',
+                  style: const TextStyle(color: Colors.white)
                 )
                 // Text(
                 //   novelDetail.theLoai,

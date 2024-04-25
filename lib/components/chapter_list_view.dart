@@ -32,12 +32,12 @@ class _ChapterListViewState extends State<ChapterListView> {
   Widget build(BuildContext context) {
     print('ChapterListView build');
     return Container(
-      margin: EdgeInsets.all(10.0),
+      margin: const EdgeInsets.all(10.0),
       child: Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children:
-       [Text(
+       [const Text(
         'Danh sách chương',
         style: TextStyle(
           fontSize: 20.0,
@@ -46,7 +46,7 @@ class _ChapterListViewState extends State<ChapterListView> {
         ),
        ),
        Container(
-        margin: EdgeInsets.only(top: 5.0),
+        margin: const EdgeInsets.only(top: 5.0),
         height: 2.0,
         color: Colors.yellowAccent,
       ),
@@ -61,10 +61,10 @@ class _ChapterListViewState extends State<ChapterListView> {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => ReadingScreen(novel: widget.novel, chapter: chapter)));
                 },
                 child: Container(
-                    padding: EdgeInsets.all(5.0),
+                    padding: const EdgeInsets.all(5.0),
                     child:  Text(
                       'Chapter $chapter',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 20.0,
                         color: Colors.white,
                       ),
@@ -79,7 +79,7 @@ class _ChapterListViewState extends State<ChapterListView> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             IconButton(
-              icon: Icon(Icons.arrow_back_ios),
+              icon: const Icon(Icons.arrow_back_ios),
               onPressed: () {
                 setState(() {
                   if (currentPage > 1) {
@@ -90,12 +90,12 @@ class _ChapterListViewState extends State<ChapterListView> {
             ),
             Text(
               '$currentPage/$totalPages', 
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 16.0,
                 color: Colors.white,
               )),
             IconButton(
-              icon: Icon(Icons.arrow_forward_ios),
+              icon: const Icon(Icons.arrow_forward_ios),
               onPressed: () {
                 setState(() {
                   if (currentPage < totalPages) {

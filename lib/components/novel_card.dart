@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:novel_crawl/components/novel_info_view.dart';
 import 'package:novel_crawl/models/novel_detail.dart';
 import 'package:novel_crawl/screens/novelinfoscreen.dart';
 
@@ -34,7 +32,7 @@ class NovelCard extends StatelessWidget {
           Center(
             child: Text(
               novelDetail.tenTruyen,
-              style: TextStyle(color: Colors.white),
+              style: const TextStyle(color: Colors.white),
             ),
           ),
         ],

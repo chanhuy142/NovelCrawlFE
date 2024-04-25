@@ -1,7 +1,5 @@
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:novel_crawl/service/api_service.dart';
 import 'package:novel_crawl/service/state_service.dart';
 
@@ -68,7 +66,7 @@ class _NovelSourcePrioritySelectorState
           for (int index = 0; index < novelSources.length; index += 1)
             ListTile(
               contentPadding:
-                  EdgeInsets.only(left: 20, right: 20, top: 0, bottom: 0),
+                  const EdgeInsets.only(left: 20, right: 20, top: 0, bottom: 0),
               key: Key('$index'),
               title: SourceItem(
                   novelSource: novelSources[index], index: index + 1),
@@ -100,11 +98,11 @@ class SourceItem extends StatelessWidget {
     return Container(
       height: 40,
       decoration: BoxDecoration(
-        color: Color(0xFF3A3E47),
+        color: const Color(0xFF3A3E47),
         shape: BoxShape.rectangle,
         borderRadius: BorderRadius.circular(5),
         border: Border.all(
-          color: Color(0xFF3A3E47),
+          color: const Color(0xFF3A3E47),
           width: 1,
         ),
       ),
@@ -112,13 +110,13 @@ class SourceItem extends StatelessWidget {
         padding: const EdgeInsets.only(left: 15.0, right: 15.0),
         child: Row(
           children: [
-            Text(index.toString() + ' ' + novelSource,
-                style: TextStyle(
+            Text('$index $novelSource',
+                style: const TextStyle(
                   color: Color(0xFFFFFFFF),
                   fontSize: 20,
                 )),
-            Spacer(),
-            Icon(
+            const Spacer(),
+            const Icon(
               Icons.menu,
               color: Color(0xFFFFFFFF),
             )

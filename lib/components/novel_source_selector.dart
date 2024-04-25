@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 import '../service/state_service.dart';
 
@@ -64,7 +63,7 @@ class _NovelSourceSelectorState extends State<NovelSourceSelector> {
                       borderRadius: BorderRadius.circular(15),
                       border: Border.all(
                         color:
-                            index == selectedSource ? Color(0xFFDFD82C) : Colors.transparent,
+                            index == selectedSource ? const Color(0xFFDFD82C) : Colors.transparent,
                         width: 1,
                       ),
                     ),
@@ -75,11 +74,11 @@ class _NovelSourceSelectorState extends State<NovelSourceSelector> {
                           Text(widget.novelSources[index],
                               style: TextStyle(
                                 color: index == selectedSource
-                                    ? Color(0xFFDFD82C)
-                                    : Color(0xFFFFFFFF),
+                                    ? const Color(0xFFDFD82C)
+                                    : const Color(0xFFFFFFFF),
                                 fontSize: 20,
                               )),
-                          Spacer(),
+                          const Spacer(),
                           Visibility(
                             visible: index == selectedSource,
                             child: const Icon(

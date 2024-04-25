@@ -18,7 +18,7 @@ class NovelCardGridView extends StatelessWidget {
       child: GridView.builder(
         shrinkWrap: true,
         itemCount: novelsList.length,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           crossAxisSpacing: 10,
           mainAxisSpacing: 10,

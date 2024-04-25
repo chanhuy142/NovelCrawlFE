@@ -18,7 +18,7 @@ class _TaskBarState extends State<TaskBar> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 60,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -31,7 +31,7 @@ class _TaskBarState extends State<TaskBar> {
             },
             child: Container(
               color: Colors.transparent,
-              child: Column(
+              child: const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -50,9 +50,9 @@ class _TaskBarState extends State<TaskBar> {
                 height: 40,
                 decoration: BoxDecoration(
                     //color: DFD82C
-                    color: Color(0xFFDFD82C),
+                    color: const Color(0xFFDFD82C),
                     borderRadius: BorderRadius.circular(15)),
-                child: Row(
+                child: const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Icon(
@@ -77,7 +77,7 @@ class _TaskBarState extends State<TaskBar> {
             },
             child: Container(
               color: Colors.transparent,
-              child: Column(
+              child: const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
