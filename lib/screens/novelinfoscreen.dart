@@ -14,6 +14,11 @@ class NovelInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(novelDetail.tenTruyen, style: TextStyle(color: Color(0xFFFFFFFF))),
+        backgroundColor: Color(0xFF000000),
+        iconTheme: IconThemeData(color: Color(0xFFFFFFFF)),
+      ),
       backgroundColor: Color(0xFF000000),
       body: Column(
         children: [

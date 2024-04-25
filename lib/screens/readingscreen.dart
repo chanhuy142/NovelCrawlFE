@@ -28,6 +28,8 @@ class _ReadingScreenState extends State<ReadingScreen> {
   var _spacing = 1;
   int chapter = 1;
   List<String> sources = [];  
+  bool _isLoading = true;
+  
   StateService stateService = StateService.instance;
   AllSourceChapterContent allSourceChapterContent = AllSourceChapterContent(chapterContents: []);
 
@@ -79,6 +81,7 @@ class _ReadingScreenState extends State<ReadingScreen> {
   void changeContent(String content) {
     setState(() {
       _content = content;
+      _isLoading = false;
     });
   }
 
@@ -109,6 +112,7 @@ class _ReadingScreenState extends State<ReadingScreen> {
 
   void changeContentWhenChangeChapter(){
     try {
+      _isLoading = true;
       APIService().getChapterContent(widget.novel, chapter).then((value) {
         setState(() {
           allSourceChapterContent = value;
@@ -125,6 +129,7 @@ class _ReadingScreenState extends State<ReadingScreen> {
             }
           }
 
+          _isLoading = false;
 
         });
       
@@ -162,7 +167,28 @@ class _ReadingScreenState extends State<ReadingScreen> {
 
     
     return Scaffold(
-      body: GestureDetector(
+      appBar: AppBar(
+        backgroundColor: Colors.black,  
+        title: Text('Chương ' + chapter.toString() + ' - ' + widget.novel.tenTruyen, style: TextStyle(color: _color)),
+        iconTheme: IconThemeData(color: _color),
+        
+      ),
+      body: _isLoading ? Container(
+        color: Colors.black,
+        height: double.infinity,
+        width: double.infinity,
+        child: SizedBox(
+          width: 50,
+          height: 50,
+          child: Center(
+            child: CircularProgressIndicator(
+              backgroundColor: Colors.black,
+            
+            ),
+          ),
+        ),
+      ) :     
+      GestureDetector(
         child: ReadingView(content: _content, fontSize: _fontSize, fontFamily: _fontFamily, color: _color, spacing: _spacing),
         onTap:() {
           showModalBottom(context);

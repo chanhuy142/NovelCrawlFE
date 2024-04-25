@@ -38,7 +38,7 @@ class _ReadingModalBottomState extends State<ReadingModalBottom> {
         children: [
           GestureDetector(
             onTap: () {
-              //export novel
+              //download novel
             },
             child: Container(
               color: Colors.transparent,
@@ -46,8 +46,8 @@ class _ReadingModalBottomState extends State<ReadingModalBottom> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                Icon(Icons.arrow_back, color: Colors.white,),
-                
+                Icon(Icons.download, color: Colors.white,),
+                Text('Tải về', style: TextStyle(color: Colors.white),)
               ],),
             )
           ),
