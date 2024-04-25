@@ -141,7 +141,16 @@ class _HomePageState extends State<HomePage> {
               height: 12,
             ),
             //GridView
-            NovelCardGridView(novelsList: resultnovels)
+            isLoading ? SizedBox(
+              width: 50,
+              height: 50,
+              child: Center(
+                child: CircularProgressIndicator(
+                  backgroundColor: Colors.black,
+                
+                ),
+              ),
+            ) :      NovelCardGridView(novelsList: resultnovels)
           ],
         ),
       ),
