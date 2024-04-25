@@ -30,7 +30,7 @@ class NovelInfo extends StatelessWidget {
                 DescriptionView(description: novelDetail.description),
                 Container(
                   height: 500,
-                  child: ChapterListView(chapterNumber: novelDetail.numberOfChapters)),
+                  child: ChapterListView(chapterNumber: novelDetail.numberOfChapters, novel: novelDetail)),
                 ],
               ),
             ),

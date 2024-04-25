@@ -142,6 +142,7 @@ class _ReadingScreenState extends State<ReadingScreen> {
 
   @override
   void initState() {
+    chapter = widget.chapter;
     changeContentWhenChangeChapter();
     updateAllState();
     super.initState();

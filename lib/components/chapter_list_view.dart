@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:novel_crawl/models/novel_detail.dart';
+import 'package:novel_crawl/screens/readingscreen.dart';
 
 class ChapterListView extends StatefulWidget {
-  ChapterListView({super.key, required this.chapterNumber});
+  ChapterListView({super.key, required this.chapterNumber, required this.novel});
   int chapterNumber;
+  TruyenDetail novel;
 
 
   @override
@@ -53,15 +56,20 @@ class _ChapterListViewState extends State<ChapterListView> {
             itemCount: 20,
             itemBuilder: (context, index) {
               var chapter = index + 1 + numberChapterPerPage*(currentPage-1);
-              return Container(
-                  padding: EdgeInsets.all(5.0),
-                  child:  Text(
-                    'Chapter $chapter',
-                    style: TextStyle(
-                      fontSize: 20.0,
-                      color: Colors.white,
-                    ),
-                  )
+              return GestureDetector(
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => ReadingScreen(novel: widget.novel, chapter: chapter)));
+                },
+                child: Container(
+                    padding: EdgeInsets.all(5.0),
+                    child:  Text(
+                      'Chapter $chapter',
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        color: Colors.white,
+                      ),
+                    )
+                ),
               );
             },
           ),
