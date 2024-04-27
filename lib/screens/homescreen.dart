@@ -7,6 +7,7 @@ import 'package:novel_crawl/models/novel_detail.dart';
 import 'package:novel_crawl/service/api_service.dart';
 
 import '../components/novel_card_grid_view.dart';
+import '../util/search_standardize.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -45,6 +46,8 @@ class _HomePageState extends State<HomePage> {
         resultnovels = library.truyenDetail;
       });
     } else {
+      value = SearchStandardize.standardize(value);
+      print(value);
       setState(() {
         isLoading = true;
       });
@@ -103,7 +106,8 @@ class _HomePageState extends State<HomePage> {
                       height: 50,
                       child: TextField(
                         controller: _searchController,
-                        onSubmitted: (value) => search(value),
+                        onSubmitted: (value) => search(
+                            value), //this will handle the search logic, change here
                         style: TextStyle(color: Color(0xFF83899F)),
                         decoration: InputDecoration(
                           isDense: true, // Added this
