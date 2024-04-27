@@ -126,7 +126,6 @@ class _ReadingScreenState extends State<ReadingScreen> {
           if(value.chapterContents.isEmpty) {
             throw Exception('Lỗi không thể tải nội dung chương truyện.');
           }
-          
           for(var source in sources) {
             if(allSourceChapterContent.chapterContents.where((element) => element.source == source).isNotEmpty) {
               changeContent(allSourceChapterContent.chapterContents.where((element) => element.source == source).first.content);

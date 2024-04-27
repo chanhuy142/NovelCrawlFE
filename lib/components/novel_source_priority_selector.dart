@@ -20,34 +20,12 @@ class _NovelSourcePrioritySelectorState
   @override
   void initState() {
     // TODO: implement initState
+    stateService.checkSourcesInDB();
     stateService.getSources().then((value) {
       setState(() {
         novelSources = value;
       });
-      APIService().getAllSources().then((value) => {
-          setState(() {
-            bool isDifferent = false;
-            if (novelSources.length != value.length) {
-              isDifferent = true;
-            } else {
-              for (int i = 0; i < novelSources.length; i++) {
-                if (!novelSources.contains(value[i]) ||
-                    !value.contains(novelSources[i])) {
-                  isDifferent = true;
-                  print('Different');
-                  break;
-                }
-              }
-            }
-
-            if (isDifferent) {
-              novelSources = value;
-              stateService.saveSources(novelSources);
-            }
-          })
-        });
     });
-    
     super.initState();
   }
   @override

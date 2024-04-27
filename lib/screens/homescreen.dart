@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-
 import 'package:flutter/material.dart';
 import 'package:novel_crawl/models/library.dart';
 import 'package:novel_crawl/models/novel_detail.dart';
@@ -8,6 +7,7 @@ import 'package:novel_crawl/models/novel_detail.dart';
 import 'package:novel_crawl/service/api_service.dart';
 
 import '../components/novel_card_grid_view.dart';
+import '../service/state_service.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -21,7 +21,7 @@ class _HomePageState extends State<HomePage> {
   final APIService apiService = APIService();
   static Library library = Library(truyenDetail: []);
   static bool isLoading = false;
-
+  final StateService stateService = StateService.instance;
   List<TruyenDetail> resultnovels = [];
 //search function
   void search(String value) {
@@ -48,16 +48,18 @@ class _HomePageState extends State<HomePage> {
       //get api service
       isLoading = true;
       apiService.getNovelDetails().then((value) {
-          library.copyFrom(value);
-          print(library.truyenDetail.length);
-          if(mounted){
-            setState(() {
-              resultnovels = library.truyenDetail;
-              isLoading = false;
-            });
-          }
+        library.copyFrom(value);
+        print(library.truyenDetail.length);
+        if (mounted) {
+          setState(() {
+            resultnovels = library.truyenDetail;
+            isLoading = false;
+          });
+        }
       });
     }
+
+    stateService.checkSourcesInDB();
     super.initState();
   }
 
@@ -140,16 +142,17 @@ class _HomePageState extends State<HomePage> {
               height: 12,
             ),
             //GridView
-            isLoading ? SizedBox(
-              width: 50,
-              height: 50,
-              child: Center(
-                child: CircularProgressIndicator(
-                  backgroundColor: Colors.black,
-                
-                ),
-              ),
-            ) :      NovelCardGridView(novelsList: resultnovels)
+            isLoading
+                ? SizedBox(
+                    width: 50,
+                    height: 50,
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        backgroundColor: Colors.black,
+                      ),
+                    ),
+                  )
+                : NovelCardGridView(novelsList: resultnovels)
           ],
         ),
       ),

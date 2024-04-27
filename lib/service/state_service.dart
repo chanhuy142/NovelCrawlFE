@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'api_service.dart';
 import 'hive_service.dart';
 import 'package:flutter/material.dart';
 
@@ -100,5 +101,26 @@ class StateService{
 
   Future closeService() async {
     await hiveService.closeBox();
+  }
+
+  Future checkSourcesInDB() async {
+    List<String> novelSourcesDB = await getSources();
+    List<String> novelSourcesAPI = await APIService().getAllSources();
+    bool isDifferent = false;
+    if (novelSourcesDB.length != novelSourcesAPI.length) {
+      isDifferent = true;
+    } else {
+      for (int i = 0; i < novelSourcesDB.length; i++) {
+        if (!novelSourcesDB.contains(novelSourcesAPI[i]) ||
+            !novelSourcesAPI.contains(novelSourcesDB[i])) {
+          isDifferent = true;
+          break;
+        }
+      }
+    }
+    if (isDifferent) {
+      novelSourcesDB = novelSourcesAPI;
+      saveSources(novelSourcesDB);
+    }
   }
 }
