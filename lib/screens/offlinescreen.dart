@@ -1,21 +1,33 @@
 import 'package:flutter/material.dart';
 
+import '../components/novel_card_grid_view.dart';
+import '../models/novel_detail.dart';
+
 class OfflinePage extends StatelessWidget {
-  const OfflinePage({super.key});
+  OfflinePage({super.key});
+
+  final List<TruyenDetail> novelsList = [];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      body: Center(
-        child: Text(
-          'Offline',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 30,
-            fontWeight: FontWeight.bold,
+      body: Padding(
+        padding: //top padding
+            const EdgeInsets.only(top: 35),
+        child: 
+          Column(
+            children: [
+              const Text(
+                'Truyện đã tải xuống',
+                style: TextStyle(
+                    color: Color(0xFF83899F),
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold),
+              ),
+              NovelCardGridView(novelsList: novelsList)
+            ],
           ),
-        ),
       ),
     );
   }

@@ -14,10 +14,10 @@ class NavigationScreen extends StatefulWidget {
 class _NavigationScreenState extends State<NavigationScreen> {
   int _selectedIndex = 0;
   final List<Widget> _widgetOptions = <Widget>[
-    HomePage(),
+    const HomePage(),
     HistoryPage(),
     OfflinePage(),
-    SettingPage(),
+    const SettingPage(),
   ];
   @override
   Widget build(BuildContext context) {

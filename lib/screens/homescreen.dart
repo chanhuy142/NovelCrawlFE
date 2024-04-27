@@ -1,12 +1,12 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
-
-import 'package:novel_crawl/components/novel_card.dart';
 import 'package:novel_crawl/models/library.dart';
 import 'package:novel_crawl/models/novel_detail.dart';
 //import api service
 import 'package:novel_crawl/service/api_service.dart';
+
+import '../components/novel_card_grid_view.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -18,11 +18,13 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   //get library from api service
   final APIService apiService = APIService();
-  Library library = Library(truyenDetail: []);
-
+  static Library library = Library(truyenDetail: []);
+  static bool isLoading = false;
+  //text controller
+  final TextEditingController _searchController = TextEditingController();
   List<TruyenDetail> resultnovels = [];
 //search function
-  void search(String value) {
+  void oldsearch(String value) {
     if (value.isEmpty) {
       setState(() {
         resultnovels = library.truyenDetail;
@@ -37,19 +39,43 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  void search(String value) {
+    if (value.isEmpty) {
+      setState(() {
+        resultnovels = library.truyenDetail;
+      });
+    } else {
+      setState(() {
+        isLoading = true;
+      });
+      APIService().getSearchedNovelDetails(value).then((result) {
+        setState(() {
+          resultnovels = result.truyenDetail;
+          isLoading = false;
+        });
+      });
+    }
+  }
+
   //on init
   @override
   void initState() {
     resultnovels = library.truyenDetail;
-    
-    //get api service
-    apiService.getNovelDetails().then((value) {
-      setState(() {
-        library = value;
-        resultnovels = library.truyenDetail;
+
+    if (library.truyenDetail.isEmpty && !isLoading) {
+      //get api service
+      isLoading = true;
+      apiService.getNovelDetails().then((value) {
+        library.copyFrom(value);
+        print(library.truyenDetail.length);
+        if (mounted) {
+          setState(() {
+            resultnovels = library.truyenDetail;
+            isLoading = false;
+          });
+        }
       });
-      
-    });
+    }
     super.initState();
   }
 
@@ -76,7 +102,8 @@ class _HomePageState extends State<HomePage> {
                     child: SizedBox(
                       height: 50,
                       child: TextField(
-                        onChanged: (value) => search(value),
+                        controller: _searchController,
+                        onSubmitted: (value) => search(value),
                         style: TextStyle(color: Color(0xFF83899F)),
                         decoration: InputDecoration(
                           isDense: true, // Added this
@@ -94,10 +121,15 @@ class _HomePageState extends State<HomePage> {
                             borderRadius: BorderRadius.circular(20),
                             borderSide: BorderSide(color: Color(0xFF2A2D3E)),
                           ),
-                          suffixIcon: Icon(
-                            Icons.search,
-                            size: 30,
-                            color: Color(0xFFDFD82C),
+                          suffixIcon: GestureDetector(
+                            onTap: () {
+                              search(_searchController.text);
+                            },
+                            child: Icon(
+                              Icons.search,
+                              size: 30,
+                              color: Color(0xFFDFD82C),
+                            ),
                           ),
                         ),
                       ),
@@ -132,23 +164,17 @@ class _HomePageState extends State<HomePage> {
               height: 12,
             ),
             //GridView
-            Expanded(
-              child: GridView.builder(
-                shrinkWrap: true,
-                itemCount: resultnovels.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                  childAspectRatio: 2 / 3,
-                ),
-                itemBuilder: (context, index) {
-                  return NovelCard(
-                    novelDetail: resultnovels[index],
-                  );
-                },
-              ),
-            )
+            isLoading
+                ? SizedBox(
+                    width: 50,
+                    height: 50,
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        backgroundColor: Colors.black,
+                      ),
+                    ),
+                  )
+                : NovelCardGridView(novelsList: resultnovels)
           ],
         ),
       ),
