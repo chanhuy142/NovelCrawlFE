@@ -11,12 +11,21 @@ class APIService {
   AllSourceChapterContent allSourceChapterContentFromJson(String str) =>
       AllSourceChapterContent.fromJson(jsonDecode(str));
 
-  String localhost = 'http://192.168.1.7:3000';
+  String localhost = 'http://192.168.0.104:3000';
   //send to http://localhost/details
   //port 3000
   Future<Library> getNovelDetails() async {
+    final response = await http.get(Uri.parse('$localhost/details'));
+    if (response.statusCode == 200) {
+      return libraryFromJson(response.body);
+    } else {
+      throw Exception('Failed to load novel details');
+    }
+  }
+
+  Future<Library> getSearchedNovelDetails(String search) async {
     final response =
-        await http.get(Uri.parse('$localhost/details'));
+        await http.get(Uri.parse('$localhost/search?keyword=$search'));
     if (response.statusCode == 200) {
       return libraryFromJson(response.body);
     } else {
@@ -29,20 +38,21 @@ class APIService {
 
   Future<AllSourceChapterContent> getChapterContent(
       TruyenDetail novel, int chapter) async {
-    String request = '$localhost/?tentruyen=${SignedToUnsinged.standardizeName(novel.tenTruyen)}&chapter=$chapter';
-    final response = await http.get(Uri.parse(
-        request));
+    String request =
+        '$localhost/?tentruyen=${SignedToUnsinged.standardizeName(novel.tenTruyen)}&chapter=$chapter';
+    final response = await http.get(Uri.parse(request));
 
     if (response.statusCode == 200) {
-  
       var contentList = allSourceChapterContentFromJson(response.body);
-      AllSourceChapterContent res = AllSourceChapterContent(chapterContents: []);
-      for(int i = 0; i < contentList.chapterContents.length; i++){
-          if(contentList.chapterContents[i].content != null && contentList.chapterContents[i].content != ""){
-            res.chapterContents.add(contentList.chapterContents[i]);
-          }
+      AllSourceChapterContent res =
+          AllSourceChapterContent(chapterContents: []);
+      for (int i = 0; i < contentList.chapterContents.length; i++) {
+        if (contentList.chapterContents[i].content != null &&
+            contentList.chapterContents[i].content != "") {
+          res.chapterContents.add(contentList.chapterContents[i]);
+        }
       }
-      
+
       return res;
     } else {
       throw Exception('Lỗi không thể tải nội dung chương truyện.');
@@ -50,8 +60,7 @@ class APIService {
   }
 
   Future<List<String>> getAllSources() async {
-    final response =
-        await http.get(Uri.parse('$localhost/source'));
+    final response = await http.get(Uri.parse('$localhost/source'));
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
       var res = List<String>.from(json["TruyenSource"].map((x) => x));

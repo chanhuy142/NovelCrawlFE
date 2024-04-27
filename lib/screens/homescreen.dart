@@ -8,6 +8,7 @@ import 'package:novel_crawl/service/api_service.dart';
 
 import '../components/novel_card_grid_view.dart';
 import '../service/state_service.dart';
+import '../util/search_standardize.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -22,9 +23,11 @@ class _HomePageState extends State<HomePage> {
   static Library library = Library(truyenDetail: []);
   static bool isLoading = false;
   final StateService stateService = StateService.instance;
+  //text controller
+  final TextEditingController _searchController = TextEditingController();
   List<TruyenDetail> resultnovels = [];
 //search function
-  void search(String value) {
+  void oldsearch(String value) {
     if (value.isEmpty) {
       setState(() {
         resultnovels = library.truyenDetail;
@@ -35,6 +38,26 @@ class _HomePageState extends State<HomePage> {
             .where((element) =>
                 element.tenTruyen.toLowerCase().contains(value.toLowerCase()))
             .toList();
+      });
+    }
+  }
+
+  void search(String value) {
+    if (value.isEmpty) {
+      setState(() {
+        resultnovels = library.truyenDetail;
+      });
+    } else {
+      value = SearchStandardize.standardize(value);
+      print(value);
+      setState(() {
+        isLoading = true;
+      });
+      APIService().getSearchedNovelDetails(value).then((result) {
+        setState(() {
+          resultnovels = result.truyenDetail;
+          isLoading = false;
+        });
       });
     }
   }
@@ -86,7 +109,9 @@ class _HomePageState extends State<HomePage> {
                     child: SizedBox(
                       height: 50,
                       child: TextField(
-                        onChanged: (value) => search(value),
+                        controller: _searchController,
+                        onSubmitted: (value) => search(
+                            value), //this will handle the search logic, change here
                         style: TextStyle(color: Color(0xFF83899F)),
                         decoration: InputDecoration(
                           isDense: true, // Added this
@@ -104,10 +129,15 @@ class _HomePageState extends State<HomePage> {
                             borderRadius: BorderRadius.circular(20),
                             borderSide: BorderSide(color: Color(0xFF2A2D3E)),
                           ),
-                          suffixIcon: Icon(
-                            Icons.search,
-                            size: 30,
-                            color: Color(0xFFDFD82C),
+                          suffixIcon: GestureDetector(
+                            onTap: () {
+                              search(_searchController.text);
+                            },
+                            child: Icon(
+                              Icons.search,
+                              size: 30,
+                              color: Color(0xFFDFD82C),
+                            ),
                           ),
                         ),
                       ),
