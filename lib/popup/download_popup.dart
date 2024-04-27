@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:novel_crawl/models/novel_detail.dart';
 
 class DownloadPopup extends StatefulWidget {
@@ -18,15 +17,15 @@ class _DownloadPopupState extends State<DownloadPopup> {
   Widget build(BuildContext context) {
     return AlertDialog(
       backgroundColor: Colors.black,
-      title: Center(child: Text('Tải truyện', style: TextStyle(color: Colors.white),)),
+      title: const Center(child: Text('Tải truyện', style: TextStyle(color: Colors.white),)),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           TextField(
             controller: _startChapterController,
             keyboardType: TextInputType.number,
-            style: TextStyle(color: Colors.white),
-            decoration: InputDecoration(
+            style: const TextStyle(color: Colors.white),
+            decoration: const InputDecoration(
               hintText: 'Từ chương',
               hintStyle: TextStyle(color: Colors.white)
             ),
@@ -34,8 +33,8 @@ class _DownloadPopupState extends State<DownloadPopup> {
           TextField(
             controller: _endChapterController,
             keyboardType: TextInputType.number,
-            style: TextStyle(color: Colors.white),
-            decoration: InputDecoration(
+            style: const TextStyle(color: Colors.white),
+            decoration: const InputDecoration(
               hintText: 'Đến chương',
               hintStyle: TextStyle(color: Colors.white)
             ),
@@ -47,13 +46,13 @@ class _DownloadPopupState extends State<DownloadPopup> {
           onPressed: () {
             Navigator.of(context).pop();
           },
-          child: Text('Hủy', style: TextStyle(color: Colors.white),),
+          child: const Text('Hủy', style: TextStyle(color: Colors.white),),
         ),
         TextButton(
           onPressed: () {
             //download novel
           },
-          child: Text('Tải về', style: TextStyle(color: Colors.white),),
+          child: const Text('Tải về', style: TextStyle(color: Colors.white),),
         )
       ],
     );

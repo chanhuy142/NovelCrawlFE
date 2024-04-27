@@ -47,8 +47,7 @@ class APIService {
       AllSourceChapterContent res =
           AllSourceChapterContent(chapterContents: []);
       for (int i = 0; i < contentList.chapterContents.length; i++) {
-        if (contentList.chapterContents[i].content != null &&
-            contentList.chapterContents[i].content != "") {
+        if (contentList.chapterContents[i].content != "") {
           res.chapterContents.add(contentList.chapterContents[i]);
         }
       }

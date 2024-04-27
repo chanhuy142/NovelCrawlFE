@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:novel_crawl/models/novel_detail.dart';
 import 'package:novel_crawl/popup/download_popup.dart';

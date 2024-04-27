@@ -1,6 +1,5 @@
 
 import 'package:flutter/material.dart';
-import 'package:novel_crawl/service/api_service.dart';
 import 'package:novel_crawl/service/state_service.dart';
 
 class NovelSourcePrioritySelector extends StatefulWidget {

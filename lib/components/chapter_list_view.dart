@@ -64,7 +64,7 @@ class _ChapterListViewState extends State<ChapterListView> {
                     padding: const EdgeInsets.all(5.0),
                     child:  Text(
                       'Chương $chapter',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 20.0,
                         color: Colors.white,
                       ),  
