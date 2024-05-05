@@ -1,5 +1,9 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:novel_crawl/models/novel_detail.dart';
+import 'package:novel_crawl/service/api_service.dart';
+import 'package:novel_crawl/service/file_service.dart';
 
 class DownloadPopup extends StatefulWidget {
   const DownloadPopup({super.key, required this.novel});
@@ -13,6 +17,21 @@ class DownloadPopup extends StatefulWidget {
 class _DownloadPopupState extends State<DownloadPopup> {
   final  _startChapterController = TextEditingController();
   final _endChapterController = TextEditingController();
+  final APIService apiService = APIService();
+  Future<void> downloadNovel() async {
+    int startChapter = int.parse(_startChapterController.text);
+    int endChapter = int.parse(_endChapterController.text);
+    for(int i = startChapter; i <= endChapter; i++){
+      await apiService.getChapterContent(widget.novel, i).then((value){
+        FileService.instance.saveNovelImage(widget.novel.tenTruyen, widget.novel.cover);
+        FileService.instance.addANovelDetail(widget.novel).then((_){
+          FileService.instance.saveChapter(widget.novel.tenTruyen, '$i', value);
+        });
+      });
+      
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -50,7 +69,31 @@ class _DownloadPopupState extends State<DownloadPopup> {
         ),
         TextButton(
           onPressed: () {
-            //download novel
+            try{
+              if(_startChapterController.text.isEmpty || _endChapterController.text.isEmpty){
+                return;
+              }
+              int startChapter = int.parse(_startChapterController.text);
+              int endChapter = int.parse(_endChapterController.text);
+              if(startChapter < 1 || endChapter > widget.novel.numberOfChapters){
+                _startChapterController.text = '1';
+                _endChapterController.text = min(widget.novel.numberOfChapters, 10).toString();
+                return;
+              }
+              if(startChapter > endChapter){
+                _endChapterController.text = startChapter.toString();
+                return;
+              }
+              if(endChapter - startChapter > 10){
+                _endChapterController.text = min(widget.novel.numberOfChapters, startChapter + 10).toString();
+                return;
+              }
+              downloadNovel();
+              Navigator.of(context).pop();
+            } catch (e) {
+              print(e);
+            }
+            Navigator.of(context).pop();
           },
           child: const Text('Tải về', style: TextStyle(color: Colors.white),),
         )

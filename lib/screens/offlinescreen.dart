@@ -1,13 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:novel_crawl/service/file_service.dart';
 
 import '../components/novel_card_grid_view.dart';
 import '../models/novel_detail.dart';
 
-class OfflinePage extends StatelessWidget {
+class OfflinePage extends StatefulWidget {
   OfflinePage({super.key});
 
-  final List<TruyenDetail> novelsList = [];
+  @override
+  State<OfflinePage> createState() => _OfflinePageState();
+}
 
+class _OfflinePageState extends State<OfflinePage> {
+  List<TruyenDetail> novelsList = [];
+  @override
+  void initState() {
+    // TODO: implement initState
+    FileService.instance.getNovelList().then((value) {
+      setState(() {
+        novelsList = value;
+      });
+    });
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

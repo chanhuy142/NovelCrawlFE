@@ -5,6 +5,7 @@ import 'package:novel_crawl/models/library.dart';
 import 'package:novel_crawl/models/novel_detail.dart';
 //import api service
 import 'package:novel_crawl/service/api_service.dart';
+import 'package:novel_crawl/service/file_service.dart';
 
 import '../components/novel_card_grid_view.dart';
 import '../service/state_service.dart';
@@ -83,6 +84,7 @@ class _HomePageState extends State<HomePage> {
     }
 
     stateService.checkSourcesInDB();
+    FileService.instance.init();
     super.initState();
   }
 

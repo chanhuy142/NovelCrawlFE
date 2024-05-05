@@ -53,7 +53,7 @@ class _ChapterListViewState extends State<ChapterListView> {
         
         Expanded(
           child: ListView.builder(
-            itemCount: 20,
+            itemCount: currentPage == totalPages ? chapterNumber%numberChapterPerPage : numberChapterPerPage,
             itemBuilder: (context, index) {
               var chapter = index + 1 + numberChapterPerPage*(currentPage-1);
               return GestureDetector(

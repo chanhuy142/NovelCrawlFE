@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:novel_crawl/models/novel_detail.dart';
 import 'package:novel_crawl/popup/download_popup.dart';
 import 'package:novel_crawl/screens/readingscreen.dart';
+import 'package:novel_crawl/service/file_service.dart';
 import 'package:novel_crawl/service/history_service.dart';
 
 class TaskBar extends StatefulWidget {
