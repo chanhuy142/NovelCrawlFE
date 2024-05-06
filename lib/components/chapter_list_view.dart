@@ -3,9 +3,10 @@ import 'package:novel_crawl/models/novel_detail.dart';
 import 'package:novel_crawl/screens/readingscreen.dart';
 
 class ChapterListView extends StatefulWidget {
-  ChapterListView({super.key, required this.chapterNumber, required this.novel});
+  ChapterListView({super.key, required this.chapterNumber, required this.novel, required this.isOffline});
   int chapterNumber;
   TruyenDetail novel;
+  bool isOffline;
 
 
   @override
@@ -58,7 +59,7 @@ class _ChapterListViewState extends State<ChapterListView> {
               var chapter = index + 1 + numberChapterPerPage*(currentPage-1);
               return GestureDetector(
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => ReadingScreen(novel: widget.novel, chapter: chapter)));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => ReadingScreen(novel: widget.novel, chapter: chapter, isOffline: widget.isOffline,)));
                 },
                 child: Container(
                     padding: const EdgeInsets.all(5.0),

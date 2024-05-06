@@ -44,7 +44,7 @@ class _HistoryPageState extends State<HistoryPage> {
                     fontSize: 20,
                     fontWeight: FontWeight.bold),
               ),
-              NovelCardGridView(novelsList: novelsList)
+              NovelCardGridView(novelsList: novelsList, isOffline: false)
             ],
           ),
       ),

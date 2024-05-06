@@ -4,8 +4,9 @@ import 'package:novel_crawl/screens/novelinfoscreen.dart';
 import 'package:novel_crawl/service/file_service.dart';
 
 class NovelCard extends StatefulWidget {
-  NovelCard({super.key, required this.novelDetail});
-  TruyenDetail novelDetail;
+  NovelCard({super.key, required this.novelDetail,required this.isOffline});
+  final TruyenDetail novelDetail;
+  final bool isOffline;
 
   @override
   State<NovelCard> createState() => _NovelCardState();
@@ -32,7 +33,7 @@ class _NovelCardState extends State<NovelCard> {
       onTap: () {
         //message scaffold
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => NovelInfo(novelDetail: widget.novelDetail,))
+            MaterialPageRoute(builder: (context) => NovelInfo(novelDetail: widget.novelDetail, isOffline: widget.isOffline,))
         );
 
         

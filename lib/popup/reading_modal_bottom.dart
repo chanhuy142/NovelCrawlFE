@@ -1,16 +1,20 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:novel_crawl/components/novel_source_selector.dart';
 import 'package:novel_crawl/models/novel_detail.dart';
 import 'package:novel_crawl/popup/download_popup.dart';
 import 'package:novel_crawl/screens/settingscreen.dart';
+import 'package:novel_crawl/service/file_service.dart';
 
 class ReadingModalBottom extends StatefulWidget {
-  const ReadingModalBottom({super.key, required this.currentChapter, required this.novel, required this.onChapterChanged, required this.sources, required this.onUpdated});
+  const ReadingModalBottom({super.key, required this.currentChapter, required this.novel, required this.onChapterChanged, required this.sources, required this.onUpdated, required this.isOffline});
   final int currentChapter;
   final TruyenDetail novel;
   final ValueChanged<int> onChapterChanged;
   final List<String> sources;
   final Function() onUpdated;
+  final bool isOffline;
   @override
   State<ReadingModalBottom> createState() => _ReadingModalBottomState();
 }
@@ -18,6 +22,15 @@ class ReadingModalBottom extends StatefulWidget {
 class _ReadingModalBottomState extends State<ReadingModalBottom> {
   int currentChapter = 1;
   int totalChapter = 1;
+
+  FileService fileService = FileService.instance;
+
+  void changeChapter(int chapter){
+    setState(() {
+      currentChapter = chapter;
+    });
+  }
+
 
   @override
   void initState() {
@@ -33,6 +46,54 @@ class _ReadingModalBottomState extends State<ReadingModalBottom> {
         return DownloadPopup(novel: widget.novel,);
       }
     );
+  }
+
+  void getNextChapter(){
+    setState(() {
+      if(widget.isOffline){
+        fileService.getChapterList(widget.novel.tenTruyen).then((value) {
+          if(currentChapter < int.parse(value.last)){
+            for(int i = 0; i < value.length; i++){
+              if(int.parse(value[i]) == currentChapter){
+                currentChapter = int.parse(value[i+1]);
+                widget.onChapterChanged(currentChapter);
+                break;
+              }
+            }
+          }
+        });
+      }
+      else{
+        if(currentChapter < totalChapter){
+          changeChapter(currentChapter + 1);
+          widget.onChapterChanged(currentChapter);
+        }
+      }
+    });
+  }
+
+  void getPreviousChapter(){
+    setState(() {
+      if(widget.isOffline){
+        fileService.getChapterList(widget.novel.tenTruyen).then((value) {
+          if(currentChapter > int.parse(value.first)){
+            for(int i = 0; i < value.length; i++){
+              if(int.parse(value[i]) == currentChapter){
+                changeChapter(int.parse(value[i-1]));
+                widget.onChapterChanged(currentChapter);
+                break;
+              }
+            }
+          }
+        });
+      }
+      else{
+        if(currentChapter > 1){
+          changeChapter(currentChapter - 1);
+          widget.onChapterChanged(currentChapter);
+        }
+      }
+    });
   }
 
   @override
@@ -67,12 +128,7 @@ class _ReadingModalBottomState extends State<ReadingModalBottom> {
             IconButton(
               icon: const Icon(Icons.arrow_back_ios),
               onPressed: () {
-                setState(() {
-                  if (currentChapter > 1) {
-                    currentChapter -= 1;
-                    widget.onChapterChanged(currentChapter);
-                  }
-                });
+                getPreviousChapter();
               },
             ),
             Text(
@@ -84,12 +140,7 @@ class _ReadingModalBottomState extends State<ReadingModalBottom> {
             IconButton(
               icon: const Icon(Icons.arrow_forward_ios),
               onPressed: () {
-                setState(() {
-                  if (currentChapter < totalChapter) {
-                    currentChapter += 1;
-                    widget.onChapterChanged(currentChapter);
-                  }
-                });
+                getNextChapter();
               },
             ),
           ],

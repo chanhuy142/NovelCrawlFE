@@ -8,9 +8,11 @@ class NovelCardGridView extends StatelessWidget {
   const NovelCardGridView({
     super.key,
     required this.novelsList,
+    required this.isOffline,
   });
 
   final List<TruyenDetail> novelsList;
+  final bool isOffline;
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +29,7 @@ class NovelCardGridView extends StatelessWidget {
         itemBuilder: (context, index) {
           return NovelCard(
             novelDetail: novelsList[index],
+            isOffline: isOffline,
           );
         },
       ),

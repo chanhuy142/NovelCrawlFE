@@ -6,8 +6,9 @@ import 'package:novel_crawl/service/file_service.dart';
 import 'package:novel_crawl/service/history_service.dart';
 
 class TaskBar extends StatefulWidget {
-  const TaskBar({super.key, required this.novel});
+  const TaskBar({super.key, required this.novel, required this.isOffline});
   final TruyenDetail novel;
+  final bool isOffline;
 
   @override
   State<TaskBar> createState() => _TaskBarState();
@@ -35,7 +36,7 @@ class _TaskBarState extends State<TaskBar> {
     HistoryService.instance.getCurrentChapter(novel.tenTruyen).then((value){
       setState(() {
         currentChapter = value;
-        Navigator.push(context, MaterialPageRoute(builder: (context) => ReadingScreen(novel: novel, chapter: currentChapter)));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => ReadingScreen(novel: novel, chapter: currentChapter, isOffline: widget.isOffline,)));
       });
     });
   }

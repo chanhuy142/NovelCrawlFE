@@ -40,7 +40,7 @@ class _OfflinePageState extends State<OfflinePage> {
                     fontSize: 20,
                     fontWeight: FontWeight.bold),
               ),
-              NovelCardGridView(novelsList: novelsList)
+              NovelCardGridView(novelsList: novelsList, isOffline: true)
             ],
           ),
       ),

@@ -150,6 +150,8 @@ class FileService {
       await chapterListFile.create();
     }
     List<String> chapterList = await chapterListFile.readAsLines();
+    //sort chapterList in ascending order
+    chapterList.sort((a, b) => int.parse(a).compareTo(int.parse(b)));
     return chapterList;
   }
 

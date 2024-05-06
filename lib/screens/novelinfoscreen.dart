@@ -6,8 +6,9 @@ import 'package:novel_crawl/components/task_bar.dart';
 import 'package:novel_crawl/models/novel_detail.dart';
 
 class NovelInfo extends StatelessWidget {
-  const NovelInfo({super.key, required this.novelDetail});
+  const NovelInfo({super.key, required this.novelDetail, this.isOffline = false});
   final TruyenDetail novelDetail;
+  final bool isOffline;
 
   @override
   Widget build(BuildContext context) {
@@ -28,12 +29,12 @@ class NovelInfo extends StatelessWidget {
                 DescriptionView(description: novelDetail.description),
                 SizedBox(
                   height: 500,
-                  child: ChapterListView(chapterNumber: novelDetail.numberOfChapters, novel: novelDetail)),
+                  child: ChapterListView(chapterNumber: novelDetail.numberOfChapters, novel: novelDetail, isOffline: isOffline,)),
                 ],
               ),
             ),
           ),
-          TaskBar(novel: novelDetail),
+          TaskBar(novel: novelDetail, isOffline: isOffline),
         ],
       )
     );

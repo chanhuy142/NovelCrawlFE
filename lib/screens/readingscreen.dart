@@ -4,13 +4,15 @@ import 'package:novel_crawl/models/content_from_all_source.dart';
 import 'package:novel_crawl/models/novel_detail.dart';
 import 'package:novel_crawl/popup/reading_modal_bottom.dart';
 import 'package:novel_crawl/service/api_service.dart';
+import 'package:novel_crawl/service/file_service.dart';
 import 'package:novel_crawl/service/history_service.dart';
 import 'package:novel_crawl/service/state_service.dart';
 
 class ReadingScreen extends StatefulWidget {
-  const ReadingScreen({super.key, required this.novel, required this.chapter});
+  const ReadingScreen({super.key, required this.novel, required this.chapter, required this.isOffline});
   final TruyenDetail novel;
   final int chapter;
+  final bool isOffline;
 
 
 
@@ -31,6 +33,10 @@ class _ReadingScreenState extends State<ReadingScreen> {
   
   StateService stateService = StateService.instance;
   AllSourceChapterContent allSourceChapterContent = AllSourceChapterContent(chapterContents: []);
+
+  FileService fileService = FileService.instance;
+  
+
 
   @override
   void dispose() {
@@ -115,30 +121,51 @@ class _ReadingScreenState extends State<ReadingScreen> {
     });
   }
 
+  void selectContentFromPrioritySource(){
+    for(var source in sources) {
+      if(allSourceChapterContent.chapterContents.where((element) => element.source == source).isNotEmpty) {
+        changeContent(allSourceChapterContent.chapterContents.where((element) => element.source == source).first.content);
+        stateService.saveSelectedSource(source);
+        break;
+      }
+    }
+  }
 
   void changeContentWhenChangeChapter(){
     try {
       _isLoading = true;
-      APIService().getChapterContent(widget.novel, chapter).then((value) {
+      if(widget.isOffline){
+        fileService.getChapterContent(widget.novel, chapter).then((value) {
+          setState(() {
+            allSourceChapterContent = value;
+            if(value.chapterContents.isEmpty) {
+              throw Exception('Lỗi không thể tải nội dung chương truyện.');
+            }
+          
+            selectContentFromPrioritySource();
+
+            _isLoading = false;
+          }
+          );
+        });
+      }
+      else {
+        APIService().getChapterContent(widget.novel, chapter).then((value) {
         setState(() {
           allSourceChapterContent = value;
 
           if(value.chapterContents.isEmpty) {
             throw Exception('Lỗi không thể tải nội dung chương truyện.');
           }
-          for(var source in sources) {
-            if(allSourceChapterContent.chapterContents.where((element) => element.source == source).isNotEmpty) {
-              changeContent(allSourceChapterContent.chapterContents.where((element) => element.source == source).first.content);
-              stateService.saveSelectedSource(source);
-              break;
-            }
-          }
+
+          selectContentFromPrioritySource();
 
           _isLoading = false;
 
         });
       
       });
+      }
     } catch (e) {
       print(e);
     }
@@ -159,7 +186,7 @@ class _ReadingScreenState extends State<ReadingScreen> {
       context: context,
       builder: (BuildContext context) {
         return ReadingModalBottom(currentChapter: chapter, novel: widget.novel, onChapterChanged: onChapterChanged, 
-        sources: allSourceChapterContent.chapterContents.map((e) => e.source).toList(), onUpdated: updateAllState);
+        sources: allSourceChapterContent.chapterContents.map((e) => e.source).toList(), onUpdated: updateAllState, isOffline: widget.isOffline,);
           
       }
     );

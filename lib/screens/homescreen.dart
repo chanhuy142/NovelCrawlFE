@@ -184,7 +184,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                   )
-                : NovelCardGridView(novelsList: resultnovels)
+                : NovelCardGridView(novelsList: resultnovels, isOffline: false,)
           ],
         ),
       ),
