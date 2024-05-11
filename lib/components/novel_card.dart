@@ -48,13 +48,26 @@ class _NovelCardState extends State<NovelCard> {
               child: image
             ),
           )),
-          Center(
-            child: Text(
-              widget.novelDetail.tenTruyen,
-              style: const TextStyle(color: Colors.white, height: 3, fontFamily: 'Exo2', fontWeight: FontWeight.bold),
-              overflow: TextOverflow.ellipsis,
+          Container(
+            margin: const EdgeInsets.only(top: 5),
+            child: Center(
+              child: Text(
+                widget.novelDetail.tenTruyen,
+                style: const TextStyle(color: Colors.white, fontSize: 16 , height: 1, fontFamily: 'Montserrat', fontWeight: FontWeight.bold),
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
           ),
+           Container(
+            margin: const EdgeInsets.only(top: 5),
+             child: Center(
+              child: Text(
+                widget.novelDetail.author,
+                style: const TextStyle(color: Colors.white, height: 1, fontFamily: 'Montserrat', fontStyle: FontStyle.italic),
+                overflow: TextOverflow.ellipsis,
+              ),
+                       ),
+           ),
         ],
       ),
     );

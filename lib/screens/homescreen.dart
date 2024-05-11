@@ -118,7 +118,7 @@ class _HomePageState extends State<HomePage> {
                         decoration: InputDecoration(
                           isDense: true, // Added this
                           contentPadding: EdgeInsets.symmetric(horizontal: 20),
-                          hintText: "Tìm kiếm",
+                          hintText: "Nhập tên hoặc tác giả cần tìm",
                           hintStyle: TextStyle(color: Color(0xFF83899F)),
 
                           filled: true,

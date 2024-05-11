@@ -43,7 +43,6 @@ class APIService {
     final response = await http.get(Uri.parse(request));
 
     if (response.statusCode == 200) {
-      print(response.body);
       var contentList = allSourceChapterContentFromJson(response.body);
       AllSourceChapterContent res =
           AllSourceChapterContent(chapterContents: []);

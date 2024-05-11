@@ -9,19 +9,20 @@ import 'package:novel_crawl/service/history_service.dart';
 import 'package:novel_crawl/service/state_service.dart';
 
 class ReadingScreen extends StatefulWidget {
-  const ReadingScreen({super.key, required this.novel, required this.chapter, required this.isOffline});
+  const ReadingScreen(
+      {super.key,
+      required this.novel,
+      required this.chapter,
+      required this.isOffline});
   final TruyenDetail novel;
   final int chapter;
   final bool isOffline;
-
-
 
   @override
   State<ReadingScreen> createState() => _ReadingScreenState();
 }
 
 class _ReadingScreenState extends State<ReadingScreen> {
-
   var _content = '';
   int _fontSize = 20;
   var _fontFamily = 'Arial';
@@ -29,15 +30,14 @@ class _ReadingScreenState extends State<ReadingScreen> {
   Color _backgroundColor = const Color(0xFF000000);
   var _spacing = 1;
   int chapter = 1;
-  List<String> sources = [];  
+  List<String> sources = [];
   bool _isLoading = true;
-  
+
   StateService stateService = StateService.instance;
-  AllSourceChapterContent allSourceChapterContent = AllSourceChapterContent(chapterContents: []);
+  AllSourceChapterContent allSourceChapterContent =
+      AllSourceChapterContent(chapterContents: []);
 
   FileService fileService = FileService.instance;
-  
-
 
   @override
   void dispose() {
@@ -46,19 +46,22 @@ class _ReadingScreenState extends State<ReadingScreen> {
     super.dispose();
   }
 
-  void updateAllState(){
+  void updateAllState() {
     stateService.getSelectedSource().then((value) {
       setState(() {
-        changeContent(allSourceChapterContent.chapterContents.where((element) => element.source == value).first.content);
+        changeContent(allSourceChapterContent.chapterContents
+            .where((element) => element.source == value)
+            .first
+            .content);
       });
-    });    
+    });
 
     stateService.getSources().then((value) {
       setState(() {
         sources = value;
       });
     });
-    
+
     stateService.getFontSize().then((value) {
       setState(() {
         _fontSize = value;
@@ -134,55 +137,60 @@ class _ReadingScreenState extends State<ReadingScreen> {
     });
   }
 
-  void selectContentFromPrioritySource(){
-    for(var source in sources) {
-      if(allSourceChapterContent.chapterContents.where((element) => element.source == source).isNotEmpty) {
-        changeContent(allSourceChapterContent.chapterContents.where((element) => element.source == source).first.content);
+  void selectContentFromPrioritySource() {
+    for (var source in sources) {
+      if (allSourceChapterContent.chapterContents
+          .where((element) => element.source == source)
+          .isNotEmpty) {
+        changeContent(allSourceChapterContent.chapterContents
+            .where((element) => element.source == source)
+            .first
+            .content);
         stateService.saveSelectedSource(source);
         break;
       }
     }
   }
 
-  void changeContentWhenChangeChapter(){
+  void changeContentWhenChangeChapter() {
     try {
       _isLoading = true;
-      if(widget.isOffline){
+      if (widget.isOffline) {
         fileService.getChapterContent(widget.novel, chapter).then((value) {
           setState(() {
             allSourceChapterContent = value;
-            if(value.chapterContents.isEmpty) {
+            if (value.chapterContents.isEmpty) {
               throw Exception('Lỗi không thể tải nội dung chương truyện.');
             }
-          
+
             selectContentFromPrioritySource();
 
             _isLoading = false;
-          }
-          );
+          });
         });
-      }
-      else {
+      } else {
         APIService().getChapterContent(widget.novel, chapter).then((value) {
-        setState(() {
-          allSourceChapterContent = value;
+          setState(() {
+            allSourceChapterContent = value;
 
-          if(value.chapterContents.isEmpty) {
-            throw Exception('Lỗi không thể tải nội dung chương truyện.');
-          }
+            if (value.chapterContents.isEmpty) {
+              throw Exception('Lỗi không thể tải nội dung chương truyện.');
+            }
 
-          selectContentFromPrioritySource();
+            selectContentFromPrioritySource();
 
-          _isLoading = false;
-
+            _isLoading = false;
+          });
+        }).catchError((e){
+          setState(() {
+            _isLoading = false;
+            _content = 'Không thể tải nội dung chương truyện.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n';
+          });
         });
-      
-      });
       }
     } catch (e) {
-      print(e);
+      _isLoading = false;
     }
-
   }
 
   @override
@@ -191,56 +199,63 @@ class _ReadingScreenState extends State<ReadingScreen> {
     changeContentWhenChangeChapter();
     updateAllState();
     super.initState();
-    
   }
 
   void showModalBottom(BuildContext context) {
     showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return ReadingModalBottom(currentChapter: chapter, novel: widget.novel, onChapterChanged: onChapterChanged, 
-        sources: allSourceChapterContent.chapterContents.map((e) => e.source).toList(), onUpdated: updateAllState, isOffline: widget.isOffline,);
-          
-      }
-    );
+        context: context,
+        builder: (BuildContext context) {
+          return ReadingModalBottom(
+            currentChapter: chapter,
+            novel: widget.novel,
+            onChapterChanged: onChapterChanged,
+            sources: allSourceChapterContent.chapterContents
+                .map((e) => e.source)
+                .toList(),
+            onUpdated: updateAllState,
+            isOffline: widget.isOffline,
+          );
+        });
   }
-
-  
-
 
   @override
   Widget build(BuildContext context) {
-
-    
     return Scaffold(
+      backgroundColor: _backgroundColor,
       appBar: AppBar(
-        backgroundColor: _backgroundColor,  
-        title: Text('Chương $chapter - ${widget.novel.tenTruyen}', style: TextStyle(color: _color)),
+        backgroundColor: _backgroundColor,
+        title: Text('Chương $chapter - ${widget.novel.tenTruyen}',
+            style: TextStyle(color: _color)),
         iconTheme: IconThemeData(color: _color),
-        
       ),
-      body: _isLoading ? Container(
-        color: _backgroundColor,
-        height: double.infinity,
-        width: double.infinity,
-        child: const SizedBox(
-          width: 50,
-          height: 50,
-          child: Center(
-            child: CircularProgressIndicator(
-              backgroundColor: Colors.black,
-            
-            ),
-          ),
-        ),
-      ) :     
-      GestureDetector(
-        child: ReadingView(content: _content, fontSize: _fontSize, fontFamily: _fontFamily, color: _color, spacing: _spacing, backgroundColor: _backgroundColor),
-        onTap:() {
-          showModalBottom(context);
-        }
-        ),
-
+      body: _isLoading
+          ? Container(
+              color: _backgroundColor,
+              height: double.infinity,
+              width: double.infinity,
+              child: const SizedBox(
+                width: 50,
+                height: 50,
+                child: Center(
+                  child: CircularProgressIndicator(
+                    backgroundColor: Colors.black,
+                  ),
+                ),
+              ),
+            )
+          : GestureDetector(
+              child: Expanded(
+                child: ReadingView(
+                    content: _content,
+                    fontSize: _fontSize,
+                    fontFamily: _fontFamily,
+                    color: _color,
+                    spacing: _spacing,
+                    backgroundColor: _backgroundColor),
+              ),
+              onTap: () {
+                showModalBottom(context);
+              }),
     );
   }
 }
