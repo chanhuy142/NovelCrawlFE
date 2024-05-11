@@ -53,13 +53,18 @@ class _ReadingModalBottomState extends State<ReadingModalBottom> {
       if(widget.isOffline){
         fileService.getChapterList(widget.novel.tenTruyen).then((value) {
           if(currentChapter < int.parse(value.last)){
-            for(int i = 0; i < value.length; i++){
+            /*for(int i = 0; i < value.length; i++){
               if(int.parse(value[i]) == currentChapter){
                 currentChapter = int.parse(value[i+1]);
                 widget.onChapterChanged(currentChapter);
                 break;
               }
             }
+            */
+            var nextchapterIndex = value.indexOf(currentChapter.toString()) + 1;
+            currentChapter = int.parse(value[nextchapterIndex]);
+            changeChapter(currentChapter);
+            widget.onChapterChanged(currentChapter);
           }
         });
       }
@@ -77,13 +82,18 @@ class _ReadingModalBottomState extends State<ReadingModalBottom> {
       if(widget.isOffline){
         fileService.getChapterList(widget.novel.tenTruyen).then((value) {
           if(currentChapter > int.parse(value.first)){
-            for(int i = 0; i < value.length; i++){
+            /*for(int i = 0; i < value.length; i++){
               if(int.parse(value[i]) == currentChapter){
                 changeChapter(int.parse(value[i-1]));
                 widget.onChapterChanged(currentChapter);
                 break;
               }
             }
+            */
+            var previousChapterIndex = value.indexOf(currentChapter.toString()) - 1;
+            currentChapter = int.parse(value[previousChapterIndex]);
+            changeChapter(currentChapter);
+            widget.onChapterChanged(currentChapter);
           }
         });
       }

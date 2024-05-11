@@ -12,11 +12,11 @@ class DescriptionView extends StatelessWidget {
       children: [
         const Text(
           'Giới thiệu',
-          style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),
+          style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold, fontFamily: 'Montserrat'),
         ),
         Text(
           description,
-          style: const TextStyle(color: Colors.white, fontSize: 16),
+          style: const TextStyle(color: Colors.white, fontSize: 17, fontFamily: 'Montserrat'),
         )
       ],
     );

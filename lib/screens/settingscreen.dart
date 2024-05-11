@@ -21,6 +21,7 @@ class _SettingPageState extends State<SettingPage> {
   StateService stateService = StateService.instance;
   int selectedFont = 0;
   int selectedColor = 0;
+  int selectedBackground = 0;
   int fontSize = 16;
   int lineSpacing = 16;
   int selectedSource = 0;
@@ -54,6 +55,12 @@ class _SettingPageState extends State<SettingPage> {
     stateService.getColorID().then((value) {
       setState(() {
         selectedColor = value;
+      });
+    });
+
+    stateService.getBackgroundColorID().then((value) {
+      setState(() {
+        selectedBackground = value;
       });
     });
 
@@ -105,7 +112,56 @@ class _SettingPageState extends State<SettingPage> {
                     child: Row(
                       children: [
                         const Text(
-                          'Màu sắc',
+                          'Màu nền',
+                          style: TextStyle(
+                              color: Color(0xFFFFFFFF),
+                              fontSize: 20,
+                              fontWeight: FontWeight.normal),
+                        ),
+                        const Spacer(),
+                        Expanded(
+                          child: SizedBox(
+                            height: 30,
+                            child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount: colors.length,
+                                reverse: true,
+                                itemBuilder: (context, index) {
+                                  return InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        selectedBackground = index;
+                                        stateService.saveBackgroundColorID(index);
+                                      });
+                                    },
+                                    child: Container(
+                                      width: 30,
+                                      margin: const EdgeInsets.only(left: 5),
+                                      decoration: BoxDecoration(
+                                        color: colors[index],
+                                        shape: BoxShape.rectangle,
+                                        borderRadius: BorderRadius.circular(5),
+                                        border: Border.all(
+                                          color: index == selectedBackground
+                                              ? const Color(0xFFDFD82C)
+                                              : const Color(0xFF83899F),
+                                          width: 2,
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                }),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 15, bottom: 15),
+                    child: Row(
+                      children: [
+                        const Text(
+                          'Màu chữ',
                           style: TextStyle(
                               color: Color(0xFFFFFFFF),
                               fontSize: 20,

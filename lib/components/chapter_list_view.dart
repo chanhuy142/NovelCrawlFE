@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:novel_crawl/models/novel_detail.dart';
 import 'package:novel_crawl/screens/readingscreen.dart';
 
+import '../service/file_service.dart';
+
 class ChapterListView extends StatefulWidget {
   ChapterListView({super.key, required this.chapterNumber, required this.novel, required this.isOffline});
   int chapterNumber;
@@ -19,12 +21,23 @@ class _ChapterListViewState extends State<ChapterListView> {
   int currentPage = 1;
   int totalPages = 1;
   int numberChapterPerPage = 20;
+  List<String> chapterList = [];
 
   @override
   void initState() {
     super.initState();
     chapterNumber = widget.chapterNumber;
     totalPages = (chapterNumber / numberChapterPerPage).ceil();
+
+    if(widget.isOffline){
+      FileService.instance.getChapterList(widget.novel.tenTruyen).then((value) {
+        setState(() {
+          chapterNumber = value.length;
+          totalPages = (chapterNumber / numberChapterPerPage).ceil();
+          chapterList = value;
+        });
+      });
+    }
   }
   
 
@@ -53,7 +66,7 @@ class _ChapterListViewState extends State<ChapterListView> {
       ),
         
         Expanded(
-          child: ListView.builder(
+          child: widget.isOffline == false ? ListView.builder(
             itemCount: currentPage == totalPages ? chapterNumber%numberChapterPerPage : numberChapterPerPage,
             itemBuilder: (context, index) {
               var chapter = index + 1 + numberChapterPerPage*(currentPage-1);
@@ -70,7 +83,27 @@ class _ChapterListViewState extends State<ChapterListView> {
                         color: Colors.white,
                       ),  
                     )
-                ),
+                )
+              );
+            },
+          ) : ListView.builder(
+            itemCount: currentPage == totalPages ? chapterNumber%numberChapterPerPage : numberChapterPerPage,
+            itemBuilder: (context, index) {
+              var chapter = chapterList[index + numberChapterPerPage*(currentPage-1)];
+              return GestureDetector(
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => ReadingScreen(novel: widget.novel, chapter: int.parse(chapter), isOffline: widget.isOffline,)));
+                },
+                child: Container(
+                    padding: const EdgeInsets.all(5.0),
+                    child:  Text(
+                      'Chương $chapter',
+                      style: const TextStyle(
+                        fontSize: 20.0,
+                        color: Colors.white,
+                      ),  
+                    )
+                )
               );
             },
           ),

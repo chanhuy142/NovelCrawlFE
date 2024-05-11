@@ -11,7 +11,7 @@ class APIService {
   AllSourceChapterContent allSourceChapterContentFromJson(String str) =>
       AllSourceChapterContent.fromJson(jsonDecode(str));
 
-  String localhost = 'http://192.168.1.146:3000';
+  String localhost = 'http://192.168.1.30:3000';
   //send to http://localhost/details
   //port 3000
   Future<Library> getNovelDetails() async {
@@ -43,6 +43,7 @@ class APIService {
     final response = await http.get(Uri.parse(request));
 
     if (response.statusCode == 200) {
+      print(response.body);
       var contentList = allSourceChapterContentFromJson(response.body);
       AllSourceChapterContent res =
           AllSourceChapterContent(chapterContents: []);
@@ -50,6 +51,7 @@ class APIService {
         if (contentList.chapterContents[i].content != "") {
           res.chapterContents.add(contentList.chapterContents[i]);
         }
+
       }
 
       return res;

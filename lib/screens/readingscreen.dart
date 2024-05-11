@@ -26,6 +26,7 @@ class _ReadingScreenState extends State<ReadingScreen> {
   int _fontSize = 20;
   var _fontFamily = 'Arial';
   Color _color = const Color(0xFFFFFFFF);
+  Color _backgroundColor = const Color(0xFF000000);
   var _spacing = 1;
   int chapter = 1;
   List<String> sources = [];  
@@ -81,6 +82,12 @@ class _ReadingScreenState extends State<ReadingScreen> {
         _color = value;
       });
     });
+
+    stateService.getBackgroundColor().then((value) {
+      setState(() {
+        _backgroundColor = value;
+      });
+    });
   }
 
   void onChapterChanged(int chapter) {
@@ -112,6 +119,12 @@ class _ReadingScreenState extends State<ReadingScreen> {
   void changeColor(Color color) {
     setState(() {
       _color = color;
+    });
+  }
+
+  void changeBackgroundColor(Color backgroundColor) {
+    setState(() {
+      _backgroundColor = backgroundColor;
     });
   }
 
@@ -201,13 +214,13 @@ class _ReadingScreenState extends State<ReadingScreen> {
     
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.black,  
+        backgroundColor: _backgroundColor,  
         title: Text('Chương $chapter - ${widget.novel.tenTruyen}', style: TextStyle(color: _color)),
         iconTheme: IconThemeData(color: _color),
         
       ),
       body: _isLoading ? Container(
-        color: Colors.black,
+        color: _backgroundColor,
         height: double.infinity,
         width: double.infinity,
         child: const SizedBox(
@@ -222,7 +235,7 @@ class _ReadingScreenState extends State<ReadingScreen> {
         ),
       ) :     
       GestureDetector(
-        child: ReadingView(content: _content, fontSize: _fontSize, fontFamily: _fontFamily, color: _color, spacing: _spacing),
+        child: ReadingView(content: _content, fontSize: _fontSize, fontFamily: _fontFamily, color: _color, spacing: _spacing, backgroundColor: _backgroundColor),
         onTap:() {
           showModalBottom(context);
         }

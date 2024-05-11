@@ -51,7 +51,8 @@ class _NovelCardState extends State<NovelCard> {
           Center(
             child: Text(
               widget.novelDetail.tenTruyen,
-              style: const TextStyle(color: Colors.white),
+              style: const TextStyle(color: Colors.white, height: 3, fontFamily: 'Exo2', fontWeight: FontWeight.bold),
+              overflow: TextOverflow.ellipsis,
             ),
           ),
         ],

@@ -13,6 +13,7 @@ class StateService{
   final String color = 'fontColor';
   final String sources = 'sources';
   final String selectedSource = 'selectedSource';
+  final String backgroundColor = 'backgroundColor';
   StateService._privateConstructor(); 
   static final StateService _instance = StateService._privateConstructor();
   static StateService get instance => _instance;
@@ -44,11 +45,11 @@ class StateService{
   }
 
   Future<int> getFontSize() async {
-    return await hiveService.get(fontSize) ?? 16;
+    return await hiveService.get(fontSize) ?? 22;
   }
 
   Future<int> getLineSpacing() async {
-    return await hiveService.get(lineSpacing) ?? 1;
+    return await hiveService.get(lineSpacing) ?? 2;
   }
 
   Future<int> getFontFamilyID() async {
@@ -56,7 +57,11 @@ class StateService{
   }
 
   Future<int> getColorID() async {
-    return await hiveService.get(color) ?? 0;
+    return await hiveService.get(color) ?? 3;
+  }
+
+  Future<int> getBackgroundColorID() async {
+    return await hiveService.get(backgroundColor) ?? 0;
   }
 
   Future<String> getFontFamily() async {
@@ -65,6 +70,10 @@ class StateService{
 
   Future<Color> getColor() async {
     return colors[await getColorID()];
+  }
+
+  Future<Color> getBackgroundColor() async {
+    return colors[await getBackgroundColorID()];
   }
 
   Future<List<String>> getSources() async{
@@ -97,6 +106,10 @@ class StateService{
 
   Future saveColorID(int value) async {
     await hiveService.put(color, value);
+  }
+
+  Future saveBackgroundColorID(int value) async {
+    await hiveService.put(backgroundColor, value);
   }
 
   Future closeService() async {
