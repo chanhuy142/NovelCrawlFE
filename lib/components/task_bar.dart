@@ -76,7 +76,7 @@ class _TaskBarState extends State<TaskBar> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 60,
+      height: 80,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.center,

@@ -46,24 +46,14 @@ class _ChapterListViewState extends State<ChapterListView> {
   Widget build(BuildContext context) {
     print('ChapterListView build');
     return Container(
+      color: Colors.black,
       margin: const EdgeInsets.all(10.0),
       child: Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children:
-       [const Text(
-        'Danh sách chương',
-        style: TextStyle(
-          fontSize: 20.0,
-          fontWeight: FontWeight.bold,
-          color: Colors.yellowAccent,
-        ),
-       ),
-       Container(
-        margin: const EdgeInsets.only(top: 5.0),
-        height: 2.0,
-        color: Colors.yellowAccent,
-      ),
+       [
+       
         
         Expanded(
           child: widget.isOffline == false ? ListView.builder(
