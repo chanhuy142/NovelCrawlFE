@@ -26,6 +26,7 @@ class _FileTypeSelectorState extends State<FileTypeSelector> {
         fileTypes = value;
         if(fileTypes.isNotEmpty){
           _chosenValue = fileTypes[0];
+          widget.onFileTypeChanged(fileTypes[0]);
         }
       });
     });

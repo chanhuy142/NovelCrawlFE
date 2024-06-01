@@ -63,6 +63,7 @@ class _ExportPopupState extends State<ExportPopup> {
           throw Exception('Lỗi không thể tải nội dung chương truyện.');
         }
         selectContentFromPrioritySource();
+        print(fileType);
         APIService().getExportFile('$novelName - Chương $chapter', _content, fileType).then((value) {
           ExportService.writeCounter(value.bodyBytes, '$novelName - Chương $chapter.$fileType').then((value){
             Navigator.of(context).pop();
