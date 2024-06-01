@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 import 'package:novel_crawl/models/content_from_all_source.dart';
 import 'package:novel_crawl/models/novel_detail.dart';
 import 'package:novel_crawl/models/library.dart';
@@ -11,7 +12,7 @@ class APIService {
   AllSourceChapterContent allSourceChapterContentFromJson(String str) =>
       AllSourceChapterContent.fromJson(jsonDecode(str));
 
-  String localhost = 'http://192.168.1.19:3000';
+  String localhost = 'http://192.168.1.11:3000';
   //send to http://localhost/details
   //port 3000
   Future<Library> getNovelDetails() async {
@@ -50,7 +51,6 @@ class APIService {
         if (contentList.chapterContents[i].content != "") {
           res.chapterContents.add(contentList.chapterContents[i]);
         }
-
       }
 
       return res;
@@ -67,6 +67,35 @@ class APIService {
       return res;
     } else {
       throw Exception('Failed to load sources');
+    }
+  }
+
+  Future<Response> getExportFile(String name, String content) async {
+    try {
+      String apiUrl = localhost + '/download';
+      final response = await http.post(
+        Uri.parse(apiUrl),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, dynamic>{
+          'content': content,
+          'name': name,
+          // Add any other data you want to send in the body
+        }),
+      );
+      print(response.statusCode);
+      if (response.statusCode == 200) {
+        // Successful POST request, handle the response here
+        print(response.body);
+        return response;
+      } else {
+        // If the server returns an error response, throw an exception
+        throw Exception('Failed to post data');
+      }
+    } catch (e) {
+      print("Error: $e");
+      return Response('Failed to post data', 500);
     }
   }
 }

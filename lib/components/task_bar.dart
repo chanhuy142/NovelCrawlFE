@@ -1,7 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:novel_crawl/models/novel_detail.dart';
 import 'package:novel_crawl/popup/download_popup.dart';
+import 'package:novel_crawl/popup/export_popup.dart';
 import 'package:novel_crawl/screens/readingscreen.dart';
+import 'package:novel_crawl/service/api_service.dart';
+import 'package:novel_crawl/service/export_service.dart';
 import 'package:novel_crawl/service/file_service.dart';
 import 'package:novel_crawl/service/history_service.dart';
 
@@ -73,6 +78,17 @@ class _TaskBarState extends State<TaskBar> {
         });
   }
 
+  void showExportDialog(){
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return ExportPopup(
+            novel: novel,
+          );
+        });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -83,7 +99,7 @@ class _TaskBarState extends State<TaskBar> {
         children: [
           GestureDetector(
               onTap: () {
-                //export novel
+                showExportDialog();
               },
               child: Container(
                 color: Colors.transparent,

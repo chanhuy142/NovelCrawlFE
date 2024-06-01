@@ -2,8 +2,21 @@
 
 import 'package:flutter/material.dart';
 
-class OnBoarding extends StatelessWidget {
+class OnBoarding extends StatefulWidget {
   const OnBoarding({super.key});
+
+  @override
+  State<OnBoarding> createState() => _OnBoardingState();
+}
+
+class _OnBoardingState extends State<OnBoarding> {
+
+
+ @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
