@@ -1,13 +1,9 @@
-
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:novel_crawl/components/file_type_selector.dart';
 import 'package:novel_crawl/models/content_from_all_source.dart';
 import 'package:novel_crawl/models/novel_detail.dart';
 import 'package:novel_crawl/service/api_service.dart';
 import 'package:novel_crawl/service/export_service.dart';
-import 'package:novel_crawl/service/file_service.dart';
 import 'package:novel_crawl/service/state_service.dart';
 
 class ExportPopup extends StatefulWidget {
