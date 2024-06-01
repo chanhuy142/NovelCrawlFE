@@ -12,7 +12,7 @@ class APIService {
   AllSourceChapterContent allSourceChapterContentFromJson(String str) =>
       AllSourceChapterContent.fromJson(jsonDecode(str));
 
-  String localhost = 'http://192.168.1.11:3000';
+  String localhost = 'http://192.168.1.19:3000';
   //send to http://localhost/details
   //port 3000
   Future<Library> getNovelDetails() async {
@@ -70,7 +70,18 @@ class APIService {
     }
   }
 
-  Future<Response> getExportFile(String name, String content) async {
+  Future<List<String>> getFileTypes() async {
+    final response = await http.get(Uri.parse('$localhost/filetypes'));
+    if (response.statusCode == 200) {
+      var json = jsonDecode(response.body);
+      var res = List<String>.from(json["FileType"].map((x) => x));
+      return res;
+    } else {
+      throw Exception('Failed to load file types');
+    }
+  }
+ 
+  Future<Response> getExportFile(String name, String content, String fileType) async {
     try {
       String apiUrl = localhost + '/download';
       final response = await http.post(
@@ -81,6 +92,7 @@ class APIService {
         body: jsonEncode(<String, dynamic>{
           'content': content,
           'name': name,
+          'fileType': fileType,
           // Add any other data you want to send in the body
         }),
       );

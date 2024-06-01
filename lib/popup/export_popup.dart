@@ -1,7 +1,8 @@
-import 'dart:ffi';
+
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:novel_crawl/components/file_type_selector.dart';
 import 'package:novel_crawl/models/content_from_all_source.dart';
 import 'package:novel_crawl/models/novel_detail.dart';
 import 'package:novel_crawl/service/api_service.dart';
@@ -28,6 +29,13 @@ class _ExportPopupState extends State<ExportPopup> {
 
   List<String> sources = [];
   String _content = '';
+  String fileType = '';
+
+  void changeFileType(String type) {
+    setState(() {
+      fileType = type;
+    });
+  }
 
   void selectContentFromPrioritySource() {
     for (var source in sources) {
@@ -47,7 +55,6 @@ class _ExportPopupState extends State<ExportPopup> {
   void changeContent(String content) {
     setState(() {
       _content = content;
-      _isLoading = false;
     });
   }
 
@@ -60,8 +67,8 @@ class _ExportPopupState extends State<ExportPopup> {
           throw Exception('Lỗi không thể tải nội dung chương truyện.');
         }
         selectContentFromPrioritySource();
-        APIService().getExportFile('$novelName - Chương $chapter', _content).then((value) {
-          ExportService.writeCounter(value.bodyBytes, '$novelName - Chương $chapter.pdf').then((value){
+        APIService().getExportFile('$novelName - Chương $chapter', _content, fileType).then((value) {
+          ExportService.writeCounter(value.bodyBytes, '$novelName - Chương $chapter.$fileType').then((value){
             Navigator.of(context).pop();
             setLoading(false);
             }).catchError((e){
@@ -109,14 +116,35 @@ class _ExportPopupState extends State<ExportPopup> {
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            Container(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                'Chương số: ',
+                style: const TextStyle(color: Colors.white, fontSize: 16),
+              ),
+            ),
             TextField(
               controller: _ChapterController,
               keyboardType: TextInputType.number,
               style: const TextStyle(color: Colors.white),
               decoration: const InputDecoration(
-                  hintText: 'Chương số',
+                  hintText: 'Nhập chương cần xuất',
                   hintStyle: TextStyle(color: Colors.white)),
             ),
+            const SizedBox(
+              height: 10,
+            ),
+            Container(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                'Loại file: ',
+                style: const TextStyle(color: Colors.white, fontSize: 16),
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            FileTypeSelector(onFileTypeChanged: changeFileType),
           ],
         ),
         actions: [
