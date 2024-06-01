@@ -26,9 +26,12 @@ class HistoryService{
 
     Future updateNovelHistory(TruyenDetail truyenDetail, int currentChapter) async {
         var historyData = await getHistory();
+        Set<int> readChapters = await getReadChapters(truyenDetail.tenTruyen);
+        readChapters.add(currentChapter);
         historyData[truyenDetail.tenTruyen] = {
             'novelDetail': truyenDetail.toJson(),
-            'currentChapter': currentChapter.toString()
+            'currentChapter': currentChapter.toString(),
+            'readChapters': jsonEncode(readChapters.toList())
         };
         await setHistory(historyData);
     }
@@ -37,6 +40,14 @@ class HistoryService{
         var historyData = await getHistory();
         historyData.remove(novelName);
         await setHistory(historyData);
+    }
+
+    Future<Set<int>> getReadChapters(String novelName) async {
+        var historyData = await getHistory();
+        if(historyData.containsKey(novelName) == false) {
+            return <int>{};
+        }
+        return Set<int>.from(jsonDecode(historyData[novelName]['readChapters'] ?? '[]'));
     }
 
     Future<int> getCurrentChapter (String novelName) async {
@@ -57,6 +68,10 @@ class HistoryService{
             historyList.add(TruyenDetail.fromJson(value['novelDetail']));
         });
         return historyList;
+    }
+
+    Future<bool> isReadChapter(String novelName, int chapterNumber) async {
+        return await getReadChapters(novelName).then((value) => value.contains(chapterNumber));
     }
     
     Future closeService() async {

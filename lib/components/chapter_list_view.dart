@@ -1,6 +1,9 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:novel_crawl/models/novel_detail.dart';
 import 'package:novel_crawl/screens/readingscreen.dart';
+import 'package:novel_crawl/service/history_service.dart';
 
 import '../service/file_service.dart';
 
@@ -9,6 +12,7 @@ class ChapterListView extends StatefulWidget {
   int chapterNumber;
   TruyenDetail novel;
   bool isOffline;
+
 
 
   @override
@@ -22,12 +26,20 @@ class _ChapterListViewState extends State<ChapterListView> {
   int totalPages = 1;
   int numberChapterPerPage = 20;
   List<String> chapterList = [];
+  HistoryService historyService = HistoryService.instance;
+  Set<int> readChapter = {};
 
   @override
   void initState() {
     super.initState();
     chapterNumber = widget.chapterNumber;
     totalPages = (chapterNumber / numberChapterPerPage).ceil();
+
+    historyService.getReadChapters(widget.novel.tenTruyen).then((value) {
+      setState(() {
+        readChapter = value;
+      });
+    });
 
     if(widget.isOffline){
       FileService.instance.getChapterList(widget.novel.tenTruyen).then((value) {
@@ -60,17 +72,26 @@ class _ChapterListViewState extends State<ChapterListView> {
             itemCount: currentPage == totalPages ? chapterNumber%numberChapterPerPage : numberChapterPerPage,
             itemBuilder: (context, index) {
               var chapter = index + 1 + numberChapterPerPage*(currentPage-1);
+              
+              bool isRead = readChapter.contains(chapter);
+
+
               return GestureDetector(
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => ReadingScreen(novel: widget.novel, chapter: chapter, isOffline: widget.isOffline,)));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => ReadingScreen(novel: widget.novel, chapter: chapter, isOffline: widget.isOffline,))).then((_) {
+                  // This block runs when you come back to the current screen
+                  setState(() {
+                    // Update your state here
+                  });
+                });
                 },
                 child: Container(
                     padding: const EdgeInsets.all(5.0),
                     child:  Text(
                       'Chương $chapter',
-                      style: const TextStyle(
+                      style:  TextStyle(
                         fontSize: 20.0,
-                        color: Colors.white,
+                        color: isRead ? Colors.white38 : Colors.white,
                       ),  
                     )
                 )
