@@ -78,6 +78,7 @@ class _ChapterListViewState extends State<ChapterListView> {
 
               return GestureDetector(
                 onTap: () {
+                  readChapter.add(chapter);
                   Navigator.push(context, MaterialPageRoute(builder: (context) => ReadingScreen(novel: widget.novel, chapter: chapter, isOffline: widget.isOffline,))).then((_) {
                   // This block runs when you come back to the current screen
                   setState(() {
@@ -100,18 +101,31 @@ class _ChapterListViewState extends State<ChapterListView> {
           ) : ListView.builder(
             itemCount: currentPage == totalPages ? chapterNumber%numberChapterPerPage : numberChapterPerPage,
             itemBuilder: (context, index) {
-              var chapter = chapterList[index + numberChapterPerPage*(currentPage-1)];
+              var chapter = '1';
+
+              if(chapterList.length > 0){
+                chapter = chapterList[index + numberChapterPerPage*(currentPage-1)];
+              }
+
+              bool isRead = readChapter.contains(int.parse(chapter));
+
               return GestureDetector(
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => ReadingScreen(novel: widget.novel, chapter: int.parse(chapter), isOffline: widget.isOffline,)));
+                  readChapter.add(int.parse(chapter));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => ReadingScreen(novel: widget.novel, chapter: int.parse(chapter), isOffline: widget.isOffline,))).then((_) {
+                  // This block runs when you come back to the current screen
+                  setState(() {
+                    // Update your state here
+                  });
+                });
                 },
                 child: Container(
                     padding: const EdgeInsets.all(5.0),
                     child:  Text(
                       'Chương $chapter',
-                      style: const TextStyle(
+                      style:  TextStyle(
                         fontSize: 20.0,
-                        color: Colors.white,
+                        color: isRead ? Colors.white38 : Colors.white,
                       ),  
                     )
                 )
