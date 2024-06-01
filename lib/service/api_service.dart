@@ -12,7 +12,7 @@ class APIService {
   AllSourceChapterContent allSourceChapterContentFromJson(String str) =>
       AllSourceChapterContent.fromJson(jsonDecode(str));
 
-  String localhost = 'http://192.168.1.11:3000';
+  String localhost = 'http://192.168.1.19:3000';
   //send to http://localhost/details
   //port 3000
   Future<Library> getNovelDetails() async {
@@ -34,13 +34,13 @@ class APIService {
     }
   }
 
-  //send to http://localhost:3000/?tentruyen=@tentruyen&chapter=@chapter
-  //ex: http://localhost:3000/?tentruyen=ngao-the-dan-than&chapter=5
+  //send to http://localhost:3000/?novelName=@novelName&chapter=@chapter
+  //ex: http://localhost:3000/?novelName=ngao-the-dan-than&chapter=5
 
   Future<AllSourceChapterContent> getChapterContent(
-      TruyenDetail novel, int chapter) async {
+      NovelDetail novel, int chapter) async {
     String request =
-        '$localhost/?tentruyen=${SignedToUnsinged.standardizeName(novel.tenTruyen)}&chapter=$chapter';
+        '$localhost/?novelName=${SignedToUnsinged.standardizeName(novel.novelName)}&chapter=$chapter';
     final response = await http.get(Uri.parse(request));
 
     if (response.statusCode == 200) {
@@ -63,7 +63,7 @@ class APIService {
     final response = await http.get(Uri.parse('$localhost/source'));
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
-      var res = List<String>.from(json["TruyenSource"].map((x) => x));
+      var res = List<String>.from(json["NovelSource"].map((x) => x));
       return res;
     } else {
       throw Exception('Failed to load sources');
@@ -83,7 +83,7 @@ class APIService {
  
   Future<Response> getExportFile(String name, String content, String fileType) async {
     try {
-      String apiUrl = localhost + '/download';
+      String apiUrl = '$localhost/download';
       final response = await http.post(
         Uri.parse(apiUrl),
         headers: <String, String>{

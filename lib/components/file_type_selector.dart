@@ -39,7 +39,7 @@ class _FileTypeSelectorState extends State<FileTypeSelector> {
     return DropdownButton<String>(
       value: _chosenValue,
       //elevation: 5,
-      style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),
+      style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),
 
       items: fileTypes.map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem<String>(
@@ -47,7 +47,7 @@ class _FileTypeSelectorState extends State<FileTypeSelector> {
           child: Text(value),
         );
       }).toList(),
-      hint: Text(
+      hint: const Text(
         "Please choose a file type",
         style: TextStyle(
             color: Colors.white,

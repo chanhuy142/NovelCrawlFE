@@ -11,7 +11,7 @@ class NovelCardGridView extends StatelessWidget {
     required this.isOffline,
   });
 
-  final List<TruyenDetail> novelsList;
+  final List<NovelDetail> novelsList;
   final bool isOffline;
 
   @override

@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:novel_crawl/components/novel_source_selector.dart';
@@ -10,7 +9,7 @@ import 'package:novel_crawl/service/file_service.dart';
 class ReadingModalBottom extends StatefulWidget {
   const ReadingModalBottom({super.key, required this.currentChapter, required this.novel, required this.onChapterChanged, required this.sources, required this.onUpdated, required this.isOffline});
   final int currentChapter;
-  final TruyenDetail novel;
+  final NovelDetail novel;
   final ValueChanged<int> onChapterChanged;
   final List<String> sources;
   final Function() onUpdated;
@@ -51,7 +50,7 @@ class _ReadingModalBottomState extends State<ReadingModalBottom> {
   void getNextChapter(){
     setState(() {
       if(widget.isOffline){
-        fileService.getChapterList(widget.novel.tenTruyen).then((value) {
+        fileService.getChapterList(widget.novel.novelName).then((value) {
           if(currentChapter < int.parse(value.last)){
             /*for(int i = 0; i < value.length; i++){
               if(int.parse(value[i]) == currentChapter){
@@ -80,7 +79,7 @@ class _ReadingModalBottomState extends State<ReadingModalBottom> {
   void getPreviousChapter(){
     setState(() {
       if(widget.isOffline){
-        fileService.getChapterList(widget.novel.tenTruyen).then((value) {
+        fileService.getChapterList(widget.novel.novelName).then((value) {
           if(currentChapter > int.parse(value.first)){
             /*for(int i = 0; i < value.length; i++){
               if(int.parse(value[i]) == currentChapter){

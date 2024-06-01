@@ -1,4 +1,3 @@
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:novel_crawl/components/novel_source_priority_selector.dart';
@@ -238,8 +237,8 @@ class _SettingPageState extends State<SettingPage> {
                               widget.onUpdated();
                             });
                           },
-                          activeColor: Color(0xFFDFD82C),
-                          inactiveColor: Color(0xFF3A3E47),
+                          activeColor: const Color(0xFFDFD82C),
+                          inactiveColor: const Color(0xFF3A3E47),
                         ),
                       ],
                     ),
@@ -269,8 +268,8 @@ class _SettingPageState extends State<SettingPage> {
                               widget.onUpdated();
                             });
                           },
-                          activeColor: Color(0xFFDFD82C),
-                          inactiveColor: Color(0xFF3A3E47),
+                          activeColor: const Color(0xFFDFD82C),
+                          inactiveColor: const Color(0xFF3A3E47),
                         ),
                       ],
                     ),

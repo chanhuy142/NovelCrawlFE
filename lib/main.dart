@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
       future: requestPermission(),
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator(); // Show a loading spinner while waiting for permission
+          return const CircularProgressIndicator(); // Show a loading spinner while waiting for permission
         } else if (snapshot.hasError) {
           return Text(
               'Error: ${snapshot.error}'); // Show error message if something went wrong

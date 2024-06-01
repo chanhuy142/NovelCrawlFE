@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:ffi';
 import 'dart:io';
 
 import 'package:novel_crawl/models/content_from_all_source.dart';
@@ -75,8 +74,8 @@ class FileService {
     return true;
   }
 
-  Future<void> addANovelDetail(TruyenDetail truyenDetail) async {
-    if (await checkNovelExist(truyenDetail.tenTruyen)) {
+  Future<void> addANovelDetail(NovelDetail novelDetail) async {
+    if (await checkNovelExist(novelDetail.novelName)) {
       print('Novel already exist');
       return;
     }
@@ -90,15 +89,15 @@ class FileService {
       await novelListFile.create();
     }
     Directory novelNameDir =
-        Directory('${novelDir.path}/${truyenDetail.tenTruyen}');
+        Directory('${novelDir.path}/${novelDetail.novelName}');
     if (!await novelNameDir.exists()) {
       await novelNameDir.create();
     }
-    String newOfflineNovel = jsonEncode(truyenDetail.toJson()) + '\n';
+    String newOfflineNovel = '${jsonEncode(novelDetail.toJson())}\n';
     await novelListFile.writeAsString(newOfflineNovel, mode: FileMode.append);
   }
 
-  Future<List<TruyenDetail>> getNovelList() async {
+  Future<List<NovelDetail>> getNovelList() async {
     Directory appDocDir = await getApplicationDocumentsDirectory();
     Directory novelDir = Directory('${appDocDir.path}/$novelFolder');
     if (!await novelDir.exists()) {
@@ -108,10 +107,10 @@ class FileService {
     if (!await novelListFile.exists()) {
       await novelListFile.create();
     }
-    List<TruyenDetail> novelList = [];
+    List<NovelDetail> novelList = [];
     List<String> novelListString = await novelListFile.readAsLines();
     for (String novelString in novelListString) {
-      novelList.add(TruyenDetail.fromJson(jsonDecode(novelString)));
+      novelList.add(NovelDetail.fromJson(jsonDecode(novelString)));
     }
     return novelList;
   }
@@ -156,13 +155,13 @@ class FileService {
   }
 
   Future<AllSourceChapterContent> getChapterContent(
-      TruyenDetail novel, int chapter) async {
+      NovelDetail novel, int chapter) async {
     Directory appDocDir = await getApplicationDocumentsDirectory();
     Directory novelDir = Directory('${appDocDir.path}/$novelFolder');
     if (!await novelDir.exists()) {
       await novelDir.create();
     }
-    File chapterFile = File('${novelDir.path}/${novel.tenTruyen}/$chapter');
+    File chapterFile = File('${novelDir.path}/${novel.novelName}/$chapter');
     if (!await chapterFile.exists()) {
       await chapterFile.create();
     }

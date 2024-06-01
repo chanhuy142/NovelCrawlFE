@@ -24,12 +24,12 @@ class HistoryService{
         await hiveService.put(history, jsonEncode(historyData));
     }
 
-    Future updateNovelHistory(TruyenDetail truyenDetail, int currentChapter) async {
+    Future updateNovelHistory(NovelDetail novelDetail, int currentChapter) async {
         var historyData = await getHistory();
-        Set<int> readChapters = await getReadChapters(truyenDetail.tenTruyen);
+        Set<int> readChapters = await getReadChapters(novelDetail.novelName);
         readChapters.add(currentChapter);
-        historyData[truyenDetail.tenTruyen] = {
-            'novelDetail': truyenDetail.toJson(),
+        historyData[novelDetail.novelName] = {
+            'novelDetail': novelDetail.toJson(),
             'currentChapter': currentChapter.toString(),
             'readChapters': jsonEncode(readChapters.toList())
         };
@@ -61,11 +61,11 @@ class HistoryService{
         return int.parse(historyData[novelName]['currentChapter'] ?? '1');
     }
 
-    Future<List<TruyenDetail>> getHistoryList() async {
+    Future<List<NovelDetail>> getHistoryList() async {
         var historyData = await getHistory();
-        List<TruyenDetail> historyList = [];
+        List<NovelDetail> historyList = [];
         historyData.forEach((key, value) {
-            historyList.add(TruyenDetail.fromJson(value['novelDetail']));
+            historyList.add(NovelDetail.fromJson(value['novelDetail']));
         });
         return historyList;
     }

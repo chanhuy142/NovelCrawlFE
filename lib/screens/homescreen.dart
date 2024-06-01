@@ -21,23 +21,23 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   //get library from api service
   final APIService apiService = APIService();
-  static Library library = Library(truyenDetail: []);
+  static Library library = Library(novelDetail: []);
   static bool isLoading = false;
   final StateService stateService = StateService.instance;
   //text controller
   final TextEditingController _searchController = TextEditingController();
-  List<TruyenDetail> resultnovels = [];
+  List<NovelDetail> resultnovels = [];
 //search function
   void oldsearch(String value) {
     if (value.isEmpty) {
       setState(() {
-        resultnovels = library.truyenDetail;
+        resultnovels = library.novelDetail;
       });
     } else {
       setState(() {
-        resultnovels = library.truyenDetail
+        resultnovels = library.novelDetail
             .where((element) =>
-                element.tenTruyen.toLowerCase().contains(value.toLowerCase()))
+                element.novelName.toLowerCase().contains(value.toLowerCase()))
             .toList();
       });
     }
@@ -46,7 +46,7 @@ class _HomePageState extends State<HomePage> {
   void search(String value) {
     if (value.isEmpty) {
       setState(() {
-        resultnovels = library.truyenDetail;
+        resultnovels = library.novelDetail;
       });
     } else {
       value = SearchStandardize.standardize(value);
@@ -56,7 +56,7 @@ class _HomePageState extends State<HomePage> {
       });
       APIService().getSearchedNovelDetails(value).then((result) {
         setState(() {
-          resultnovels = result.truyenDetail;
+          resultnovels = result.novelDetail;
           isLoading = false;
         });
       });
@@ -66,17 +66,17 @@ class _HomePageState extends State<HomePage> {
   //on init
   @override
   void initState() {
-    resultnovels = library.truyenDetail;
+    resultnovels = library.novelDetail;
 
-    if (library.truyenDetail.isEmpty && !isLoading) {
+    if (library.novelDetail.isEmpty && !isLoading) {
       //get api service
       isLoading = true;
       apiService.getNovelDetails().then((value) {
         library.copyFrom(value);
-        print(library.truyenDetail.length);
+        print(library.novelDetail.length);
         if (mounted) {
           setState(() {
-            resultnovels = library.truyenDetail;
+            resultnovels = library.novelDetail;
             isLoading = false;
           });
         }

@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:novel_crawl/components/chapter_list_view.dart';
 import 'package:novel_crawl/components/description_view.dart';
 import 'package:novel_crawl/models/novel_detail.dart';
 
 class NovelInfoTabControl extends StatelessWidget {
   const NovelInfoTabControl({super.key, required this.novelDetail, this.isOffline = false});
-  final TruyenDetail novelDetail;
+  final NovelDetail novelDetail;
   final bool isOffline;
 
   @override
@@ -18,12 +17,12 @@ class NovelInfoTabControl extends StatelessWidget {
     appBar: AppBar(
       backgroundColor: const Color(0xFF000000),
       automaticallyImplyLeading: false,
-      flexibleSpace: Column(
+      flexibleSpace: const Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           TabBar(
             isScrollable: false,
-            labelColor: const Color(0xFFFFFFFF),
+            labelColor: Color(0xFFFFFFFF),
             labelStyle: TextStyle(fontSize: 20),
             
             tabs: [

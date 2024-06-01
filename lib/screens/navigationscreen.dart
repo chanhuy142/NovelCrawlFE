@@ -16,7 +16,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
   final List<Widget> _widgetOptions = <Widget>[
     const HomePage(),
     const HistoryPage(),
-    OfflinePage(),
+    const OfflinePage(),
     const SettingPage(),
   ];
 

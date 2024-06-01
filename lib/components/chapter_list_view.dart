@@ -10,7 +10,7 @@ import '../service/file_service.dart';
 class ChapterListView extends StatefulWidget {
   ChapterListView({super.key, required this.chapterNumber, required this.novel, required this.isOffline});
   int chapterNumber;
-  TruyenDetail novel;
+  NovelDetail novel;
   bool isOffline;
 
 
@@ -35,14 +35,14 @@ class _ChapterListViewState extends State<ChapterListView> {
     chapterNumber = widget.chapterNumber;
     totalPages = (chapterNumber / numberChapterPerPage).ceil();
 
-    historyService.getReadChapters(widget.novel.tenTruyen).then((value) {
+    historyService.getReadChapters(widget.novel.novelName).then((value) {
       setState(() {
         readChapter = value;
       });
     });
 
     if(widget.isOffline){
-      FileService.instance.getChapterList(widget.novel.tenTruyen).then((value) {
+      FileService.instance.getChapterList(widget.novel.novelName).then((value) {
         setState(() {
           chapterNumber = value.length;
           totalPages = (chapterNumber / numberChapterPerPage).ceil();
@@ -103,7 +103,7 @@ class _ChapterListViewState extends State<ChapterListView> {
             itemBuilder: (context, index) {
               var chapter = '1';
 
-              if(chapterList.length > 0){
+              if(chapterList.isNotEmpty){
                 chapter = chapterList[index + numberChapterPerPage*(currentPage-1)];
               }
 

@@ -12,20 +12,20 @@ class ExportService {
       // If not we will ask for permission first
       await Permission.storage.request();
     }
-    Directory _directory = Directory("");
+    Directory directory = Directory("");
     if (Platform.isAndroid) {
       // Redirects it to download folder in android
       String? selectedDirectory = await FilePicker.platform.getDirectoryPath();
       if (selectedDirectory != null) {
-        _directory = Directory(selectedDirectory);
+        directory = Directory(selectedDirectory);
       } else {
-        _directory = Directory("/storage/emulated/0/Download");
+        directory = Directory("/storage/emulated/0/Download");
       }
     } else {
-      _directory = await getApplicationDocumentsDirectory();
+      directory = await getApplicationDocumentsDirectory();
     }
 
-    final exPath = _directory.path;
+    final exPath = directory.path;
     print("Saved Path: $exPath");
     await Directory(exPath).create(recursive: true);
     return exPath;

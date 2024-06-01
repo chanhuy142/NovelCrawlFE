@@ -14,7 +14,7 @@ class ReadingScreen extends StatefulWidget {
       required this.novel,
       required this.chapter,
       required this.isOffline});
-  final TruyenDetail novel;
+  final NovelDetail novel;
   final int chapter;
   final bool isOffline;
 
@@ -223,7 +223,7 @@ class _ReadingScreenState extends State<ReadingScreen> {
       backgroundColor: _backgroundColor,
       appBar: AppBar(
         backgroundColor: _backgroundColor,
-        title: Text('Chương $chapter - ${widget.novel.tenTruyen}',
+        title: Text('Chương $chapter - ${widget.novel.novelName}',
             style: TextStyle(color: _color)),
         iconTheme: IconThemeData(color: _color),
       ),

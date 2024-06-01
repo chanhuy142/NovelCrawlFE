@@ -8,7 +8,7 @@ import 'package:novel_crawl/service/state_service.dart';
 
 class ExportPopup extends StatefulWidget {
   const ExportPopup({super.key, required this.novel});
-  final TruyenDetail novel;
+  final NovelDetail novel;
 
   @override
   State<ExportPopup> createState() => _ExportPopupState();
@@ -115,9 +115,9 @@ class _ExportPopupState extends State<ExportPopup> {
           children: [
             Container(
               alignment: Alignment.centerLeft,
-              child: Text(
+              child: const Text(
                 'Chương số: ',
-                style: const TextStyle(color: Colors.white, fontSize: 16),
+                style: TextStyle(color: Colors.white, fontSize: 16),
               ),
             ),
             TextField(
@@ -133,9 +133,9 @@ class _ExportPopupState extends State<ExportPopup> {
             ),
             Container(
               alignment: Alignment.centerLeft,
-              child: Text(
+              child: const Text(
                 'Loại file: ',
-                style: const TextStyle(color: Colors.white, fontSize: 16),
+                style: TextStyle(color: Colors.white, fontSize: 16),
               ),
             ),
             const SizedBox(
@@ -162,7 +162,7 @@ class _ExportPopupState extends State<ExportPopup> {
                   _ChapterController.text = "1";
                   return;
                 }
-                exportNovel(widget.novel.tenTruyen, chapter);
+                exportNovel(widget.novel.novelName, chapter);
               } catch (e) {
                 print(e);
                 Navigator.of(context).pop();
@@ -179,7 +179,7 @@ class _ExportPopupState extends State<ExportPopup> {
           ? Container(
               color:
                   Colors.black.withOpacity(0.5), // Semi-transparent black color
-              child: Center(
+              child: const Center(
                 child: CircularProgressIndicator(),
               ),
             )

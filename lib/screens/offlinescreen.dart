@@ -5,14 +5,14 @@ import '../components/novel_card_grid_view.dart';
 import '../models/novel_detail.dart';
 
 class OfflinePage extends StatefulWidget {
-  OfflinePage({super.key});
+  const OfflinePage({super.key});
 
   @override
   State<OfflinePage> createState() => _OfflinePageState();
 }
 
 class _OfflinePageState extends State<OfflinePage> {
-  List<TruyenDetail> novelsList = [];
+  List<NovelDetail> novelsList = [];
   @override
   void initState() {
     // TODO: implement initState

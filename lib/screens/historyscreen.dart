@@ -14,7 +14,7 @@ class HistoryPage extends StatefulWidget {
 
 
 class _HistoryPageState extends State<HistoryPage> {
-  List<TruyenDetail> novelsList = [];
+  List<NovelDetail> novelsList = [];
 
   @override
   void initState() {

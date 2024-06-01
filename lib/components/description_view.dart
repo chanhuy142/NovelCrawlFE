@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:novel_crawl/models/novel_detail.dart';
 
 class DescriptionView extends StatelessWidget {
   const DescriptionView({super.key, required this.description});
