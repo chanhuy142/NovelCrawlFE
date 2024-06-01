@@ -54,7 +54,7 @@ class _ExportPopupState extends State<ExportPopup> {
     });
   }
 
-  void exportNovel(String novelName, int chapter) {
+  void exportNovel(String novelName, int chapter, String author, String cover) {
     setLoading(true);
     APIService().getChapterContent(widget.novel, chapter).then((value) {
       setState(() {
@@ -64,7 +64,7 @@ class _ExportPopupState extends State<ExportPopup> {
         }
         selectContentFromPrioritySource();
         print(fileType);
-        APIService().getExportFile('$novelName - Chương $chapter', _content, fileType).then((value) {
+        APIService().getExportFile('$novelName - Chương $chapter', _content, fileType, author, cover).then((value) {
           ExportService.writeCounter(value.bodyBytes, '$novelName - Chương $chapter.$fileType').then((value){
             Navigator.of(context).pop();
             setLoading(false);
@@ -162,7 +162,7 @@ class _ExportPopupState extends State<ExportPopup> {
                   _ChapterController.text = "1";
                   return;
                 }
-                exportNovel(widget.novel.novelName, chapter);
+                exportNovel(widget.novel.novelName, chapter, widget.novel.author, widget.novel.cover);
               } catch (e) {
                 print(e);
                 Navigator.of(context).pop();

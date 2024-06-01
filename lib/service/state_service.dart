@@ -20,9 +20,9 @@ class StateService{
 
   final List<Color> colors = [
     Colors.black,
-    Colors.white,
     const Color(0xFF3A3E48),
     const Color(0xFFFFF1C2),
+    Colors.white,
   ];
 
   final List<String> fonts = [

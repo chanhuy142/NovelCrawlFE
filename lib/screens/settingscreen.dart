@@ -85,7 +85,7 @@ class _SettingPageState extends State<SettingPage> {
         body: SingleChildScrollView(
           child: Padding(
               padding: //top padding
-                  const EdgeInsets.only(top: 35),
+                  const EdgeInsets.only(top: 35, left: 20, right: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -111,8 +111,29 @@ class _SettingPageState extends State<SettingPage> {
                     ),
                   ),
                   widget.novelSourceSelector,
+                  Container(
+                    height: 100,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.rectangle,
+                      borderRadius: BorderRadius.circular(15),
+                      color: colors[selectedBackground],
+                      border: Border.all(
+                        color: const Color(0xFF83899F),
+                        width: 2,
+                      ),
+                    ),
+                    child: Text('Đây là định dạng của truyện sẽ được hiển thị',
+                        softWrap: true,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: colors[selectedColor],
+                            fontSize: fontSize.toDouble(),
+                            fontFamily: fonts[selectedFont],
+                            height: lineSpacing.toDouble()))
+                  ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 15, bottom: 15),
+                    padding: const EdgeInsets.only(top: 10, bottom: 10),
                     child: Row(
                       children: [
                         const Text(
@@ -122,10 +143,10 @@ class _SettingPageState extends State<SettingPage> {
                               fontSize: 20,
                               fontWeight: FontWeight.normal),
                         ),
-                        const Spacer(),
                         Expanded(
-                          child: SizedBox(
-                            height: 30,
+                          child: Container(
+                            height: 40,
+                            margin: const EdgeInsets.only(right: 20),
                             child: ListView.builder(
                                 scrollDirection: Axis.horizontal,
                                 itemCount: colors.length,
@@ -135,13 +156,14 @@ class _SettingPageState extends State<SettingPage> {
                                     onTap: () {
                                       setState(() {
                                         selectedBackground = index;
-                                        stateService
-                                            .saveBackgroundColorID(index);
+                                        stateService.saveBackgroundColorID(index);
+                                        selectedColor = 3-index;
+                                        stateService.saveColorID(3-index);
                                         widget.onUpdated();
                                       });
                                     },
                                     child: Container(
-                                      width: 30,
+                                      width: 40,
                                       margin: const EdgeInsets.only(left: 5),
                                       decoration: BoxDecoration(
                                         color: colors[index],
@@ -163,57 +185,7 @@ class _SettingPageState extends State<SettingPage> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 15, bottom: 15),
-                    child: Row(
-                      children: [
-                        const Text(
-                          'Màu chữ',
-                          style: TextStyle(
-                              color: Color(0xFFFFFFFF),
-                              fontSize: 20,
-                              fontWeight: FontWeight.normal),
-                        ),
-                        const Spacer(),
-                        Expanded(
-                          child: SizedBox(
-                            height: 30,
-                            child: ListView.builder(
-                                scrollDirection: Axis.horizontal,
-                                itemCount: colors.length,
-                                reverse: true,
-                                itemBuilder: (context, index) {
-                                  return InkWell(
-                                    onTap: () {
-                                      setState(() {
-                                        selectedColor = index;
-                                        stateService.saveColorID(index);
-                                        widget.onUpdated();
-                                      });
-                                    },
-                                    child: Container(
-                                      width: 30,
-                                      margin: const EdgeInsets.only(left: 5),
-                                      decoration: BoxDecoration(
-                                        color: colors[index],
-                                        shape: BoxShape.rectangle,
-                                        borderRadius: BorderRadius.circular(5),
-                                        border: Border.all(
-                                          color: index == selectedColor
-                                              ? const Color(0xFFDFD82C)
-                                              : const Color(0xFF83899F),
-                                          width: 2,
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                }),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 15, bottom: 15),
+                    padding: const EdgeInsets.only(top: 10, bottom: 10),
                     child: Row(
                       children: [
                         const Text(
@@ -244,7 +216,7 @@ class _SettingPageState extends State<SettingPage> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 15, bottom: 15),
+                    padding: const EdgeInsets.only(top: 10, bottom: 10),
                     child: Row(
                       children: [
                         const Text(
@@ -270,6 +242,7 @@ class _SettingPageState extends State<SettingPage> {
                           },
                           activeColor: const Color(0xFFDFD82C),
                           inactiveColor: const Color(0xFF3A3E47),
+                          
                         ),
                       ],
                     ),
@@ -292,7 +265,7 @@ class _SettingPageState extends State<SettingPage> {
                         Expanded(
                           child: ListView.builder(
                               padding: const EdgeInsets.only(
-                                  top: 15, bottom: 15, left: 20, right: 20),
+                                  top: 10, bottom: 10, left: 20, right: 20),
                               scrollDirection: Axis.vertical,
                               itemCount: fonts.length,
                               itemBuilder: (context, index) {

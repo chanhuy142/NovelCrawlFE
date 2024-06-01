@@ -12,7 +12,7 @@ class APIService {
   AllSourceChapterContent allSourceChapterContentFromJson(String str) =>
       AllSourceChapterContent.fromJson(jsonDecode(str));
 
-  String localhost = 'http://192.168.1.19:3000';
+  String localhost = 'http://192.168.1.11:3000';
   //send to http://localhost/details
   //port 3000
   Future<Library> getNovelDetails() async {
@@ -81,7 +81,7 @@ class APIService {
     }
   }
  
-  Future<Response> getExportFile(String name, String content, String fileType) async {
+  Future<Response> getExportFile(String name, String content, String fileType, String author, String coverImage) async {
     try {
       String apiUrl = '$localhost/download';
       final response = await http.post(
@@ -93,6 +93,8 @@ class APIService {
           'content': content,
           'name': name,
           'fileType': fileType,
+          'author': author,
+          'coverImage': coverImage
           // Add any other data you want to send in the body
         }),
       );
