@@ -171,7 +171,7 @@ class _ReadingModalBottomState extends State<ReadingModalBottom> {
                           child: SettingPage(
                               novelSourceSelector: NovelSourceSelector(
                                   novelSources: widget.sources,
-                                  onUpdated: widget.onUpdated)));
+                                  onUpdated: widget.onUpdated), onUpdated: widget.onUpdated,));
                     }
               );
             },

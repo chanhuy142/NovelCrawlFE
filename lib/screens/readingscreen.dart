@@ -244,15 +244,13 @@ class _ReadingScreenState extends State<ReadingScreen> {
               ),
             )
           : GestureDetector(
-              child: Expanded(
-                child: ReadingView(
-                    content: _content,
-                    fontSize: _fontSize,
-                    fontFamily: _fontFamily,
-                    color: _color,
-                    spacing: _spacing,
-                    backgroundColor: _backgroundColor),
-              ),
+              child: ReadingView(
+                  content: _content,
+                  fontSize: _fontSize,
+                  fontFamily: _fontFamily,
+                  color: _color,
+                  spacing: _spacing,
+                  backgroundColor: _backgroundColor),
               onTap: () {
                 showModalBottom(context);
               }),

@@ -6,8 +6,10 @@ import 'package:novel_crawl/service/state_service.dart';
 
 class SettingPage extends StatefulWidget {
   final Widget novelSourceSelector;
-  const SettingPage({super.key, this.novelSourceSelector = const NovelSourcePrioritySelector()});
+  final Function() onUpdated ;
+  const SettingPage({super.key, this.novelSourceSelector = const NovelSourcePrioritySelector(), this.onUpdated = defaultFunction});
   
+  static void defaultFunction() {}
   @override
   State<SettingPage> createState() => _SettingPageState();
 }
@@ -128,10 +130,11 @@ class _SettingPageState extends State<SettingPage> {
                                 reverse: true,
                                 itemBuilder: (context, index) {
                                   return InkWell(
-                                    onTap: () {
-                                      setState(() {
+                                    onTap: () {                                      
+                                      setState(() {                                       
                                         selectedBackground = index;
                                         stateService.saveBackgroundColorID(index);
+                                        widget.onUpdated();
                                       });
                                     },
                                     child: Container(
@@ -181,6 +184,7 @@ class _SettingPageState extends State<SettingPage> {
                                       setState(() {
                                         selectedColor = index;
                                         stateService.saveColorID(index);
+                                        widget.onUpdated();
                                       });
                                     },
                                     child: Container(
@@ -222,6 +226,7 @@ class _SettingPageState extends State<SettingPage> {
                             setState(() {
                               fontSize = max(12, fontSize - 1);
                               stateService.saveFontSize(fontSize);
+                              widget.onUpdated();
                             });
                           },
                           child: const Icon(
@@ -252,6 +257,7 @@ class _SettingPageState extends State<SettingPage> {
                             setState(() {
                               fontSize = min(30, fontSize + 1);
                               stateService.saveFontSize(fontSize);
+                              widget.onUpdated();
                             });
                           },
                           child: const Icon(
@@ -280,6 +286,7 @@ class _SettingPageState extends State<SettingPage> {
                             setState(() {
                               lineSpacing = max(1, lineSpacing - 1);
                               stateService.saveLineSpacing(lineSpacing);
+                              widget.onUpdated();
                             });
                           },
                           child: const Icon(
@@ -310,6 +317,7 @@ class _SettingPageState extends State<SettingPage> {
                             setState(() {
                               lineSpacing = min(3, lineSpacing + 1);
                               stateService.saveLineSpacing(lineSpacing);
+                              widget.onUpdated();
                             });
                           },
                           child: const Icon(
@@ -347,6 +355,7 @@ class _SettingPageState extends State<SettingPage> {
                                       setState(() {
                                         selectedFont = index;
                                         stateService.saveFontFamilyID(index);
+                                        widget.onUpdated();
                                       });
                                     },
                                     child: Padding(

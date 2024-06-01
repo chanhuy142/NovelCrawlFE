@@ -52,6 +52,7 @@ class _NovelSourceSelectorState extends State<NovelSourceSelector> {
                 setState(() {
                   selectedSource = index;
                   stateService.saveSelectedSource(widget.novelSources[index]);
+                  widget.onUpdated();
                 });
               },
               child: Padding(

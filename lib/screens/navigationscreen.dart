@@ -19,6 +19,8 @@ class _NavigationScreenState extends State<NavigationScreen> {
     OfflinePage(),
     const SettingPage(),
   ];
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

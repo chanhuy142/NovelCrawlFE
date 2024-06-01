@@ -22,7 +22,7 @@ class NovelInfoTabControl extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           TabBar(
-            isScrollable: true,
+            isScrollable: false,
             labelColor: const Color(0xFFFFFFFF),
             labelStyle: TextStyle(fontSize: 20),
             
