@@ -65,11 +65,7 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  //on init
-  @override
-  void initState() {
-    resultnovels = library.novelDetail;
-
+  void loadNovelDetails() {
     if (library.novelDetail.isEmpty && !isLoading) {
       //get api service
       isLoading = true;
@@ -84,6 +80,14 @@ class _HomePageState extends State<HomePage> {
         }
       });
     }
+  }
+
+  //on init
+  @override
+  void initState() {
+    resultnovels = library.novelDetail;
+
+    loadNovelDetails();
 
     stateService.checkSourcesInDB();
     FileService.instance.init();
@@ -185,6 +189,7 @@ class _HomePageState extends State<HomePage> {
                 : NovelCardGridView(
                     novelsList: resultnovels,
                     isOffline: false,
+                    onRefreshGridView: loadNovelDetails,
                   )
           ],
         ),

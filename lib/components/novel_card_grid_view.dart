@@ -9,29 +9,36 @@ class NovelCardGridView extends StatelessWidget {
     super.key,
     required this.novelsList,
     required this.isOffline,
+    required this.onRefreshGridView,
   });
 
   final List<NovelDetail> novelsList;
   final bool isOffline;
+  final Function() onRefreshGridView;
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: GridView.builder(
-        shrinkWrap: true,
-        itemCount: novelsList.length,
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 10,
-          mainAxisSpacing: 10,
-          childAspectRatio: 2 / 3,
-        ),
-        itemBuilder: (context, index) {
-          return NovelCard(
-            novelDetail: novelsList[index],
-            isOffline: isOffline,
-          );
+      child: RefreshIndicator(
+        onRefresh: () async {
+          onRefreshGridView();
         },
+        child: GridView.builder(
+          shrinkWrap: true,
+          itemCount: novelsList.length,
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 10,
+            childAspectRatio: 2 / 3,
+          ),
+          itemBuilder: (context, index) {
+            return NovelCard(
+              novelDetail: novelsList[index],
+              isOffline: isOffline,
+            );
+          },
+        ),
       ),
     );
   }

@@ -16,14 +16,18 @@ class HistoryPage extends StatefulWidget {
 class _HistoryPageState extends State<HistoryPage> {
   List<NovelDetail> novelsList = [];
 
-  @override
-  void initState() {
-    // TODO: implement initState
+  void loadHistory() {
     HistoryService.instance.getHistoryList().then((value) {
       setState(() {
         novelsList = value;
       });
     });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    loadHistory();
     super.initState();
   }
 
@@ -44,7 +48,7 @@ class _HistoryPageState extends State<HistoryPage> {
                     fontSize: 20,
                     fontWeight: FontWeight.bold),
               ),
-              NovelCardGridView(novelsList: novelsList, isOffline: false)
+              NovelCardGridView(novelsList: novelsList, isOffline: false, onRefreshGridView: loadHistory)
             ],
           ),
       ),

@@ -13,14 +13,19 @@ class OfflinePage extends StatefulWidget {
 
 class _OfflinePageState extends State<OfflinePage> {
   List<NovelDetail> novelsList = [];
-  @override
-  void initState() {
-    // TODO: implement initState
+
+  void loadHistory() {
     FileService.instance.getNovelList().then((value) {
       setState(() {
         novelsList = value;
       });
     });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    loadHistory();
     super.initState();
   }
   @override
@@ -40,7 +45,7 @@ class _OfflinePageState extends State<OfflinePage> {
                     fontSize: 20,
                     fontWeight: FontWeight.bold),
               ),
-              NovelCardGridView(novelsList: novelsList, isOffline: true)
+              NovelCardGridView(novelsList: novelsList, isOffline: true, onRefreshGridView: loadHistory)
             ],
           ),
       ),
