@@ -146,11 +146,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ),
-                //filter icon
-                Padding(
-                  padding: const EdgeInsets.only(right: 12.0),
-                  child: Icon(Icons.menu, color: Color(0xFFDFD82C), size: 40),
-                ),
+
               ],
             ),
             //Truyện HOT
