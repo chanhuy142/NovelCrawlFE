@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:novel_crawl/components/reading_view.dart';
+import 'package:novel_crawl/controllers/setting_controller.dart';
 import 'package:novel_crawl/models/content_from_all_source.dart';
 import 'package:novel_crawl/models/novel_detail.dart';
 import 'package:novel_crawl/popup/reading_modal_bottom.dart';
@@ -24,11 +25,7 @@ class ReadingScreen extends StatefulWidget {
 
 class _ReadingScreenState extends State<ReadingScreen> {
   var _content = '';
-  int _fontSize = 20;
-  var _fontFamily = 'Arial';
-  Color _color = const Color(0xFFFFFFFF);
-  Color _backgroundColor = const Color(0xFF000000);
-  var _spacing = 1;
+  SettingController settingController = SettingController.instance;
   int chapter = 1;
   List<String> sources = [];
   bool _isLoading = true;
@@ -61,36 +58,6 @@ class _ReadingScreenState extends State<ReadingScreen> {
         sources = value;
       });
     });
-
-    stateService.getFontSize().then((value) {
-      setState(() {
-        _fontSize = value;
-      });
-    });
-
-    stateService.getLineSpacing().then((value) {
-      setState(() {
-        _spacing = value;
-      });
-    });
-
-    stateService.getFontFamily().then((value) {
-      setState(() {
-        _fontFamily = value;
-      });
-    });
-
-    stateService.getColor().then((value) {
-      setState(() {
-        _color = value;
-      });
-    });
-
-    stateService.getBackgroundColor().then((value) {
-      setState(() {
-        _backgroundColor = value;
-      });
-    });
   }
 
   void onChapterChanged(int chapter) {
@@ -105,36 +72,7 @@ class _ReadingScreenState extends State<ReadingScreen> {
       _content = content;
       _isLoading = false;
     });
-  }
-
-  void changeFontSize(int fontSize) {
-    setState(() {
-      _fontSize = fontSize;
-    });
-  }
-
-  void changeFontFamily(String fontFamily) {
-    setState(() {
-      _fontFamily = fontFamily;
-    });
-  }
-
-  void changeColor(Color color) {
-    setState(() {
-      _color = color;
-    });
-  }
-
-  void changeBackgroundColor(Color backgroundColor) {
-    setState(() {
-      _backgroundColor = backgroundColor;
-    });
-  }
-
-  void changeSpacing(int spacing) {
-    setState(() {
-      _spacing = spacing;
-    });
+    
   }
 
   void selectContentFromPrioritySource() {
@@ -220,16 +158,16 @@ class _ReadingScreenState extends State<ReadingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: _backgroundColor,
+      backgroundColor: settingController.setting.background,
       appBar: AppBar(
-        backgroundColor: _backgroundColor,
+        backgroundColor: settingController.setting.background,
         title: Text('Chương $chapter - ${widget.novel.novelName}',
-            style: TextStyle(color: _color)),
-        iconTheme: IconThemeData(color: _color),
+            style: TextStyle(color: settingController.setting.color)),
+        iconTheme: IconThemeData(color: settingController.setting.color),
       ),
       body: _isLoading
           ? Container(
-              color: _backgroundColor,
+              color: settingController.setting.background,
               height: double.infinity,
               width: double.infinity,
               child: const SizedBox(
@@ -244,12 +182,7 @@ class _ReadingScreenState extends State<ReadingScreen> {
             )
           : GestureDetector(
               child: ReadingView(
-                  content: _content,
-                  fontSize: _fontSize,
-                  fontFamily: _fontFamily,
-                  color: _color,
-                  spacing: _spacing,
-                  backgroundColor: _backgroundColor),
+                  content: _content),
               onTap: () {
                 showModalBottom(context);
               }),

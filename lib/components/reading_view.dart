@@ -1,30 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:novel_crawl/controllers/setting_controller.dart';
 
 class ReadingView extends StatelessWidget {
-  const ReadingView({super.key, required this.content, required this.fontSize, required this.fontFamily, required this.color, required this.backgroundColor, required this.spacing});
+  const ReadingView({super.key, required this.content});
   final String content;
-  final int fontSize;
-  final String fontFamily;
-  final Color color;
-  final int spacing;
-  final Color backgroundColor;
-
+  
   @override
   Widget build(BuildContext context) {
+    SettingController settingController = SettingController.instance;
     return SingleChildScrollView(
       child: Container(
-        color: backgroundColor,
+        color: settingController.setting.background,
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Text(
             content,
             softWrap: true,
             style: TextStyle(
-              fontSize: fontSize.toDouble(),
-              color: color,
-              height: spacing.toDouble(),
-              fontFamily: fontFamily,
-              
+              fontSize: settingController.setting.fontSize.toDouble(),
+              color: settingController.setting.color,
+              height: settingController.setting.lineSpacing.toDouble(),
+              fontFamily: settingController.setting.font,
             ),
         ),
         ),

@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:novel_crawl/components/novel_source_priority_selector.dart';
+import 'package:novel_crawl/controllers/setting_controller.dart';
 import 'package:novel_crawl/service/state_service.dart';
 
 class SettingPage extends StatefulWidget {
@@ -17,64 +18,17 @@ class SettingPage extends StatefulWidget {
 }
 
 class _SettingPageState extends State<SettingPage> {
-  List<String> novelSoucre = [
-    'Truyện Full',
-    'Tàng Thư Viện',
-    'Truyện abcxyz',
-  ];
-  StateService stateService = StateService.instance;
-  int selectedFont = 0;
-  int selectedColor = 0;
-  int selectedBackground = 0;
-  int fontSize = 16;
-  int lineSpacing = 1;
-  int selectedSource = 0;
-
-  List<Color> colors = [];
-
-  List<String> fonts = [];
-
+  SettingController settingController = SettingController.instance;
+  
   @override
   void initState() {
-    colors = stateService.getColorList();
-    fonts = stateService.getFontFamilyList();
-    stateService.getFontSize().then((value) {
-      setState(() {
-        fontSize = value;
-      });
-    });
-
-    stateService.getLineSpacing().then((value) {
-      setState(() {
-        lineSpacing = value;
-      });
-    });
-
-    stateService.getFontFamilyID().then((value) {
-      setState(() {
-        selectedFont = value;
-      });
-    });
-
-    stateService.getColorID().then((value) {
-      setState(() {
-        selectedColor = value;
-      });
-    });
-
-    stateService.getBackgroundColorID().then((value) {
-      setState(() {
-        selectedBackground = value;
-      });
-    });
-
+    settingController.init();
     super.initState();
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
-    stateService.closeService();
+    settingController.dispose();
     super.dispose();
   }
 
@@ -117,7 +71,7 @@ class _SettingPageState extends State<SettingPage> {
                     decoration: BoxDecoration(
                       shape: BoxShape.rectangle,
                       borderRadius: BorderRadius.circular(15),
-                      color: colors[selectedBackground],
+                      color: settingController.setting.background,
                       border: Border.all(
                         color: const Color(0xFF83899F),
                         width: 2,
@@ -127,10 +81,10 @@ class _SettingPageState extends State<SettingPage> {
                         softWrap: true,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            color: colors[selectedColor],
-                            fontSize: fontSize.toDouble(),
-                            fontFamily: fonts[selectedFont],
-                            height: lineSpacing.toDouble()))
+                            color: settingController.setting.color,
+                            fontSize: settingController.setting.fontSize.toDouble(),
+                            fontFamily: settingController.setting.font,
+                            height: settingController.setting.lineSpacing.toDouble()))
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 10, bottom: 10),
@@ -149,16 +103,14 @@ class _SettingPageState extends State<SettingPage> {
                             margin: const EdgeInsets.only(right: 20),
                             child: ListView.builder(
                                 scrollDirection: Axis.horizontal,
-                                itemCount: colors.length,
+                                itemCount: settingController.setting.colors.length,
                                 reverse: true,
                                 itemBuilder: (context, index) {
                                   return InkWell(
                                     onTap: () {
                                       setState(() {
-                                        selectedBackground = index;
-                                        stateService.saveBackgroundColorID(index);
-                                        selectedColor = 3-index;
-                                        stateService.saveColorID(3-index);
+                                        settingController.setBackgroundColorId(index);
+                                        settingController.setColorId(3 - index);
                                         widget.onUpdated();
                                       });
                                     },
@@ -166,11 +118,11 @@ class _SettingPageState extends State<SettingPage> {
                                       width: 40,
                                       margin: const EdgeInsets.only(left: 5),
                                       decoration: BoxDecoration(
-                                        color: colors[index],
+                                        color: settingController.setting.colors[index],
                                         shape: BoxShape.rectangle,
                                         borderRadius: BorderRadius.circular(5),
                                         border: Border.all(
-                                          color: index == selectedBackground
+                                          color: index == settingController.setting.backgroundId
                                               ? const Color(0xFFDFD82C)
                                               : const Color(0xFF83899F),
                                           width: 2,
@@ -197,15 +149,14 @@ class _SettingPageState extends State<SettingPage> {
                         ),
                         const Spacer(),
                         Slider(
-                          value: fontSize.toDouble(),
+                          value: settingController.setting.fontSize.toDouble(),
                           min: 12,
                           max: 30,
                           divisions: 18,
-                          label: fontSize.round().toString(),
+                          label: settingController.setting.fontSize.toString(),
                           onChanged: (double value) {
                             setState(() {
-                              fontSize = value.round();
-                              stateService.saveFontSize(fontSize);
+                              settingController.setFontSize(value.round());
                               widget.onUpdated();
                             });
                           },
@@ -228,15 +179,14 @@ class _SettingPageState extends State<SettingPage> {
                         ),
                         const Spacer(),
                         Slider(
-                          value: lineSpacing.toDouble(),
+                          value: settingController.setting.lineSpacing.toDouble(),
                           min: 1,
                           max: 3,
                           divisions: 2,
-                          label: lineSpacing.round().toString(),
+                          label: settingController.setting.lineSpacing.toString(),
                           onChanged: (double value) {
                             setState(() {
-                              lineSpacing = value.round();
-                              stateService.saveLineSpacing(lineSpacing);
+                              settingController.setLineSpacing(value.round());
                               widget.onUpdated();
                             });
                           },
@@ -267,13 +217,12 @@ class _SettingPageState extends State<SettingPage> {
                               padding: const EdgeInsets.only(
                                   top: 10, bottom: 10, left: 20, right: 20),
                               scrollDirection: Axis.vertical,
-                              itemCount: fonts.length,
+                              itemCount: settingController.setting.fonts.length,
                               itemBuilder: (context, index) {
                                 return InkWell(
                                   onTap: () {
                                     setState(() {
-                                      selectedFont = index;
-                                      stateService.saveFontFamilyID(index);
+                                      settingController.setFontFamilyId(index);
                                       widget.onUpdated();
                                     });
                                   },
@@ -287,7 +236,7 @@ class _SettingPageState extends State<SettingPage> {
                                           borderRadius:
                                               BorderRadius.circular(15),
                                           border: Border.all(
-                                            color: index == selectedFont
+                                            color: index == settingController.setting.fontId
                                                 ? const Color(0xFFDFD82C)
                                                 : Colors.transparent,
                                             width: 1,
@@ -299,9 +248,9 @@ class _SettingPageState extends State<SettingPage> {
                                           child: Row(
                                             children: [
                                               Text(
-                                                fonts[index],
+                                                settingController.setting.fonts[index],
                                                 style: TextStyle(
-                                                    color: index == selectedFont
+                                                    color: index == settingController.setting.fontId
                                                         ? const Color(
                                                             0xFFDFD82C)
                                                         : const Color(
@@ -309,11 +258,11 @@ class _SettingPageState extends State<SettingPage> {
                                                     fontSize: 20,
                                                     fontWeight:
                                                         FontWeight.normal,
-                                                    fontFamily: fonts[index]),
+                                                    fontFamily: settingController.setting.fonts[index]),
                                               ),
                                               const Spacer(),
                                               Visibility(
-                                                visible: index == selectedFont,
+                                                visible: index == settingController.setting.fontId,
                                                 child: const Icon(
                                                   Icons.check,
                                                   color: Color(0xFFDFD82C),
