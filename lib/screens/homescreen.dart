@@ -44,22 +44,24 @@ class _HomePageState extends State<HomePage> {
   }
 
   void search(String value) {
-    if (value.isEmpty) {
-      setState(() {
-        resultnovels = library.novelDetail;
-      });
-    } else {
-      value = SearchStandardize.standardize(value);
-      print(value);
-      setState(() {
-        isLoading = true;
-      });
-      APIService().getSearchedNovelDetails(value).then((result) {
+    if (!isLoading) {
+      if (value.isEmpty) {
         setState(() {
-          resultnovels = result.novelDetail;
-          isLoading = false;
+          resultnovels = library.novelDetail;
         });
-      });
+      } else {
+        value = SearchStandardize.standardize(value);
+        print(value);
+        setState(() {
+          isLoading = true;
+        });
+        APIService().getSearchedNovelDetails(value).then((result) {
+          setState(() {
+            resultnovels = result.novelDetail;
+            isLoading = false;
+          });
+        });
+      }
     }
   }
 
@@ -134,6 +136,7 @@ class _HomePageState extends State<HomePage> {
                           suffixIcon: GestureDetector(
                             onTap: () {
                               search(_searchController.text);
+                              FocusScope.of(context).unfocus();
                             },
                             child: Icon(
                               Icons.search,
@@ -146,7 +149,6 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ),
-
               ],
             ),
             //Truyện HOT
@@ -180,7 +182,10 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                   )
-                : NovelCardGridView(novelsList: resultnovels, isOffline: false,)
+                : NovelCardGridView(
+                    novelsList: resultnovels,
+                    isOffline: false,
+                  )
           ],
         ),
       ),
