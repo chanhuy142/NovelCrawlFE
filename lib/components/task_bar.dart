@@ -1,6 +1,7 @@
-
 import 'package:flutter/material.dart';
+import 'package:novel_crawl/controllers/reading_controller.dart';
 import 'package:novel_crawl/models/novel_detail.dart';
+import 'package:novel_crawl/models/reading_model.dart';
 import 'package:novel_crawl/popup/download_popup.dart';
 import 'package:novel_crawl/popup/export_popup.dart';
 import 'package:novel_crawl/screens/readingscreen.dart';
@@ -46,20 +47,26 @@ class _TaskBarState extends State<TaskBar> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => ReadingScreen(
-                          novel: novel,
-                          chapter: currentChapter,
-                          isOffline: widget.isOffline,
-                        )));
+                            readingController: ReadingController(
+                          readingModel: ReadingModel(
+                            novel: novel,
+                            chapter: currentChapter,
+                            isOffline: widget.isOffline,
+                          ),
+                        ))));
           });
         } else {
           Navigator.push(
               context,
               MaterialPageRoute(
                   builder: (context) => ReadingScreen(
-                        novel: novel,
-                        chapter: currentChapter,
-                        isOffline: widget.isOffline,
-                      )));
+                          readingController: ReadingController(
+                        readingModel: ReadingModel(
+                          novel: novel,
+                          chapter: currentChapter,
+                          isOffline: widget.isOffline,
+                        ),
+                      ))));
         }
       });
     });
@@ -75,8 +82,8 @@ class _TaskBarState extends State<TaskBar> {
         });
   }
 
-  void showExportDialog(){
-      showDialog(
+  void showExportDialog() {
+    showDialog(
         context: context,
         builder: (BuildContext context) {
           return ExportPopup(
@@ -84,7 +91,6 @@ class _TaskBarState extends State<TaskBar> {
           );
         });
   }
-
 
   @override
   Widget build(BuildContext context) {

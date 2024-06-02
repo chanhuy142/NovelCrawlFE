@@ -32,7 +32,6 @@ class _NovelSourceSelectorState extends State<NovelSourceSelector> {
   @override
   void dispose() {
     // TODO: implement dispose
-    widget.onUpdated();
     super.dispose();
   }
 

@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:novel_crawl/models/setting_model.dart';
 import 'package:novel_crawl/service/state_service.dart';
 

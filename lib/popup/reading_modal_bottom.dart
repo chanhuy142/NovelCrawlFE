@@ -1,108 +1,35 @@
-
 import 'package:flutter/material.dart';
 import 'package:novel_crawl/components/novel_source_selector.dart';
-import 'package:novel_crawl/models/novel_detail.dart';
+import 'package:novel_crawl/controllers/reading_controller.dart';
 import 'package:novel_crawl/popup/download_popup.dart';
 import 'package:novel_crawl/screens/settingscreen.dart';
-import 'package:novel_crawl/service/file_service.dart';
 
 class ReadingModalBottom extends StatefulWidget {
-  const ReadingModalBottom({super.key, required this.currentChapter, required this.novel, required this.onChapterChanged, required this.sources, required this.onUpdated, required this.isOffline});
-  final int currentChapter;
-  final NovelDetail novel;
+  const ReadingModalBottom(
+      {super.key,
+      required this.onChapterChanged,
+      required this.onUpdated,
+      required this.readingController});
   final ValueChanged<int> onChapterChanged;
-  final List<String> sources;
+  final ReadingController readingController;
   final Function() onUpdated;
-  final bool isOffline;
   @override
   State<ReadingModalBottom> createState() => _ReadingModalBottomState();
 }
 
 class _ReadingModalBottomState extends State<ReadingModalBottom> {
-  int currentChapter = 1;
-  int totalChapter = 1;
-
-  FileService fileService = FileService.instance;
-
-  void changeChapter(int chapter){
-    setState(() {
-      currentChapter = chapter;
-    });
-  }
-
-
   @override
   void initState() {
     super.initState();
-    currentChapter = widget.currentChapter;
-    totalChapter = widget.novel.numberOfChapters;
   }
 
-  void showDownloadDialog(){
+  void showDownloadDialog() {
     showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return DownloadPopup(novel: widget.novel,);
-      }
-    );
-  }
-
-  void getNextChapter(){
-    setState(() {
-      if(widget.isOffline){
-        fileService.getChapterList(widget.novel.novelName).then((value) {
-          if(currentChapter < int.parse(value.last)){
-            /*for(int i = 0; i < value.length; i++){
-              if(int.parse(value[i]) == currentChapter){
-                currentChapter = int.parse(value[i+1]);
-                widget.onChapterChanged(currentChapter);
-                break;
-              }
-            }
-            */
-            var nextchapterIndex = value.indexOf(currentChapter.toString()) + 1;
-            currentChapter = int.parse(value[nextchapterIndex]);
-            changeChapter(currentChapter);
-            widget.onChapterChanged(currentChapter);
-          }
+        context: context,
+        builder: (BuildContext context) {
+          return DownloadPopup(
+              novel: widget.readingController.readingModel.novel);
         });
-      }
-      else{
-        if(currentChapter < totalChapter){
-          changeChapter(currentChapter + 1);
-          widget.onChapterChanged(currentChapter);
-        }
-      }
-    });
-  }
-
-  void getPreviousChapter(){
-    setState(() {
-      if(widget.isOffline){
-        fileService.getChapterList(widget.novel.novelName).then((value) {
-          if(currentChapter > int.parse(value.first)){
-            /*for(int i = 0; i < value.length; i++){
-              if(int.parse(value[i]) == currentChapter){
-                changeChapter(int.parse(value[i-1]));
-                widget.onChapterChanged(currentChapter);
-                break;
-              }
-            }
-            */
-            var previousChapterIndex = value.indexOf(currentChapter.toString()) - 1;
-            currentChapter = int.parse(value[previousChapterIndex]);
-            changeChapter(currentChapter);
-            widget.onChapterChanged(currentChapter);
-          }
-        });
-      }
-      else{
-        if(currentChapter > 1){
-          changeChapter(currentChapter - 1);
-          widget.onChapterChanged(currentChapter);
-        }
-      }
-    });
   }
 
   @override
@@ -113,51 +40,64 @@ class _ReadingModalBottomState extends State<ReadingModalBottom> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.center,
-
         children: [
           GestureDetector(
-            onTap: () {
-              //download novel
-              showDownloadDialog();
-            },
-            child: Container(
-              color: Colors.transparent,
-              child: const Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                Icon(Icons.download, color: Colors.white,),
-                Text('Tải về', style: TextStyle(color: Colors.white),)
-              ],),
-            )
-          ),
-           Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            IconButton(
-              icon: const Icon(Icons.arrow_back_ios),
-              onPressed: () {
-                getPreviousChapter();
+              onTap: () {
+                //download novel
+                showDownloadDialog();
               },
-            ),
-            Text(
-              '$currentChapter/$totalChapter', 
-              style: const TextStyle(
-                fontSize: 16.0,
-                color: Colors.white,
+              child: Container(
+                color: Colors.transparent,
+                child: const Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.download,
+                      color: Colors.white,
+                    ),
+                    Text(
+                      'Tải về',
+                      style: TextStyle(color: Colors.white),
+                    )
+                  ],
+                ),
               )),
-            IconButton(
-              icon: const Icon(Icons.arrow_forward_ios),
-              onPressed: () {
-                getNextChapter();
-              },
-            ),
-          ],
-        ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              IconButton(
+                icon: const Icon(Icons.arrow_back_ios),
+                onPressed: () {
+                  widget.readingController.getPreviousChapter();
+                  setState(() {
+                    widget.onChapterChanged(
+                        widget.readingController.readingModel.chapter);
+                  });
+                },
+              ),
+              Text(
+                  '${widget.readingController.readingModel.chapter}/${widget.readingController.readingModel.novel.numberOfChapters}',
+                  style: const TextStyle(
+                    fontSize: 16.0,
+                    color: Colors.white,
+                  )),
+              IconButton(
+                icon: const Icon(Icons.arrow_forward_ios),
+                onPressed: () {
+                  widget.readingController.getNextChapter();
+                  setState(() {
+                    widget.onChapterChanged(
+                        widget.readingController.readingModel.chapter);
+                  });
+                },
+              ),
+            ],
+          ),
           GestureDetector(
-            onTap: () {
-              showModalBottomSheet(
-                context: context,
+              onTap: () {
+                showModalBottomSheet(
+                    context: context,
                     builder: (BuildContext context) {
                       return Container(
                           height: 700,
@@ -168,24 +108,38 @@ class _ReadingModalBottomState extends State<ReadingModalBottom> {
                                 topRight: Radius.circular(20)),
                           ),
                           child: SettingPage(
-                              novelSourceSelector: NovelSourceSelector(
-                                  novelSources: widget.sources,
-                                  onUpdated: widget.onUpdated), onUpdated: widget.onUpdated,));
-                    }
-              );
-            },
-            child: Container(
-              color: Colors.transparent,
-              child: const Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                Icon(Icons.settings, color: Colors.white,),
-                Text('Cài đặt', style: TextStyle(color: Colors.white),)
-              ],),
-            )
-          ),
-        ],),
+                            novelSourceSelector: NovelSourceSelector(
+                                novelSources: widget
+                                    .readingController
+                                    .readingModel
+                                    .allSourceChapterContent
+                                    .chapterContents
+                                    .map((e) => e.source)
+                                    .toList(),
+                                onUpdated: widget.onUpdated),
+                            onUpdated: widget.onUpdated,
+                          ));
+                    });
+              },
+              child: Container(
+                color: Colors.transparent,
+                child: const Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.settings,
+                      color: Colors.white,
+                    ),
+                    Text(
+                      'Cài đặt',
+                      style: TextStyle(color: Colors.white),
+                    )
+                  ],
+                ),
+              )),
+        ],
+      ),
     );
   }
 }
