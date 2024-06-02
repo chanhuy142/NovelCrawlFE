@@ -31,7 +31,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
               icon: Icon(
                 Icons.search,
               ),
-              label: 'Tìm kiếm',
+              label: 'Khám phá',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.history),
