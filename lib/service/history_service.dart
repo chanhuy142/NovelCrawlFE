@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:novel_crawl/models/novel_detail.dart';
@@ -23,11 +24,14 @@ class HistoryService{
         await hiveService.put(history, jsonEncode(historyData));
     }
 
-    Future updateNovelHistory(TruyenDetail truyenDetail, int currentChapter) async {
+    Future updateNovelHistory(NovelDetail novelDetail, int currentChapter) async {
         var historyData = await getHistory();
-        historyData[truyenDetail.tenTruyen] = {
-            'novelDetail': truyenDetail.toJson(),
-            'currentChapter': currentChapter.toString()
+        Set<int> readChapters = await getReadChapters(novelDetail.novelName);
+        readChapters.add(currentChapter);
+        historyData[novelDetail.novelName] = {
+            'novelDetail': novelDetail.toJson(),
+            'currentChapter': currentChapter.toString(),
+            'readChapters': jsonEncode(readChapters.toList())
         };
         await setHistory(historyData);
     }
@@ -36,6 +40,14 @@ class HistoryService{
         var historyData = await getHistory();
         historyData.remove(novelName);
         await setHistory(historyData);
+    }
+
+    Future<Set<int>> getReadChapters(String novelName) async {
+        var historyData = await getHistory();
+        if(historyData.containsKey(novelName) == false) {
+            return <int>{};
+        }
+        return Set<int>.from(jsonDecode(historyData[novelName]['readChapters'] ?? '[]'));
     }
 
     Future<int> getCurrentChapter (String novelName) async {
@@ -49,13 +61,17 @@ class HistoryService{
         return int.parse(historyData[novelName]['currentChapter'] ?? '1');
     }
 
-    Future<List<TruyenDetail>> getHistoryList() async {
+    Future<List<NovelDetail>> getHistoryList() async {
         var historyData = await getHistory();
-        List<TruyenDetail> historyList = [];
+        List<NovelDetail> historyList = [];
         historyData.forEach((key, value) {
-            historyList.add(TruyenDetail.fromJson(value['novelDetail']));
+            historyList.add(NovelDetail.fromJson(value['novelDetail']));
         });
         return historyList;
+    }
+
+    Future<bool> isReadChapter(String novelName, int chapterNumber) async {
+        return await getReadChapters(novelName).then((value) => value.contains(chapterNumber));
     }
     
     Future closeService() async {

@@ -1,13 +1,13 @@
-class TruyenDetail {
-    String tenTruyen;
+class NovelDetail {
+    String novelName;
     String cover;
     String url;
     String author;
     int numberOfChapters;
     String description;
 
-    TruyenDetail({
-        required this.tenTruyen,
+    NovelDetail({
+        required this.novelName,
         required this.cover,
         required this.url,
         required this.author,
@@ -15,8 +15,8 @@ class TruyenDetail {
         required this.description,
     });
 
-    factory TruyenDetail.fromJson(Map<String, dynamic> json) => TruyenDetail(
-        tenTruyen: json["tenTruyen"],
+    factory NovelDetail.fromJson(Map<String, dynamic> json) => NovelDetail(
+        novelName: json["novelName"],
         cover: json["cover"],
         url: json["url"],
         author: json["author"],
@@ -25,7 +25,7 @@ class TruyenDetail {
     );
 
     Map<String, dynamic> toJson() => {
-        "tenTruyen": tenTruyen,
+        "novelName": novelName,
         "cover": cover,
         "url": url,
         "author": author,
@@ -34,7 +34,7 @@ class TruyenDetail {
     };
 
     void standardize() {
-        tenTruyen = tenTruyen.trim();
+        novelName = novelName.trim();
         cover = cover.trim();
         url = url.trim();
         author = author.trim();

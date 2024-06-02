@@ -5,8 +5,10 @@ import 'package:novel_crawl/models/library.dart';
 import 'package:novel_crawl/models/novel_detail.dart';
 //import api service
 import 'package:novel_crawl/service/api_service.dart';
+import 'package:novel_crawl/service/file_service.dart';
 
 import '../components/novel_card_grid_view.dart';
+import '../service/state_service.dart';
 import '../util/search_standardize.dart';
 
 class HomePage extends StatefulWidget {
@@ -19,22 +21,23 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   //get library from api service
   final APIService apiService = APIService();
-  static Library library = Library(truyenDetail: []);
+  static Library library = Library(novelDetail: []);
   static bool isLoading = false;
+  final StateService stateService = StateService.instance;
   //text controller
   final TextEditingController _searchController = TextEditingController();
-  List<TruyenDetail> resultnovels = [];
+  List<NovelDetail> resultnovels = [];
 //search function
   void oldsearch(String value) {
     if (value.isEmpty) {
       setState(() {
-        resultnovels = library.truyenDetail;
+        resultnovels = library.novelDetail;
       });
     } else {
       setState(() {
-        resultnovels = library.truyenDetail
+        resultnovels = library.novelDetail
             .where((element) =>
-                element.tenTruyen.toLowerCase().contains(value.toLowerCase()))
+                element.novelName.toLowerCase().contains(value.toLowerCase()))
             .toList();
       });
     }
@@ -43,7 +46,7 @@ class _HomePageState extends State<HomePage> {
   void search(String value) {
     if (value.isEmpty) {
       setState(() {
-        resultnovels = library.truyenDetail;
+        resultnovels = library.novelDetail;
       });
     } else {
       value = SearchStandardize.standardize(value);
@@ -53,7 +56,7 @@ class _HomePageState extends State<HomePage> {
       });
       APIService().getSearchedNovelDetails(value).then((result) {
         setState(() {
-          resultnovels = result.truyenDetail;
+          resultnovels = result.novelDetail;
           isLoading = false;
         });
       });
@@ -63,22 +66,25 @@ class _HomePageState extends State<HomePage> {
   //on init
   @override
   void initState() {
-    resultnovels = library.truyenDetail;
+    resultnovels = library.novelDetail;
 
-    if (library.truyenDetail.isEmpty && !isLoading) {
+    if (library.novelDetail.isEmpty && !isLoading) {
       //get api service
       isLoading = true;
       apiService.getNovelDetails().then((value) {
         library.copyFrom(value);
-        print(library.truyenDetail.length);
+        print(library.novelDetail.length);
         if (mounted) {
           setState(() {
-            resultnovels = library.truyenDetail;
+            resultnovels = library.novelDetail;
             isLoading = false;
           });
         }
       });
     }
+
+    stateService.checkSourcesInDB();
+    FileService.instance.init();
     super.initState();
   }
 
@@ -112,7 +118,7 @@ class _HomePageState extends State<HomePage> {
                         decoration: InputDecoration(
                           isDense: true, // Added this
                           contentPadding: EdgeInsets.symmetric(horizontal: 20),
-                          hintText: "Tìm kiếm",
+                          hintText: "Nhập tên hoặc tác giả cần tìm",
                           hintStyle: TextStyle(color: Color(0xFF83899F)),
 
                           filled: true,
@@ -178,7 +184,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                   )
-                : NovelCardGridView(novelsList: resultnovels)
+                : NovelCardGridView(novelsList: resultnovels, isOffline: false,)
           ],
         ),
       ),

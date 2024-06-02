@@ -6,19 +6,21 @@ class DescriptionView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          'Giới thiệu',
-          style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            
+            Text(
+              description,
+              style: const TextStyle(color: Colors.white, fontSize: 17, fontFamily: 'Montserrat'),
+            )
+          ],
         ),
-        Text(
-          description,
-          style: const TextStyle(color: Colors.white, fontSize: 16),
-        )
-      ],
+      ),
     );
   }
 }

@@ -5,7 +5,7 @@ import '../models/novel_detail.dart';
 import '../service/history_service.dart';
 
 class HistoryPage extends StatefulWidget {
-  HistoryPage({super.key});
+  const HistoryPage({super.key});
 
   @override
   State<HistoryPage> createState() => _HistoryPageState();
@@ -14,7 +14,7 @@ class HistoryPage extends StatefulWidget {
 
 
 class _HistoryPageState extends State<HistoryPage> {
-  List<TruyenDetail> novelsList = [];
+  List<NovelDetail> novelsList = [];
 
   @override
   void initState() {
@@ -44,7 +44,7 @@ class _HistoryPageState extends State<HistoryPage> {
                     fontSize: 20,
                     fontWeight: FontWeight.bold),
               ),
-              NovelCardGridView(novelsList: novelsList)
+              NovelCardGridView(novelsList: novelsList, isOffline: false)
             ],
           ),
       ),

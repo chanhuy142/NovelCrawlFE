@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'api_service.dart';
 import 'hive_service.dart';
 import 'package:flutter/material.dart';
 
@@ -12,15 +13,16 @@ class StateService{
   final String color = 'fontColor';
   final String sources = 'sources';
   final String selectedSource = 'selectedSource';
+  final String backgroundColor = 'backgroundColor';
   StateService._privateConstructor(); 
   static final StateService _instance = StateService._privateConstructor();
   static StateService get instance => _instance;
 
   final List<Color> colors = [
     Colors.black,
-    Colors.white,
     const Color(0xFF3A3E48),
     const Color(0xFFFFF1C2),
+    Colors.white,
   ];
 
   final List<String> fonts = [
@@ -43,11 +45,11 @@ class StateService{
   }
 
   Future<int> getFontSize() async {
-    return await hiveService.get(fontSize) ?? 16;
+    return await hiveService.get(fontSize) ?? 22;
   }
 
   Future<int> getLineSpacing() async {
-    return await hiveService.get(lineSpacing) ?? 1;
+    return await hiveService.get(lineSpacing) ?? 2;
   }
 
   Future<int> getFontFamilyID() async {
@@ -55,7 +57,11 @@ class StateService{
   }
 
   Future<int> getColorID() async {
-    return await hiveService.get(color) ?? 0;
+    return await hiveService.get(color) ?? 3;
+  }
+
+  Future<int> getBackgroundColorID() async {
+    return await hiveService.get(backgroundColor) ?? 0;
   }
 
   Future<String> getFontFamily() async {
@@ -64,6 +70,10 @@ class StateService{
 
   Future<Color> getColor() async {
     return colors[await getColorID()];
+  }
+
+  Future<Color> getBackgroundColor() async {
+    return colors[await getBackgroundColorID()];
   }
 
   Future<List<String>> getSources() async{
@@ -98,7 +108,32 @@ class StateService{
     await hiveService.put(color, value);
   }
 
+  Future saveBackgroundColorID(int value) async {
+    await hiveService.put(backgroundColor, value);
+  }
+
   Future closeService() async {
     await hiveService.closeBox();
+  }
+
+  Future checkSourcesInDB() async {
+    List<String> novelSourcesDB = await getSources();
+    List<String> novelSourcesAPI = await APIService().getAllSources();
+    bool isDifferent = false;
+    if (novelSourcesDB.length != novelSourcesAPI.length) {
+      isDifferent = true;
+    } else {
+      for (int i = 0; i < novelSourcesDB.length; i++) {
+        if (!novelSourcesDB.contains(novelSourcesAPI[i]) ||
+            !novelSourcesAPI.contains(novelSourcesDB[i])) {
+          isDifferent = true;
+          break;
+        }
+      }
+    }
+    if (isDifferent) {
+      novelSourcesDB = novelSourcesAPI;
+      saveSources(novelSourcesDB);
+    }
   }
 }

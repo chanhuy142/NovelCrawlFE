@@ -1,13 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:novel_crawl/service/file_service.dart';
 
 import '../components/novel_card_grid_view.dart';
 import '../models/novel_detail.dart';
 
-class OfflinePage extends StatelessWidget {
-  OfflinePage({super.key});
+class OfflinePage extends StatefulWidget {
+  const OfflinePage({super.key});
 
-  final List<TruyenDetail> novelsList = [];
+  @override
+  State<OfflinePage> createState() => _OfflinePageState();
+}
 
+class _OfflinePageState extends State<OfflinePage> {
+  List<NovelDetail> novelsList = [];
+  @override
+  void initState() {
+    // TODO: implement initState
+    FileService.instance.getNovelList().then((value) {
+      setState(() {
+        novelsList = value;
+      });
+    });
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +40,7 @@ class OfflinePage extends StatelessWidget {
                     fontSize: 20,
                     fontWeight: FontWeight.bold),
               ),
-              NovelCardGridView(novelsList: novelsList)
+              NovelCardGridView(novelsList: novelsList, isOffline: true)
             ],
           ),
       ),
