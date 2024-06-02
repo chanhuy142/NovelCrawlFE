@@ -57,6 +57,7 @@ class ReadingController {
         }).catchError((e) {
           readingModel.content =
               'Không thể tải nội dung chương truyện.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n';
+          update!();
         });
       }
     } catch (e) {
