@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:novel_crawl/screens/OnBoarding.dart';
-import 'package:novel_crawl/screens/homescreen.dart';
-import 'package:novel_crawl/screens/navigationscreen.dart';
+import 'package:novel_crawl/views/screens/OnBoarding.dart';
+import 'package:novel_crawl/views/screens/homescreen.dart';
+import 'package:novel_crawl/views/screens/navigationscreen.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:hive/hive.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 void main() async {
   await hiveInit();
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 Future hiveInit() async {
@@ -22,10 +22,12 @@ Future hiveInit() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
+  bool isPermissionGranted = false;
   Future requestPermission() async {
     var status = await Permission.storage.status;
-    print(status);
+    isPermissionGranted = await Permission.manageExternalStorage.status.isGranted;
+
     if (!status.isGranted) {
       var status = await Permission.manageExternalStorage.request();
       if (status.isPermanentlyDenied) {
@@ -51,7 +53,7 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             initialRoute: '/onboarding',
             routes: {
-              '/onboarding': (context) => const OnBoarding(),
+              '/onboarding': (context) => isPermissionGranted ? const NavigationScreen() : const OnBoarding(),
               '/navigation': (context) => const NavigationScreen(),
               '/home': (context) => const HomePage(),
             },
