@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:novel_crawl/controllers/reading_controller.dart';
 import 'package:novel_crawl/models/novel_detail.dart';
 import 'package:novel_crawl/models/reading_model.dart';
-import 'package:novel_crawl/screens/readingscreen.dart';
-import 'package:novel_crawl/service/history_service.dart';
+import 'package:novel_crawl/views/screens/readingscreen.dart';
+import 'package:novel_crawl/controllers/service/history_service.dart';
 
-import '../service/file_service.dart';
+import '../../controllers/service/file_service.dart';
 
 class ChapterListView extends StatefulWidget {
   ChapterListView(

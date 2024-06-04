@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../service/state_service.dart';
+import '../../controllers/service/state_service.dart';
 
 class NovelSourceSelector extends StatefulWidget {
   NovelSourceSelector({super.key, required this.novelSources, required this.onUpdated});

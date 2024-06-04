@@ -1,5 +1,5 @@
 import 'package:novel_crawl/models/setting_model.dart';
-import 'package:novel_crawl/service/state_service.dart';
+import 'package:novel_crawl/controllers/service/state_service.dart';
 
 class SettingController {
   SettingModel setting;

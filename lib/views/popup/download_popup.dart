@@ -2,8 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:novel_crawl/models/novel_detail.dart';
-import 'package:novel_crawl/service/api_service.dart';
-import 'package:novel_crawl/service/file_service.dart';
+import 'package:novel_crawl/controllers/service/api_service.dart';
+import 'package:novel_crawl/controllers/service/file_service.dart';
 
 class DownloadPopup extends StatefulWidget {
   const DownloadPopup({super.key, required this.novel});

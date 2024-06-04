@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:novel_crawl/screens/historyscreen.dart';
-import 'package:novel_crawl/screens/homescreen.dart';
-import 'package:novel_crawl/screens/offlinescreen.dart';
-import 'package:novel_crawl/screens/settingscreen.dart';
+import 'package:novel_crawl/views/screens/historyscreen.dart';
+import 'package:novel_crawl/views/screens/homescreen.dart';
+import 'package:novel_crawl/views/screens/offlinescreen.dart';
+import 'package:novel_crawl/views/screens/settingscreen.dart';
 
 class NavigationScreen extends StatefulWidget {
   const NavigationScreen({super.key});

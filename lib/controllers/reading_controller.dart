@@ -1,8 +1,8 @@
 import 'package:novel_crawl/models/reading_model.dart';
-import 'package:novel_crawl/service/api_service.dart';
-import 'package:novel_crawl/service/file_service.dart';
-import 'package:novel_crawl/service/history_service.dart';
-import 'package:novel_crawl/service/state_service.dart';
+import 'package:novel_crawl/controllers/service/api_service.dart';
+import 'package:novel_crawl/controllers/service/file_service.dart';
+import 'package:novel_crawl/controllers/service/history_service.dart';
+import 'package:novel_crawl/controllers/service/state_service.dart';
 
 class ReadingController {
   ReadingModel readingModel;

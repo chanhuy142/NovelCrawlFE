@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:novel_crawl/components/colorsettingsection.dart';
-import 'package:novel_crawl/components/fontfamilysettingsection.dart';
-import 'package:novel_crawl/components/fontsizesettingsection.dart';
-import 'package:novel_crawl/components/linespacingsettingsection.dart';
-import 'package:novel_crawl/components/novel_source_priority_selector.dart';
-import 'package:novel_crawl/components/preview_section.dart';
+import 'package:novel_crawl/views/components/colorsettingsection.dart';
+import 'package:novel_crawl/views/components/fontfamilysettingsection.dart';
+import 'package:novel_crawl/views/components/fontsizesettingsection.dart';
+import 'package:novel_crawl/views/components/linespacingsettingsection.dart';
+import 'package:novel_crawl/views/components/novel_source_priority_selector.dart';
+import 'package:novel_crawl/views/components/preview_section.dart';
 import 'package:novel_crawl/controllers/setting_controller.dart';
-import 'package:novel_crawl/service/state_service.dart';
 
 class SettingPage extends StatefulWidget {
   final Widget novelSourceSelector;

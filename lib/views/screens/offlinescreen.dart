@@ -1,23 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:novel_crawl/controllers/service/file_service.dart';
 
 import '../components/novel_card_grid_view.dart';
-import '../models/novel_detail.dart';
-import '../service/history_service.dart';
+import '../../models/novel_detail.dart';
 
-class HistoryPage extends StatefulWidget {
-  const HistoryPage({super.key});
+class OfflinePage extends StatefulWidget {
+  const OfflinePage({super.key});
 
   @override
-  State<HistoryPage> createState() => _HistoryPageState();
+  State<OfflinePage> createState() => _OfflinePageState();
 }
 
-
-
-class _HistoryPageState extends State<HistoryPage> {
+class _OfflinePageState extends State<OfflinePage> {
   List<NovelDetail> novelsList = [];
 
   void loadHistory() {
-    HistoryService.instance.getHistoryList().then((value) {
+    FileService.instance.getNovelList().then((value) {
       setState(() {
         novelsList = value;
       });
@@ -30,7 +28,6 @@ class _HistoryPageState extends State<HistoryPage> {
     loadHistory();
     super.initState();
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,13 +39,13 @@ class _HistoryPageState extends State<HistoryPage> {
           Column(
             children: [
               const Text(
-                'Lịch sử đọc truyện',
+                'Truyện đã tải xuống',
                 style: TextStyle(
                     color: Color(0xFF83899F),
                     fontSize: 20,
                     fontWeight: FontWeight.bold),
               ),
-              NovelCardGridView(novelsList: novelsList, isOffline: false, onRefreshGridView: loadHistory)
+              NovelCardGridView(novelsList: novelsList, isOffline: true, onRefreshGridView: loadHistory)
             ],
           ),
       ),

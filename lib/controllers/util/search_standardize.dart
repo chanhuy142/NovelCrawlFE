@@ -1,4 +1,4 @@
-import 'package:novel_crawl/util/signedtounsigned.dart';
+import 'package:novel_crawl/controllers/util/signedtounsigned.dart';
 
 class SearchStandardize {
   static String standardize(String search) {

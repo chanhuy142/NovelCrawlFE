@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:novel_crawl/models/novel_detail.dart';
-import 'package:novel_crawl/service/hive_service.dart';
+import 'package:novel_crawl/controllers/service/hive_service.dart';
 
 class HistoryService{
     final HiveService hiveService = HiveService.instance;

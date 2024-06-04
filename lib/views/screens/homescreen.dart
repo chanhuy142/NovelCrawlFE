@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:novel_crawl/models/library.dart';
 import 'package:novel_crawl/models/novel_detail.dart';
 //import api service
-import 'package:novel_crawl/service/api_service.dart';
-import 'package:novel_crawl/service/file_service.dart';
+import 'package:novel_crawl/controllers/service/api_service.dart';
+import 'package:novel_crawl/controllers/service/file_service.dart';
 
 import '../components/novel_card_grid_view.dart';
-import '../service/state_service.dart';
-import '../util/search_standardize.dart';
+import '../../controllers/service/state_service.dart';
+import '../../controllers/util/search_standardize.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -66,9 +66,11 @@ class _HomePageState extends State<HomePage> {
   }
 
   void loadNovelDetails() {
-    if (library.novelDetail.isEmpty && !isLoading) {
+    if (!isLoading) {
       //get api service
-      isLoading = true;
+      setState(() {
+        isLoading = true;
+      });
       apiService.getNovelDetails().then((value) {
         library.copyFrom(value);
         print(library.novelDetail.length);
@@ -86,8 +88,9 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     resultnovels = library.novelDetail;
-
-    loadNovelDetails();
+    if(library.novelDetail.isEmpty){
+      loadNovelDetails();
+    }
 
     stateService.checkSourcesInDB();
     FileService.instance.init();

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:novel_crawl/components/novel_source_selector.dart';
+import 'package:novel_crawl/views/components/novel_source_selector.dart';
 import 'package:novel_crawl/controllers/reading_controller.dart';
-import 'package:novel_crawl/popup/download_popup.dart';
-import 'package:novel_crawl/screens/settingscreen.dart';
+import 'package:novel_crawl/views/popup/download_popup.dart';
+import 'package:novel_crawl/views/screens/settingscreen.dart';
 
 class ReadingModalBottom extends StatefulWidget {
   const ReadingModalBottom(

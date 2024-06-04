@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:novel_crawl/components/novel_info_tabcontrol.dart';
-import 'package:novel_crawl/components/novel_info_view.dart';
-import 'package:novel_crawl/components/task_bar.dart';
+import 'package:novel_crawl/views/components/novel_info_tabcontrol.dart';
+import 'package:novel_crawl/views/components/novel_info_view.dart';
+import 'package:novel_crawl/views/components/task_bar.dart';
 import 'package:novel_crawl/models/novel_detail.dart';
 
 class NovelInfo extends StatelessWidget {

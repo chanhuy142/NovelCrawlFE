@@ -26,7 +26,7 @@ class _OnBoardingState extends State<OnBoarding> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(
-              'lib/images/onboard.png',
+              'lib/views/images/onboard.png',
               width: 500,
               height: 500,
             ),

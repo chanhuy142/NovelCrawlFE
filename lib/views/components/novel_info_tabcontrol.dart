@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:novel_crawl/components/chapter_list_view.dart';
-import 'package:novel_crawl/components/description_view.dart';
+import 'package:novel_crawl/views/components/chapter_list_view.dart';
+import 'package:novel_crawl/views/components/description_view.dart';
 import 'package:novel_crawl/models/novel_detail.dart';
 
 class NovelInfoTabControl extends StatelessWidget {

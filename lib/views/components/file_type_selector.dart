@@ -1,7 +1,7 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:novel_crawl/service/api_service.dart';
+import 'package:novel_crawl/controllers/service/api_service.dart';
 
 class FileTypeSelector extends StatefulWidget {
   const FileTypeSelector({super.key, required this.onFileTypeChanged});

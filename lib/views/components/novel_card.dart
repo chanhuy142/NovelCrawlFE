@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:novel_crawl/models/novel_detail.dart';
-import 'package:novel_crawl/screens/novelinfoscreen.dart';
-import 'package:novel_crawl/service/file_service.dart';
+import 'package:novel_crawl/views/screens/novelinfoscreen.dart';
+import 'package:novel_crawl/controllers/service/file_service.dart';
 
 class NovelCard extends StatefulWidget {
   const NovelCard({super.key, required this.novelDetail,required this.isOffline});

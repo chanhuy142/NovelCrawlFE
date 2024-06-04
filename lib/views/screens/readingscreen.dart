@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:novel_crawl/components/reading_view.dart';
+import 'package:novel_crawl/views/components/reading_view.dart';
 import 'package:novel_crawl/controllers/reading_controller.dart';
 import 'package:novel_crawl/controllers/setting_controller.dart';
-import 'package:novel_crawl/popup/reading_modal_bottom.dart';
+import 'package:novel_crawl/views/popup/reading_modal_bottom.dart';
 
 class ReadingScreen extends StatefulWidget {
   const ReadingScreen({super.key, required this.readingController, this.updateReadingChapters = defaultFunction});
