@@ -22,7 +22,7 @@ class ReadingController {
   void updateState() {
     stateService.getSelectedSource().then((value) {
       readingModel.content = readingModel
-          .allSourceChapterContent.chapterFactory
+          .allSourceChapterContent.chapters
           .where((element) => element.source == value)
           .first
           .content;
@@ -36,7 +36,7 @@ class ReadingController {
             .getChapterContent(readingModel.novel, readingModel.chapter)
             .then((value) {
           readingModel.allSourceChapterContent = value;
-          if (value.chapterFactory.isEmpty) {
+          if (value.chapters.isEmpty) {
             throw Exception('Lỗi không thể tải nội dung chương truyện.');
           }
           selectContentFromPrioritySource(update);
@@ -48,7 +48,7 @@ class ReadingController {
             .getChapterContent(readingModel.novel, readingModel.chapter)
             .then((value) {
           readingModel.allSourceChapterContent = value;
-          if (value.chapterFactory.isEmpty) {
+          if (value.chapters.isEmpty) {
             throw Exception('Lỗi không thể tải nội dung chương truyện.');
           }
           selectContentFromPrioritySource(update);
@@ -67,11 +67,11 @@ class ReadingController {
 
   void selectContentFromPrioritySource(Function()? update){
     for (var source in readingModel.sources) {
-      if (readingModel.allSourceChapterContent.chapterFactory
+      if (readingModel.allSourceChapterContent.chapters
           .where((element) => element.source == source)
           .isNotEmpty) {
         readingModel.content = readingModel
-            .allSourceChapterContent.chapterFactory
+            .allSourceChapterContent.chapters
             .where((element) => element.source == source)
             .first
             .content;

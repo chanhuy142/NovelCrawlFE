@@ -18,7 +18,7 @@ class _ExportPopupState extends State<ExportPopup> {
   bool _isLoading = false;
   final _ChapterController = TextEditingController();
   ChapterFactory allSourceChapterContent =
-      ChapterFactory(chapterFactory: []);
+      ChapterFactory(chapters: []);
 
   final APIService apiService = APIService();
   final StateService stateService = StateService.instance;
@@ -35,10 +35,10 @@ class _ExportPopupState extends State<ExportPopup> {
 
   void selectContentFromPrioritySource() {
     for (var source in sources) {
-      if (allSourceChapterContent.chapterFactory
+      if (allSourceChapterContent.chapters
           .where((element) => element.source == source)
           .isNotEmpty) {
-        changeContent(allSourceChapterContent.chapterFactory
+        changeContent(allSourceChapterContent.chapters
             .where((element) => element.source == source)
             .first
             .content);
@@ -59,7 +59,7 @@ class _ExportPopupState extends State<ExportPopup> {
     APIService().getChapterContent(widget.novel, chapter).then((value) {
       setState(() {
         allSourceChapterContent = value;
-        if (value.chapterFactory.isEmpty) {
+        if (value.chapters.isEmpty) {
           throw Exception('Lỗi không thể tải nội dung chương truyện.');
         }
         selectContentFromPrioritySource();

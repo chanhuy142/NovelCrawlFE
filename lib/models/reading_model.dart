@@ -11,5 +11,5 @@ class ReadingModel{
   List<String> sources = [];
   String content = '';
   ChapterFactory allSourceChapterContent =
-      ChapterFactory(chapterFactory: []);
+      ChapterFactory(chapters: []);
 }

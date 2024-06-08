@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:novel_crawl/views/components/colorsettingsection.dart';
-import 'package:novel_crawl/views/components/fontfamilysettingsection.dart';
-import 'package:novel_crawl/views/components/fontsizesettingsection.dart';
-import 'package:novel_crawl/views/components/linespacingsettingsection.dart';
+import 'package:novel_crawl/views/components/color_setting_section.dart';
+import 'package:novel_crawl/views/components/font_family_setting_section.dart';
+import 'package:novel_crawl/views/components/font_size_setting_section.dart';
+import 'package:novel_crawl/views/components/line_spacing_setting_section.dart';
 import 'package:novel_crawl/views/components/novel_source_priority_selector.dart';
 import 'package:novel_crawl/views/components/preview_section.dart';
 import 'package:novel_crawl/controllers/setting_controller.dart';

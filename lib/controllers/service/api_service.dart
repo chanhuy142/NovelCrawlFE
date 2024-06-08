@@ -8,7 +8,7 @@ import 'package:novel_crawl/models/library.dart';
 
 class APIService {
   Library libraryFromJson(String str) => Library.fromJson(jsonDecode(str));
-  ChapterFactory allSourceChapterContentFromJson(String str) =>
+  ChapterFactory chapterFactoryFromJson(String str) =>
       ChapterFactory.fromJson(jsonDecode(str));
 
   String localhost = 'http://192.168.1.32:3000';
@@ -49,12 +49,12 @@ class APIService {
     final response = await http.get(Uri.parse(request));
 
     if (response.statusCode == 200) {
-      var contentList = allSourceChapterContentFromJson(response.body);
+      var contentList = chapterFactoryFromJson(response.body);
       ChapterFactory res =
-          ChapterFactory(chapterFactory: []);
-      for (int i = 0; i < contentList.chapterFactory.length; i++) {
-        if (contentList.chapterFactory[i].content != "") {
-          res.chapterFactory.add(contentList.chapterFactory[i]);
+          ChapterFactory(chapters: []);
+      for (int i = 0; i < contentList.chapters.length; i++) {
+        if (contentList.chapters[i].content != "") {
+          res.chapters.add(contentList.chapters[i]);
         }
       }
 
