@@ -21,7 +21,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   //get library from api service
   final APIService apiService = APIService();
-  static Library library = Library(novelDetail: []);
+  static Library library = Library(novels: []);
   static bool isLoading = false;
   final StateService stateService = StateService.instance;
   //text controller
@@ -31,11 +31,11 @@ class _HomePageState extends State<HomePage> {
   void oldsearch(String value) {
     if (value.isEmpty) {
       setState(() {
-        resultnovels = library.novelDetail;
+        resultnovels = library.novels;
       });
     } else {
       setState(() {
-        resultnovels = library.novelDetail
+        resultnovels = library.novels
             .where((element) =>
                 element.name.toLowerCase().contains(value.toLowerCase()))
             .toList();
@@ -47,7 +47,7 @@ class _HomePageState extends State<HomePage> {
     if (!isLoading) {
       if (value.isEmpty) {
         setState(() {
-          resultnovels = library.novelDetail;
+          resultnovels = library.novels;
         });
       } else {
         value = SearchStandardize.standardize(value);
@@ -57,7 +57,7 @@ class _HomePageState extends State<HomePage> {
         });
         APIService().getSearchedNovelDetails(value).then((result) {
           setState(() {
-            resultnovels = result.novelDetail;
+            resultnovels = result.novels;
             isLoading = false;
           });
         });
@@ -73,10 +73,10 @@ class _HomePageState extends State<HomePage> {
       });
       apiService.getNovelDetails().then((value) {
         library.copyFrom(value);
-        print(library.novelDetail.length);
+        print(library.novels.length);
         if (mounted) {
           setState(() {
-            resultnovels = library.novelDetail;
+            resultnovels = library.novels;
             isLoading = false;
           });
         }
@@ -87,8 +87,8 @@ class _HomePageState extends State<HomePage> {
   //on init
   @override
   void initState() {
-    resultnovels = library.novelDetail;
-    if(library.novelDetail.isEmpty){
+    resultnovels = library.novels;
+    if(library.novels.isEmpty){
       loadNovelDetails();
     }
 

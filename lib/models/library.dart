@@ -1,21 +1,21 @@
 import 'novel.dart';
 
 class Library {
-    List<Novel> novelDetail;
+    List<Novel> novels;
 
     Library({
-        required this.novelDetail,
+        required this.novels,
     });
 
     factory Library.fromJson(Map<String, dynamic> json) => Library(
-        novelDetail: List<Novel>.from(json["NovelDetail"].map((x) => Novel.fromJson(x))),
+        novels: List<Novel>.from(json["NovelDetail"].map((x) => Novel.fromJson(x))),
     );
 
     Map<String, dynamic> toJson() => {
-        "NovelDetail": List<dynamic>.from(novelDetail.map((x) => x.toJson())),
+        "NovelDetail": List<dynamic>.from(novels.map((x) => x.toJson())),
     };
 
     void copyFrom(Library newLibrary) {
-      novelDetail = newLibrary.novelDetail;
+      novels = newLibrary.novels;
     }
 }
