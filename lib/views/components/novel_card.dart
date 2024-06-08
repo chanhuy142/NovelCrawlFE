@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:novel_crawl/models/novel_detail.dart';
+import 'package:novel_crawl/models/novel.dart';
 import 'package:novel_crawl/views/screens/novelinfoscreen.dart';
 import 'package:novel_crawl/controllers/service/file_service.dart';
 
 class NovelCard extends StatefulWidget {
   const NovelCard({super.key, required this.novelDetail,required this.isOffline});
-  final NovelDetail novelDetail;
+  final Novel novelDetail;
   final bool isOffline;
 
   @override
@@ -17,7 +17,7 @@ class _NovelCardState extends State<NovelCard> {
   @override
   void initState() {
     // TODO: implement initState
-    FileService.instance.getNovelImage(widget.novelDetail.novelName).then((value) {
+    FileService.instance.getNovelImage(widget.novelDetail.name).then((value) {
       setState(() {
         if(value != null){
           image = Image.file(value, fit: BoxFit.cover);
@@ -52,7 +52,7 @@ class _NovelCardState extends State<NovelCard> {
             margin: const EdgeInsets.only(top: 5),
             child: Center(
               child: Text(
-                widget.novelDetail.novelName,
+                widget.novelDetail.name,
                 style: const TextStyle(color: Colors.white, fontSize: 16 , height: 1, fontFamily: 'Montserrat', fontWeight: FontWeight.bold),
                 overflow: TextOverflow.ellipsis,
               ),

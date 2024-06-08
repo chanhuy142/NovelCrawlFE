@@ -1,14 +1,14 @@
-import 'package:novel_crawl/models/novel_detail.dart';
+import 'package:novel_crawl/models/novel.dart';
 
 
 class HistoryInfomation{
-  NovelDetail novelDetail;
+  Novel novelDetail;
   int currentChapter;
 
   HistoryInfomation({required this.novelDetail, required this.currentChapter});
 
   factory HistoryInfomation.fromJson(Map<String, dynamic> json) => HistoryInfomation(
-    novelDetail: NovelDetail.fromJson(json["novelDetail"]),
+    novelDetail: Novel.fromJson(json["novelDetail"]),
     currentChapter: json["currentChapter"],
   );
 

@@ -1,14 +1,14 @@
-import 'novel_detail.dart';
+import 'novel.dart';
 
 class Library {
-    List<NovelDetail> novelDetail;
+    List<Novel> novelDetail;
 
     Library({
         required this.novelDetail,
     });
 
     factory Library.fromJson(Map<String, dynamic> json) => Library(
-        novelDetail: List<NovelDetail>.from(json["NovelDetail"].map((x) => NovelDetail.fromJson(x))),
+        novelDetail: List<Novel>.from(json["NovelDetail"].map((x) => Novel.fromJson(x))),
     );
 
     Map<String, dynamic> toJson() => {

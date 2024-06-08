@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:novel_crawl/controllers/reading_controller.dart';
-import 'package:novel_crawl/models/novel_detail.dart';
+import 'package:novel_crawl/models/novel.dart';
 import 'package:novel_crawl/models/reading_model.dart';
 import 'package:novel_crawl/views/popup/download_popup.dart';
 import 'package:novel_crawl/views/popup/export_popup.dart';
@@ -10,7 +10,7 @@ import 'package:novel_crawl/controllers/service/history_service.dart';
 
 class TaskBar extends StatefulWidget {
   const TaskBar({super.key, required this.novel, required this.isOffline});
-  final NovelDetail novel;
+  final Novel novel;
   final bool isOffline;
 
   @override
@@ -18,7 +18,7 @@ class TaskBar extends StatefulWidget {
 }
 
 class _TaskBarState extends State<TaskBar> {
-  NovelDetail get novel => widget.novel;
+  Novel get novel => widget.novel;
   int currentChapter = 1;
   //3 button, 1 button icon 'Xuất Ebook', 1 textbutton màu vàng 'Đọc truyện', 1 button icon 'Tải về'
   @override
@@ -35,11 +35,11 @@ class _TaskBarState extends State<TaskBar> {
   }
 
   void readNovel(BuildContext context) {
-    HistoryService.instance.getCurrentChapter(novel.novelName).then((value) {
+    HistoryService.instance.getCurrentChapter(novel.name).then((value) {
       setState(() {
         currentChapter = value;
         if (widget.isOffline) {
-          FileService.instance.getChapterList(novel.novelName).then((value) {
+          FileService.instance.getChapterList(novel.name).then((value) {
             if (!value.contains(currentChapter.toString())) {
               currentChapter = 1;
             }

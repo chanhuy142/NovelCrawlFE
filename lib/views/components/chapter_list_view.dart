@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:novel_crawl/controllers/reading_controller.dart';
-import 'package:novel_crawl/models/novel_detail.dart';
+import 'package:novel_crawl/models/novel.dart';
 import 'package:novel_crawl/models/reading_model.dart';
 import 'package:novel_crawl/views/screens/readingscreen.dart';
 import 'package:novel_crawl/controllers/service/history_service.dart';
@@ -14,7 +14,7 @@ class ChapterListView extends StatefulWidget {
       required this.novel,
       required this.isOffline});
   int chapterNumber;
-  NovelDetail novel;
+  Novel novel;
   bool isOffline;
 
   @override
@@ -36,7 +36,7 @@ class _ChapterListViewState extends State<ChapterListView> {
     chapterNumber = widget.chapterNumber;
     totalPages = (chapterNumber / numberChapterPerPage).ceil();
     if (widget.isOffline) {
-      FileService.instance.getChapterList(widget.novel.novelName).then((value) {
+      FileService.instance.getChapterList(widget.novel.name).then((value) {
         setState(() {
           chapterNumber = value.length;
           totalPages = (chapterNumber / numberChapterPerPage).ceil();
@@ -49,7 +49,7 @@ class _ChapterListViewState extends State<ChapterListView> {
   }
 
   void loadReadChapter() {
-    historyService.getReadChapters(widget.novel.novelName).then((value) {
+    historyService.getReadChapters(widget.novel.name).then((value) {
       if (readChapter.length != value.length) {
         setState(() {
           readChapter = value;

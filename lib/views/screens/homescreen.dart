@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:novel_crawl/models/library.dart';
-import 'package:novel_crawl/models/novel_detail.dart';
+import 'package:novel_crawl/models/novel.dart';
 //import api service
 import 'package:novel_crawl/controllers/service/api_service.dart';
 import 'package:novel_crawl/controllers/service/file_service.dart';
@@ -26,7 +26,7 @@ class _HomePageState extends State<HomePage> {
   final StateService stateService = StateService.instance;
   //text controller
   final TextEditingController _searchController = TextEditingController();
-  List<NovelDetail> resultnovels = [];
+  List<Novel> resultnovels = [];
 //search function
   void oldsearch(String value) {
     if (value.isEmpty) {
@@ -37,7 +37,7 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         resultnovels = library.novelDetail
             .where((element) =>
-                element.novelName.toLowerCase().contains(value.toLowerCase()))
+                element.name.toLowerCase().contains(value.toLowerCase()))
             .toList();
       });
     }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:novel_crawl/controllers/service/file_service.dart';
 
 import '../components/novel_card_grid_view.dart';
-import '../../models/novel_detail.dart';
+import '../../models/novel.dart';
 
 class OfflinePage extends StatefulWidget {
   const OfflinePage({super.key});
@@ -12,7 +12,7 @@ class OfflinePage extends StatefulWidget {
 }
 
 class _OfflinePageState extends State<OfflinePage> {
-  List<NovelDetail> novelsList = [];
+  List<Novel> novelsList = [];
 
   void loadHistory() {
     FileService.instance.getNovelList().then((value) {

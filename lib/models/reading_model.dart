@@ -1,15 +1,15 @@
 
-import 'package:novel_crawl/models/content_from_all_source.dart';
-import 'package:novel_crawl/models/novel_detail.dart';
+import 'package:novel_crawl/models/chapter_factory.dart';
+import 'package:novel_crawl/models/novel.dart';
 
 class ReadingModel{
-  NovelDetail novel;
+  Novel novel;
   int chapter;
   bool isOffline;
 
   ReadingModel({required this.novel, required this.chapter, required this.isOffline});
   List<String> sources = [];
   String content = '';
-  AllSourceChapterContent allSourceChapterContent =
-      AllSourceChapterContent(chapterContents: []);
+  ChapterFactory allSourceChapterContent =
+      ChapterFactory(chapterFactory: []);
 }

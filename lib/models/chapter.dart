@@ -1,11 +1,11 @@
-class NovelChapterContent
+class Chapter
 {
   String source;
   String content;
 
-  NovelChapterContent({required this.source, required this.content});
+  Chapter({required this.source, required this.content});
 
-  factory NovelChapterContent.fromJson(Map<String, dynamic> json) => NovelChapterContent(
+  factory Chapter.fromJson(Map<String, dynamic> json) => Chapter(
     source: json["source"],
     content: json["content"] ?? ''
   );

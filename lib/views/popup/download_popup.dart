@@ -1,13 +1,13 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:novel_crawl/models/novel_detail.dart';
+import 'package:novel_crawl/models/novel.dart';
 import 'package:novel_crawl/controllers/service/api_service.dart';
 import 'package:novel_crawl/controllers/service/file_service.dart';
 
 class DownloadPopup extends StatefulWidget {
   const DownloadPopup({super.key, required this.novel});
-  final NovelDetail novel;
+  final Novel novel;
   
 
   @override
@@ -24,9 +24,9 @@ class _DownloadPopupState extends State<DownloadPopup> {
     int endChapter = int.parse(_endChapterController.text);
     for(int i = startChapter; i <= endChapter; i++){
       await apiService.getChapterContent(widget.novel, i).then((value){
-        FileService.instance.saveNovelImage(widget.novel.novelName, widget.novel.cover);
+        FileService.instance.saveNovelImage(widget.novel.name, widget.novel.cover);
         FileService.instance.addANovelDetail(widget.novel).then((_){
-          FileService.instance.saveChapter(widget.novel.novelName, '$i', value);
+          FileService.instance.saveChapter(widget.novel.name, '$i', value);
         });
       });
       

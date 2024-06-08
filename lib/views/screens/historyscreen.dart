@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../components/novel_card_grid_view.dart';
-import '../../models/novel_detail.dart';
+import '../../models/novel.dart';
 import '../../controllers/service/history_service.dart';
 
 class HistoryPage extends StatefulWidget {
@@ -14,7 +14,7 @@ class HistoryPage extends StatefulWidget {
 
 
 class _HistoryPageState extends State<HistoryPage> {
-  List<NovelDetail> novelsList = [];
+  List<Novel> novelsList = [];
 
   void loadHistory() {
     HistoryService.instance.getHistoryList().then((value) {

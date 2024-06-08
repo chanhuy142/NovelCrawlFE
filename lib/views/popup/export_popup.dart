@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:novel_crawl/views/components/file_type_selector.dart';
-import 'package:novel_crawl/models/content_from_all_source.dart';
-import 'package:novel_crawl/models/novel_detail.dart';
+import 'package:novel_crawl/models/chapter_factory.dart';
+import 'package:novel_crawl/models/novel.dart';
 import 'package:novel_crawl/controllers/service/api_service.dart';
 import 'package:novel_crawl/controllers/service/export_service.dart';
 import 'package:novel_crawl/controllers/service/state_service.dart';
 
 class ExportPopup extends StatefulWidget {
   const ExportPopup({super.key, required this.novel});
-  final NovelDetail novel;
+  final Novel novel;
 
   @override
   State<ExportPopup> createState() => _ExportPopupState();
@@ -17,8 +17,8 @@ class ExportPopup extends StatefulWidget {
 class _ExportPopupState extends State<ExportPopup> {
   bool _isLoading = false;
   final _ChapterController = TextEditingController();
-  AllSourceChapterContent allSourceChapterContent =
-      AllSourceChapterContent(chapterContents: []);
+  ChapterFactory allSourceChapterContent =
+      ChapterFactory(chapterFactory: []);
 
   final APIService apiService = APIService();
   final StateService stateService = StateService.instance;
@@ -35,10 +35,10 @@ class _ExportPopupState extends State<ExportPopup> {
 
   void selectContentFromPrioritySource() {
     for (var source in sources) {
-      if (allSourceChapterContent.chapterContents
+      if (allSourceChapterContent.chapterFactory
           .where((element) => element.source == source)
           .isNotEmpty) {
-        changeContent(allSourceChapterContent.chapterContents
+        changeContent(allSourceChapterContent.chapterFactory
             .where((element) => element.source == source)
             .first
             .content);
@@ -59,7 +59,7 @@ class _ExportPopupState extends State<ExportPopup> {
     APIService().getChapterContent(widget.novel, chapter).then((value) {
       setState(() {
         allSourceChapterContent = value;
-        if (value.chapterContents.isEmpty) {
+        if (value.chapterFactory.isEmpty) {
           throw Exception('Lỗi không thể tải nội dung chương truyện.');
         }
         selectContentFromPrioritySource();
@@ -162,7 +162,7 @@ class _ExportPopupState extends State<ExportPopup> {
                   _ChapterController.text = "1";
                   return;
                 }
-                exportNovel(widget.novel.novelName, chapter, widget.novel.author, widget.novel.cover);
+                exportNovel(widget.novel.name, chapter, widget.novel.author, widget.novel.cover);
               } catch (e) {
                 print(e);
                 Navigator.of(context).pop();

@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:novel_crawl/models/content_from_all_source.dart';
-import 'package:novel_crawl/models/novel_detail.dart';
+import 'package:novel_crawl/models/chapter_factory.dart';
+import 'package:novel_crawl/models/novel.dart';
 import 'package:path_provider/path_provider.dart';
 
 class FileService {
@@ -74,8 +74,8 @@ class FileService {
     return true;
   }
 
-  Future<void> addANovelDetail(NovelDetail novelDetail) async {
-    if (await checkNovelExist(novelDetail.novelName)) {
+  Future<void> addANovelDetail(Novel novelDetail) async {
+    if (await checkNovelExist(novelDetail.name)) {
       print('Novel already exist');
       return;
     }
@@ -89,7 +89,7 @@ class FileService {
       await novelListFile.create();
     }
     Directory novelNameDir =
-        Directory('${novelDir.path}/${novelDetail.novelName}');
+        Directory('${novelDir.path}/${novelDetail.name}');
     if (!await novelNameDir.exists()) {
       await novelNameDir.create();
     }
@@ -97,7 +97,7 @@ class FileService {
     await novelListFile.writeAsString(newOfflineNovel, mode: FileMode.append);
   }
 
-  Future<List<NovelDetail>> getNovelList() async {
+  Future<List<Novel>> getNovelList() async {
     Directory appDocDir = await getApplicationDocumentsDirectory();
     Directory novelDir = Directory('${appDocDir.path}/$novelFolder');
     if (!await novelDir.exists()) {
@@ -107,16 +107,16 @@ class FileService {
     if (!await novelListFile.exists()) {
       await novelListFile.create();
     }
-    List<NovelDetail> novelList = [];
+    List<Novel> novelList = [];
     List<String> novelListString = await novelListFile.readAsLines();
     for (String novelString in novelListString) {
-      novelList.add(NovelDetail.fromJson(jsonDecode(novelString)));
+      novelList.add(Novel.fromJson(jsonDecode(novelString)));
     }
     return novelList;
   }
 
   Future<void> saveChapter(String novelName, String chapterName,
-      AllSourceChapterContent allSourceChapterContent) async {
+      ChapterFactory allSourceChapterContent) async {
     Directory appDocDir = await getApplicationDocumentsDirectory();
     Directory novelDir = Directory('${appDocDir.path}/$novelFolder');
     if (!await novelDir.exists()) {
@@ -154,18 +154,18 @@ class FileService {
     return chapterList;
   }
 
-  Future<AllSourceChapterContent> getChapterContent(
-      NovelDetail novel, int chapter) async {
+  Future<ChapterFactory> getChapterContent(
+      Novel novel, int chapter) async {
     Directory appDocDir = await getApplicationDocumentsDirectory();
     Directory novelDir = Directory('${appDocDir.path}/$novelFolder');
     if (!await novelDir.exists()) {
       await novelDir.create();
     }
-    File chapterFile = File('${novelDir.path}/${novel.novelName}/$chapter');
+    File chapterFile = File('${novelDir.path}/${novel.name}/$chapter');
     if (!await chapterFile.exists()) {
       await chapterFile.create();
     }
-    return AllSourceChapterContent.fromJson(
+    return ChapterFactory.fromJson(
         jsonDecode(await chapterFile.readAsString()));
   }
 }

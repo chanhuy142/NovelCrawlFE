@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:novel_crawl/models/novel_detail.dart';
+import 'package:novel_crawl/models/novel.dart';
 
 import 'novel_card.dart';
 
@@ -12,7 +12,7 @@ class NovelCardGridView extends StatelessWidget {
     required this.onRefreshGridView,
   });
 
-  final List<NovelDetail> novelsList;
+  final List<Novel> novelsList;
   final bool isOffline;
   final Function() onRefreshGridView;
 

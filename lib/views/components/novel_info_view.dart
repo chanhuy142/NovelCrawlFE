@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:novel_crawl/models/novel_detail.dart';
+import 'package:novel_crawl/models/novel.dart';
 
 class NovelInfoView extends StatelessWidget {
   NovelInfoView({super.key, required this.novelDetail});
-  NovelDetail novelDetail;
+  Novel novelDetail;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class NovelInfoView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  novelDetail.novelName,
+                  novelDetail.name,
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                   style: const TextStyle(color: Colors.yellowAccent, fontWeight: FontWeight.bold, fontSize: 20.0),

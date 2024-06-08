@@ -67,7 +67,7 @@ class _ReadingScreenState extends State<ReadingScreen> {
       appBar: AppBar(
         backgroundColor: settingController.setting.background,
         title: Text(
-            'Chương ${widget.readingController.readingModel.chapter} - ${widget.readingController.readingModel.novel.novelName}',
+            'Chương ${widget.readingController.readingModel.chapter} - ${widget.readingController.readingModel.novel.name}',
             style: TextStyle(color: settingController.setting.color)),
         iconTheme: IconThemeData(color: settingController.setting.color),
       ),

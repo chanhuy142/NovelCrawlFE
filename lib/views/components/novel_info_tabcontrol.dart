@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:novel_crawl/views/components/chapter_list_view.dart';
 import 'package:novel_crawl/views/components/description_view.dart';
-import 'package:novel_crawl/models/novel_detail.dart';
+import 'package:novel_crawl/models/novel.dart';
 
 class NovelInfoTabControl extends StatelessWidget {
   const NovelInfoTabControl({super.key, required this.novelDetail, this.isOffline = false});
-  final NovelDetail novelDetail;
+  final Novel novelDetail;
   final bool isOffline;
 
   @override

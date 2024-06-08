@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:novel_crawl/models/novel_detail.dart';
+import 'package:novel_crawl/models/novel.dart';
 import 'package:novel_crawl/controllers/service/hive_service.dart';
 
 class HistoryService{
@@ -24,11 +24,11 @@ class HistoryService{
         await hiveService.put(history, jsonEncode(historyData));
     }
 
-    Future updateNovelHistory(NovelDetail novelDetail, int currentChapter) async {
+    Future updateNovelHistory(Novel novelDetail, int currentChapter) async {
         var historyData = await getHistory();
-        Set<int> readChapters = await getReadChapters(novelDetail.novelName);
+        Set<int> readChapters = await getReadChapters(novelDetail.name);
         readChapters.add(currentChapter);
-        historyData[novelDetail.novelName] = {
+        historyData[novelDetail.name] = {
             'novelDetail': novelDetail.toJson(),
             'currentChapter': currentChapter.toString(),
             'readChapters': jsonEncode(readChapters.toList())
@@ -61,11 +61,11 @@ class HistoryService{
         return int.parse(historyData[novelName]['currentChapter'] ?? '1');
     }
 
-    Future<List<NovelDetail>> getHistoryList() async {
+    Future<List<Novel>> getHistoryList() async {
         var historyData = await getHistory();
-        List<NovelDetail> historyList = [];
+        List<Novel> historyList = [];
         historyData.forEach((key, value) {
-            historyList.add(NovelDetail.fromJson(value['novelDetail']));
+            historyList.add(Novel.fromJson(value['novelDetail']));
         });
         return historyList;
     }

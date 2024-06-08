@@ -2,16 +2,16 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
-import 'package:novel_crawl/models/content_from_all_source.dart';
-import 'package:novel_crawl/models/novel_detail.dart';
+import 'package:novel_crawl/models/chapter_factory.dart';
+import 'package:novel_crawl/models/novel.dart';
 import 'package:novel_crawl/models/library.dart';
 
 class APIService {
   Library libraryFromJson(String str) => Library.fromJson(jsonDecode(str));
-  AllSourceChapterContent allSourceChapterContentFromJson(String str) =>
-      AllSourceChapterContent.fromJson(jsonDecode(str));
+  ChapterFactory allSourceChapterContentFromJson(String str) =>
+      ChapterFactory.fromJson(jsonDecode(str));
 
-  String localhost = 'http://192.168.1.11:3000';
+  String localhost = 'http://192.168.1.32:3000';
   //send to http://localhost/details
   //port 3000
   Future<Library> getNovelDetails() async {
@@ -36,8 +36,8 @@ class APIService {
   //send to http://localhost:3000/?novelName=@novelName&chapter=@chapter
   //ex: http://localhost:3000/?novelName=ngao-the-dan-than&chapter=5
 
-  Future<AllSourceChapterContent> getChapterContent(
-      NovelDetail novel, int chapter) async {
+  Future<ChapterFactory> getChapterContent(
+      Novel novel, int chapter) async {
     String url = novel.url;
     if (url.endsWith('/')) {
       url = url.substring(0, url.length - 1);
@@ -50,11 +50,11 @@ class APIService {
 
     if (response.statusCode == 200) {
       var contentList = allSourceChapterContentFromJson(response.body);
-      AllSourceChapterContent res =
-          AllSourceChapterContent(chapterContents: []);
-      for (int i = 0; i < contentList.chapterContents.length; i++) {
-        if (contentList.chapterContents[i].content != "") {
-          res.chapterContents.add(contentList.chapterContents[i]);
+      ChapterFactory res =
+          ChapterFactory(chapterFactory: []);
+      for (int i = 0; i < contentList.chapterFactory.length; i++) {
+        if (contentList.chapterFactory[i].content != "") {
+          res.chapterFactory.add(contentList.chapterFactory[i]);
         }
       }
 

@@ -1,13 +1,13 @@
-class NovelDetail {
-    String novelName;
+class Novel {
+    String name;
     String cover;
     String url;
     String author;
     int numberOfChapters;
     String description;
 
-    NovelDetail({
-        required this.novelName,
+    Novel({
+        required this.name,
         required this.cover,
         required this.url,
         required this.author,
@@ -15,8 +15,8 @@ class NovelDetail {
         required this.description,
     });
 
-    factory NovelDetail.fromJson(Map<String, dynamic> json) => NovelDetail(
-        novelName: json["novelName"],
+    factory Novel.fromJson(Map<String, dynamic> json) => Novel(
+        name: json["novelName"],
         cover: json["cover"],
         url: json["url"],
         author: json["author"],
@@ -25,7 +25,7 @@ class NovelDetail {
     );
 
     Map<String, dynamic> toJson() => {
-        "novelName": novelName,
+        "novelName": name,
         "cover": cover,
         "url": url,
         "author": author,
@@ -34,7 +34,7 @@ class NovelDetail {
     };
 
     void standardize() {
-        novelName = novelName.trim();
+        name = name.trim();
         cover = cover.trim();
         url = url.trim();
         author = author.trim();

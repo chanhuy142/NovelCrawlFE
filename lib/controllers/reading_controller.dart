@@ -22,7 +22,7 @@ class ReadingController {
   void updateState() {
     stateService.getSelectedSource().then((value) {
       readingModel.content = readingModel
-          .allSourceChapterContent.chapterContents
+          .allSourceChapterContent.chapterFactory
           .where((element) => element.source == value)
           .first
           .content;
@@ -36,7 +36,7 @@ class ReadingController {
             .getChapterContent(readingModel.novel, readingModel.chapter)
             .then((value) {
           readingModel.allSourceChapterContent = value;
-          if (value.chapterContents.isEmpty) {
+          if (value.chapterFactory.isEmpty) {
             throw Exception('Lỗi không thể tải nội dung chương truyện.');
           }
           selectContentFromPrioritySource(update);
@@ -48,7 +48,7 @@ class ReadingController {
             .getChapterContent(readingModel.novel, readingModel.chapter)
             .then((value) {
           readingModel.allSourceChapterContent = value;
-          if (value.chapterContents.isEmpty) {
+          if (value.chapterFactory.isEmpty) {
             throw Exception('Lỗi không thể tải nội dung chương truyện.');
           }
           selectContentFromPrioritySource(update);
@@ -67,11 +67,11 @@ class ReadingController {
 
   void selectContentFromPrioritySource(Function()? update){
     for (var source in readingModel.sources) {
-      if (readingModel.allSourceChapterContent.chapterContents
+      if (readingModel.allSourceChapterContent.chapterFactory
           .where((element) => element.source == source)
           .isNotEmpty) {
         readingModel.content = readingModel
-            .allSourceChapterContent.chapterContents
+            .allSourceChapterContent.chapterFactory
             .where((element) => element.source == source)
             .first
             .content;
@@ -85,7 +85,7 @@ class ReadingController {
 
   void getNextChapter() {
     if (readingModel.isOffline) {
-      fileService.getChapterList(readingModel.novel.novelName).then((value) {
+      fileService.getChapterList(readingModel.novel.name).then((value) {
         if (readingModel.chapter < int.parse(value.last)) {
           var nextchapterIndex =
               value.indexOf(readingModel.chapter.toString()) + 1;
@@ -101,7 +101,7 @@ class ReadingController {
 
   void getPreviousChapter() {
     if (readingModel.isOffline) {
-      fileService.getChapterList(readingModel.novel.novelName).then((value) {
+      fileService.getChapterList(readingModel.novel.name).then((value) {
         if (readingModel.chapter > int.parse(value.first)) {
           var previousChapterIndex =
               value.indexOf(readingModel.chapter.toString()) - 1;

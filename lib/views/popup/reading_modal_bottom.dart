@@ -113,7 +113,7 @@ class _ReadingModalBottomState extends State<ReadingModalBottom> {
                                     .readingController
                                     .readingModel
                                     .allSourceChapterContent
-                                    .chapterContents
+                                    .chapterFactory
                                     .map((e) => e.source)
                                     .toList(),
                                 onUpdated: widget.onUpdated),
