@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:novel_crawl/views/components/file_type_selector.dart';
 import 'package:novel_crawl/models/chapter_factory.dart';
 import 'package:novel_crawl/models/novel.dart';
@@ -120,13 +121,16 @@ class _ExportPopupState extends State<ExportPopup> {
                 style: TextStyle(color: Colors.white, fontSize: 16),
               ),
             ),
-            TextField(
-              controller: _ChapterController,
-              keyboardType: TextInputType.number,
-              style: const TextStyle(color: Colors.white),
-              decoration: const InputDecoration(
-                  hintText: 'Nhập chương cần xuất',
-                  hintStyle: TextStyle(color: Colors.white)),
+            Padding(
+              padding: const EdgeInsets.only(left: 10, right: 10),
+              child: TextField(
+                controller: _ChapterController,
+                keyboardType: TextInputType.number,
+                style: const TextStyle(color: Colors.white),
+                decoration: const InputDecoration(
+                    hintText: 'Nhập chương cần xuất',
+                    hintStyle: TextStyle(color: Colors.white38)),
+              ),
             ),
             const SizedBox(
               height: 10,

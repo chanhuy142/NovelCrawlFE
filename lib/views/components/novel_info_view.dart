@@ -3,7 +3,7 @@ import 'package:novel_crawl/models/novel.dart';
 
 class NovelInfoView extends StatelessWidget {
   NovelInfoView({super.key, required this.novelDetail});
-  Novel novelDetail;
+  final Novel novelDetail;
 
   @override
   Widget build(BuildContext context) {

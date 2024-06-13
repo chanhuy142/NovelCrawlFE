@@ -13,9 +13,9 @@ class ChapterListView extends StatefulWidget {
       required this.chapterNumber,
       required this.novel,
       required this.isOffline});
-  int chapterNumber;
-  Novel novel;
-  bool isOffline;
+  final int chapterNumber;
+  final Novel novel;
+  final bool isOffline;
 
   @override
   State<ChapterListView> createState() => _ChapterListViewState();

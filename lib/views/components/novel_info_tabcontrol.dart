@@ -22,6 +22,7 @@ class NovelInfoTabControl extends StatelessWidget {
         children: [
           TabBar(
             isScrollable: false,
+            indicatorSize: TabBarIndicatorSize.tab,
             labelColor: Color(0xFFFFFFFF),
             labelStyle: TextStyle(fontSize: 20),
             
