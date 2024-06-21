@@ -88,8 +88,7 @@ class FileService {
     if (!await novelListFile.exists()) {
       await novelListFile.create();
     }
-    Directory novelNameDir =
-        Directory('${novelDir.path}/${novelDetail.name}');
+    Directory novelNameDir = Directory('${novelDir.path}/${novelDetail.name}');
     if (!await novelNameDir.exists()) {
       await novelNameDir.create();
     }
@@ -154,8 +153,7 @@ class FileService {
     return chapterList;
   }
 
-  Future<ChapterFactory> getChapterContent(
-      Novel novel, int chapter) async {
+  Future<ChapterFactory> getChapterContent(Novel novel, int chapter) async {
     Directory appDocDir = await getApplicationDocumentsDirectory();
     Directory novelDir = Directory('${appDocDir.path}/$novelFolder');
     if (!await novelDir.exists()) {
@@ -167,5 +165,32 @@ class FileService {
     }
     return ChapterFactory.fromJson(
         jsonDecode(await chapterFile.readAsString()));
+  }
+
+  Future<bool> deleteNovel(String name) async {
+    //delete folder
+    try {
+      Directory appDocDir = await getApplicationDocumentsDirectory();
+      Directory novelDir = Directory('${appDocDir.path}/$novelFolder/$name');
+      if (novelDir.existsSync()) {
+        novelDir.deleteSync(recursive: true);
+      }
+      //delete from novelList
+      List<Novel> novelList = await getNovelList();
+      novelList.removeWhere((element) => element.name == name);
+      File novelListFile = File('${appDocDir.path}/$novelFolder/$novelNameList');
+      await novelListFile.writeAsString('');
+      for (Novel novel in novelList) {
+        await novelListFile.writeAsString('${jsonEncode(novel.toJson())}\n',
+            mode: FileMode.append);
+      }
+
+      
+
+
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 }

@@ -36,6 +36,7 @@ class NovelCardGridView extends StatelessWidget {
             return NovelCard(
               novelDetail: novelsList[index],
               isOffline: isOffline,
+              onRefreshGridView: onRefreshGridView,
             );
           },
         ),

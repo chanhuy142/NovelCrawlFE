@@ -5,9 +5,10 @@ import 'package:novel_crawl/controllers/service/file_service.dart';
 
 class NovelCard extends StatefulWidget {
   const NovelCard(
-      {super.key, required this.novelDetail, required this.isOffline});
+      {super.key, required this.novelDetail, required this.isOffline, required this.onRefreshGridView});
   final Novel novelDetail;
   final bool isOffline;
+  final Function() onRefreshGridView;
 
   @override
   State<NovelCard> createState() => _NovelCardState();
@@ -16,6 +17,46 @@ class NovelCard extends StatefulWidget {
 class _NovelCardState extends State<NovelCard> {
   late Image image =
       Image.network(widget.novelDetail.cover ?? '', fit: BoxFit.cover);
+
+  void deleteNovel(){
+    showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: const Text('Delete'),
+                content: const Text('Do you want to delete this novel?'),
+                actions: [
+                  TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Text('Cancel')),
+                  TextButton(
+                      onPressed: () {
+                        FileService.instance
+                            .deleteNovel(widget.novelDetail.name)
+                            .then((value) {
+                          if (value) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                 SnackBar(
+                                    content: Text(
+                                        '${widget.novelDetail.name} deleted')));
+                            widget.onRefreshGridView();
+                            
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                 SnackBar(
+                                    content: Text(
+                                        'Failed to delete ${widget.novelDetail.name}')));
+                          }
+                        });
+                        Navigator.pop(context);
+                      },
+                      child: const Text('Delete'))
+                ],
+              );
+            });
+  }
   @override
   void initState() {
     // TODO: implement initState
@@ -44,6 +85,14 @@ class _NovelCardState extends State<NovelCard> {
                       isOffline: widget.isOffline,
                     )));
       },
+      onLongPress: () {
+        //show popup menu to delete
+        if(widget.isOffline){
+          deleteNovel();
+          
+        }
+        
+      } ,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
