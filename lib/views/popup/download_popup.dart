@@ -19,6 +19,7 @@ class _DownloadPopupState extends State<DownloadPopup> {
   final  _startChapterController = TextEditingController();
   final _endChapterController = TextEditingController();
   final APIService apiService = APIService();
+  
   Future<void> downloadNovel() async {
     int startChapter = int.parse(_startChapterController.text);
     int endChapter = int.parse(_endChapterController.text);

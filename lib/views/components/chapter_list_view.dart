@@ -60,7 +60,6 @@ class _ChapterListViewState extends State<ChapterListView> {
 
   @override
   Widget build(BuildContext context) {
-    print('ChapterListView build');
     return Container(
         color: Colors.black,
         margin: const EdgeInsets.all(10.0),
