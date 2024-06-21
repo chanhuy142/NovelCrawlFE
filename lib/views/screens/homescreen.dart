@@ -84,6 +84,9 @@ class _HomePageState extends State<HomePage> {
             resultnovels = library.novels;
             isLoading = false;
           });
+        } else {
+          resultnovels = library.novels;
+          isLoading = false;
         }
       });
     }
@@ -93,7 +96,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     resultnovels = library.novels;
-    if(library.novels.isEmpty){
+    if (library.novels.isEmpty) {
       loadNovelDetails();
     }
 
