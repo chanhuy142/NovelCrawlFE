@@ -56,7 +56,7 @@ class _DownloadPopupState extends State<DownloadPopup> {
               style: const TextStyle(color: Colors.white),
               decoration: const InputDecoration(
                 hintText: 'Từ chương',
-                hintStyle: TextStyle(color: Colors.white)
+                hintStyle: TextStyle(color: Colors.white38)
               ),
             ),
             TextField(
@@ -65,7 +65,7 @@ class _DownloadPopupState extends State<DownloadPopup> {
               style: const TextStyle(color: Colors.white),
               decoration: const InputDecoration(
                 hintText: 'Đến chương',
-                hintStyle: TextStyle(color: Colors.white)
+                hintStyle: TextStyle(color: Colors.white38)
               ),
             )
           ],

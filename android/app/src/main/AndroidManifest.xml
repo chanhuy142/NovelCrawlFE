@@ -6,7 +6,7 @@
 
     <application
         android:requestLegacyExternalStorage="true"
-        android:label="novel_crawl"
+        android:label="Novel Crawler"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

@@ -4,7 +4,8 @@ import 'package:novel_crawl/views/screens/novelinfoscreen.dart';
 import 'package:novel_crawl/controllers/service/file_service.dart';
 
 class NovelCard extends StatefulWidget {
-  const NovelCard({super.key, required this.novelDetail,required this.isOffline});
+  const NovelCard(
+      {super.key, required this.novelDetail, required this.isOffline});
   final Novel novelDetail;
   final bool isOffline;
 
@@ -13,17 +14,20 @@ class NovelCard extends StatefulWidget {
 }
 
 class _NovelCardState extends State<NovelCard> {
-  late Image image = Image.network(widget.novelDetail.cover ?? '', fit: BoxFit.cover);
+  late Image image =
+      Image.network(widget.novelDetail.cover ?? '', fit: BoxFit.cover);
   @override
   void initState() {
     // TODO: implement initState
-    FileService.instance.getNovelImage(widget.novelDetail.name).then((value) {
-      setState(() {
-        if(value != null){
-          image = Image.file(value, fit: BoxFit.cover);
-        }
+    if (widget.isOffline) {
+      FileService.instance.getNovelImage(widget.novelDetail.name).then((value) {
+        setState(() {
+          if (value != null) {
+            image = Image.file(value, fit: BoxFit.cover);
+          }
+        });
       });
-    });
+    }
     super.initState();
   }
 
@@ -32,11 +36,13 @@ class _NovelCardState extends State<NovelCard> {
     return GestureDetector(
       onTap: () {
         //message scaffold
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => NovelInfo(novelDetail: widget.novelDetail, isOffline: widget.isOffline,))
-        );
-
-        
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => NovelInfo(
+                      novelDetail: widget.novelDetail,
+                      isOffline: widget.isOffline,
+                    )));
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -44,30 +50,37 @@ class _NovelCardState extends State<NovelCard> {
           Expanded(
               child: Container(
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: image
-            ),
+                borderRadius: BorderRadius.circular(10), child: image),
           )),
           Container(
             margin: const EdgeInsets.only(top: 5),
             child: Center(
               child: Text(
                 widget.novelDetail.name,
-                style: const TextStyle(color: Colors.white, fontSize: 16 , height: 1, fontFamily: 'Montserrat', fontWeight: FontWeight.bold),
+                style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    height: 1,
+                    fontFamily: 'Montserrat',
+                    fontWeight: FontWeight.bold),
                 overflow: TextOverflow.ellipsis,
               ),
             ),
           ),
-           Container(
+          Container(
             margin: const EdgeInsets.only(top: 5),
-             child: Center(
+            child: Center(
               child: Text(
                 widget.novelDetail.author,
-                style: const TextStyle(color: Colors.white, height: 1, fontFamily: 'Montserrat', fontStyle: FontStyle.italic),
+                style: const TextStyle(
+                    color: Colors.white,
+                    height: 1,
+                    fontFamily: 'Montserrat',
+                    fontStyle: FontStyle.italic),
                 overflow: TextOverflow.ellipsis,
               ),
-                       ),
-           ),
+            ),
+          ),
         ],
       ),
     );

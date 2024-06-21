@@ -60,6 +60,11 @@ class _HomePageState extends State<HomePage> {
             resultnovels = result.novels;
             isLoading = false;
           });
+        }).catchError((onError) {
+          print(onError.toString());
+          setState(() {
+            isLoading = false;
+          });
         });
       }
     }
